@@ -1,418 +1,754 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Spin & Win — Premium Wheel</title>
-<style>
-:root{
-  --accent:#ffd700;--bg1:#080b25;--bg2:#141a4a;--text:#fff;
-  --glass:rgba(255,255,255,.10);--glass-border:rgba(255,255,255,.18);
-}
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text)}
-body{
-  background:radial-gradient(circle at 50% 30%,var(--bg2),var(--bg1) 70%);
-  position:relative;
-}
-button,input,textarea,select{font:inherit}
-#backgroundCanvas{position:fixed;inset:0;width:100%;height:100%;z-index:-3}
-#bgImage{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-4;display:none}
-.bg-overlay{position:fixed;inset:0;background:radial-gradient(circle,transparent 20%,rgba(0,0,0,.35) 100%);z-index:-2;pointer-events:none}
-.app{height:100%;display:flex;flex-direction:column;align-items:center;padding:18px}
-.header{text-align:center;z-index:2}
-.title{margin:0;font-size:clamp(1.5rem,4vw,3rem);font-weight:900;letter-spacing:2px;color:var(--accent);text-shadow:0 3px 20px rgba(0,0,0,.7)}
-.subtitle{opacity:.7;font-size:.8rem;margin-top:4px}
-.main{flex:1;width:100%;display:flex;align-items:center;justify-content:center;min-height:0}
-.wheel-wrap{position:relative;width:min(76vh,82vw,680px);height:min(76vh,82vw,680px);min-width:280px;min-height:280px}
-#wheel{width:100%;height:100%;filter:drop-shadow(0 18px 35px rgba(0,0,0,.55));border-radius:50%}
-.pointer{
- position:absolute;top:-5px;left:50%;transform:translateX(-50%);z-index:8;
- width:64px;height:72px;filter:drop-shadow(0 5px 6px rgba(0,0,0,.7));
-}
-.pointer:after{content:"";position:absolute;left:50%;top:5px;transform:translateX(-50%);
- width:0;height:0;border-left:25px solid transparent;border-right:25px solid transparent;
- border-top:55px solid var(--accent);filter:drop-shadow(0 0 5px #fff)}
-.center{
- position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:96px;height:96px;
- border-radius:50%;background:rgba(255,255,255,.95);border:6px solid var(--accent);
- box-shadow:0 0 25px rgba(255,215,0,.55),inset 0 0 10px rgba(0,0,0,.15);
- overflow:hidden;z-index:7;display:flex;align-items:center;justify-content:center;
-}
-.center img{width:100%;height:100%;object-fit:cover;display:none}
-.center span{font-weight:900;font-size:12px;color:#222;text-align:center;padding:8px}
-.controls{display:flex;flex-direction:column;align-items:center;gap:12px;padding:8px 0 14px;z-index:4}
-.spin{
- border:0;border-radius:999px;padding:15px 58px;background:linear-gradient(135deg,var(--accent),#fff0a0);
- color:#111;font-weight:1000;font-size:1.25rem;letter-spacing:1px;cursor:pointer;
- box-shadow:0 10px 28px rgba(0,0,0,.35),0 0 20px rgba(255,215,0,.22);transition:.2s;
-}
-.spin:hover{transform:translateY(-2px) scale(1.02)}
-.spin:active{transform:scale(.97)}.spin:disabled{opacity:.5;cursor:not-allowed}
-.toolbar{display:flex;gap:9px;flex-wrap:wrap;justify-content:center}
-.icon-btn{
- width:44px;height:44px;border:1px solid var(--glass-border);border-radius:50%;
- background:var(--glass);color:#fff;cursor:pointer;backdrop-filter:blur(12px);
-}
-.panel{
- position:fixed;right:16px;top:16px;bottom:16px;width:min(410px,calc(100% - 32px));
- background:rgba(12,15,35,.96);border:1px solid var(--glass-border);border-radius:24px;
- z-index:30;padding:22px;overflow:auto;box-shadow:0 25px 70px rgba(0,0,0,.55);
- display:none;
-}
-.panel.open{display:block}
-.panel h2{margin:0 0 15px;color:var(--accent)}
-.close{float:right;background:none;border:0;color:#fff;font-size:25px;cursor:pointer}
-.section{border-top:1px solid rgba(255,255,255,.1);padding:15px 0}
-.section h3{margin:0 0 10px;font-size:1rem}
-label{font-size:.82rem;opacity:.8;display:block;margin:8px 0 5px}
-input[type=text],input[type=number],textarea,select{
- width:100%;padding:10px;border-radius:10px;border:1px solid #3a3d55;background:#191d38;color:#fff;
-}
-textarea{height:150px;resize:vertical}
-input[type=color]{width:100%;height:40px;border:0;background:none}
-input[type=range]{width:100%}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn{
- border:1px solid var(--glass-border);background:var(--glass);color:#fff;border-radius:10px;
- padding:10px 12px;cursor:pointer;width:100%;margin-top:8px;
-}
-.btn.primary{background:var(--accent);color:#111;font-weight:800}
-.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
-.swatch{height:35px;border:2px solid rgba(255,255,255,.35);border-radius:8px;cursor:pointer}
-.check{display:flex;align-items:center;gap:8px;margin:9px 0}.check label{margin:0}
-.winner{
- position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;
- background:rgba(0,0,0,.68);backdrop-filter:blur(8px)
-}
-.winner.show{display:flex}
-.winner-card{
- width:min(620px,90vw);padding:45px 25px;border-radius:30px;text-align:center;
- background:linear-gradient(145deg,rgba(25,28,65,.98),rgba(8,10,28,.98));
- border:2px solid var(--accent);box-shadow:0 0 60px rgba(255,215,0,.3);
- animation:winnerIn .65s cubic-bezier(.2,1.4,.3,1)
-}
-@keyframes winnerIn{from{transform:scale(.45) rotate(-3deg);opacity:0}to{transform:scale(1);opacity:1}}
-.winner-badge{font-size:1rem;letter-spacing:4px;color:var(--accent);font-weight:900}
-#winnerName{font-size:clamp(2rem,7vw,4.8rem);margin:12px 0;line-height:1.05;text-shadow:0 0 25px rgba(255,215,0,.35)}
-.winner-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.winner-actions button{width:auto;min-width:130px}
-.creator-credit{
- position:fixed;left:18px;bottom:14px;z-index:20;
- font-size:.78rem;letter-spacing:.2px;color:rgba(255,255,255,.62);
- text-shadow:0 2px 8px rgba(0,0,0,.65);
-}
-.creator-credit a{
- color:var(--accent);text-decoration:none;font-weight:800;
- transition:.2s;
-}
-.creator-credit a:hover{text-decoration:underline;filter:brightness(1.2)}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#11182d;
- padding:12px 18px;border-radius:999px;z-index:100;display:none}
-.confetti{position:fixed;inset:0;pointer-events:none;z-index:60}
-@media(max-height:700px){.wheel-wrap{width:min(62vh,78vw);height:min(62vh,78vw)}.center{width:75px;height:75px}.controls{padding-bottom:4px}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spin the Wheel - MicztheMike</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #ffd700;
+            --bg-color: #000033;
+            --text-color: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --modal-bg: #1a1a2e;
+            --card-bg: #16213e;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #particle-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+        }
+
+        .header {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 90vw;
+            height: 90vw;
+            max-width: 450px;
+            max-height: 450px;
+            margin: 20px 0;
+        }
+
+        #wheelCanvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(0,0,0,0.6);
+        }
+
+        #pointer {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            z-index: 10;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+            transition: transform 0.05s ease-out;
+            transform-origin: 50% 10%;
+        }
+
+        #pointer.tick {
+            transform: translateX(-50%) rotate(-15deg);
+        }
+
+        .center-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 65px;
+            height: 65px;
+            background: white;
+            border-radius: 50%;
+            border: 4px solid var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            z-index: 5;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+        }
+
+        .center-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .spin-btn {
+            padding: 15px 50px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--primary-color);
+            color: black;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .spin-btn:hover {
+            transform: translateY(-2fpx);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .spin-btn:active { transform: scale(0.95); }
+        .spin-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .menu-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .icon-btn {
+            background: var(--glass-bg);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--modal-bg);
+            padding: 25px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 420px;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+        .modal h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .winner-modal {
+            background: rgba(0, 0, 0, 0.85) !important;
+            text-align: center;
+        }
+
+        .winner-card {
+            color: white;
+            text-shadow: 0 0 10px rgba(0,0,0,1);
+        }
+
+        textarea, select, input[type="text"], input[type="number"] {
+            width: 100%;
+            background: #0f172a;
+            color: white;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-top: 5px;
+            font-size: 0.95rem;
+        }
+
+        textarea {
+            height: 140px;
+            resize: vertical;
+        }
+
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 2px; font-size: 0.9rem; color: #cbd5e1; }
+
+        .close-btn {
+            float: right;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #aaa;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover { color: white; }
+
+        .preset-row {
+            margin-bottom: 15px;
+        }
+
+        .attribution {
+            position: fixed;
+            bottom: 10px;
+            right: 15px;
+            font-size: 0.75rem;
+            opacity: 0.6;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-label input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<img id="bgImage" alt="">
-<canvas id="backgroundCanvas"></canvas>
-<div class="bg-overlay"></div>
-<canvas id="confetti" class="confetti"></canvas>
 
-<div class="app">
-  <header class="header">
-    <h1 class="title" id="title">SPIN & WIN</h1>
-    <div class="subtitle" id="subtitle">PREMIUM RANDOM WHEEL</div>
-  </header>
+    <canvas id="particle-bg"></canvas>
 
-  <main class="main">
-    <div class="wheel-wrap">
-      <div class="pointer"></div>
-      <canvas id="wheel" width="1000" height="1000"></canvas>
-      <div class="center"><img id="logo"><span id="centerText">SPIN<br>& WIN</span></div>
+    <div class="header">
+        <h1 class="title" id="mainTitle">SPIN & WIN</h1>
     </div>
-  </main>
 
-  <div class="controls">
-    <button class="spin" id="spinBtn">SPIN NOW</button>
-    <div class="toolbar">
-      <button class="icon-btn" title="Participants" onclick="openPanel('participants')">📝</button>
-      <button class="icon-btn" title="Customize" onclick="openPanel('customize')">🎨</button>
-      <button class="icon-btn" title="Sounds" onclick="openPanel('sounds')">🔊</button>
-      <button class="icon-btn" title="History" onclick="openPanel('history')">🏆</button>
+    <div class="container">
+        <div class="wheel-container">
+            <svg id="pointer" viewBox="0 0 100 100">
+                <path d="M50 100 L10 20 L90 20 Z" fill="gold" stroke="white" stroke-width="2"/>
+            </svg>
+            <canvas id="wheelCanvas" width="800" height="800"></canvas>
+            <div class="center-logo">
+                <img id="logoImg" src="https://via.placeholder.com/150" alt="Logo">
+            </div>
+        </div>
+
+        <button class="spin-btn" id="spinBtn">SPIN NOW</button>
+
+        <div class="menu-row">
+            <button class="icon-btn" onclick="openModal('namesModal')" title="Customise Wheel">📝</button>
+            <button class="icon-btn" onclick="openModal('settingsModal')" title="Settings">⚙️</button>
+            <button class="icon-btn" id="soundToggleBtn" onclick="toggleSound()" title="Sound On/Off">🔊</button>
+        </div>
     </div>
-  </div>
-</div>
 
-<section class="panel" id="participants">
-<button class="close" onclick="closePanels()">×</button><h2>Participants</h2>
-<label>Paste names — one name per line</label>
-<textarea id="namesInput" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="sentences"></textarea>
-<button class="btn primary" onclick="applyNames()">Update Wheel</button>
-<div class="section">
-<h3>Raffle Mode</h3>
-<div class="check"><input id="raffle" type="checkbox"><label for="raffle">Prompt to remove winner after each spin</label></div>
-</div>
-</section>
+    <div class="attribution">Created by MicztheMike</div>
 
-<section class="panel" id="customize">
-<button class="close" onclick="closePanels()">×</button><h2>Customize</h2>
-<div class="section">
-<h3>Title & Button</h3>
-<label>Title</label><input id="titleInput" type="text">
-<label>Subtitle</label><input id="subtitleInput" type="text">
-<label>Spin Button Text</label>
-<input id="buttonInput" type="text" maxlength="40" placeholder="SPIN NOW">
-<div style="font-size:.72rem;opacity:.55;margin-top:5px">Example: SPIN NOW, START, DRAW WINNER, or LUCKY SPIN</div>
-</div>
-<div class="section">
-<h3>Wheel</h3>
-<div class="row">
-<div><label>Accent</label><input id="accent" type="color"></div>
-<div><label>Border</label><input id="borderColor" type="color"></div>
-</div>
-<label>Wheel style</label>
-<select id="wheelStyle"><option value="luxury">Luxury</option><option value="neon">Neon</option><option value="classic">Classic</option><option value="pastel">Pastel</option></select>
-<label>Text size</label><input id="textSize" type="range" min="16" max="42">
-</div>
-<div class="section">
-<h3>Background</h3>
-<label>Background 1</label><input id="bg1" type="color">
-<label>Background 2</label><input id="bg2" type="color">
-<label>Gradient angle</label><input id="bgAngle" type="range" min="0" max="360">
-<label>Custom background image</label><input id="bgUpload" type="file" accept="image/*">
-<button class="btn" onclick="clearBgImage()">Remove background image</button>
-</div>
-<div class="section">
-<h3>Logo</h3>
-<input id="logoUpload" type="file" accept="image/*">
-<div class="row"><div><label>Logo size</label><input id="logoSize" type="range" min="55" max="150"></div><div><label>Logo border</label><input id="logoBorder" type="color"></div></div>
-</div>
-<div class="section">
-<h3>Spin</h3>
-<label>Duration: <span id="durationValue"></span>s</label>
-<input id="duration" type="range" min="3" max="30" step=".5">
-<label>Extra rotations</label><input id="rotations" type="range" min="3" max="12">
-<div class="check"><input id="haptic" type="checkbox"><label for="haptic">Haptic/tick feedback</label></div>
-<div class="check"><input id="particles" type="checkbox"><label for="particles">Animated background particles</label></div>
-</div>
-<button class="btn primary" onclick="saveConfig()">Save Customization</button>
-</section>
+    <!-- Names Modal -->
+    <div id="namesModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('namesModal')">&times;</span>
+            <h2>Customise Wheel</h2>
 
-<section class="panel" id="sounds">
-<button class="close" onclick="closePanels()">×</button><h2>Sound Studio</h2>
-<div class="section">
-<h3>Spin Sound</h3>
-<select id="spinSound">
-<option value="tick">Mechanical Ticks</option><option value="hum">Smooth Hum</option><option value="none">None</option>
-</select>
-<label>Spin volume</label><input id="spinVolume" type="range" min="0" max="1" step=".01">
-</div>
-<div class="section">
-<h3>Winner Sound</h3>
-<select id="winnerSound">
-<option value="fanfare">Victory Fanfare</option><option value="coins">Coins</option><option value="bell">Celebration Bell</option><option value="applause">Applause-like</option><option value="none">None</option>
-</select>
-<label>Winner volume</label><input id="winnerVolume" type="range" min="0" max="1" step=".01">
-<label>Optional custom winner audio</label>
-<input id="winnerUpload" type="file" accept="audio/*">
-<button class="btn" onclick="testWinnerSound()">▶ Test Winner Sound</button>
-</div>
-<div class="section">
-<h3>Custom Sounds</h3>
-<p style="opacity:.65;font-size:.8rem">Audio files stay local to this browser. They are not uploaded anywhere.</p>
-</div>
-</section>
+            <div class="preset-row">
+                <label for="presetSelect">Quick Load Presets</label>
+                <select id="presetSelect" onchange="loadPreset(this.value)">
+                    <option value="">-- Choose Preset --</option>
+                    <option value="prizes">Standard Prizes</option>
+                    <option value="yesno">Yes / No / Maybe</option>
+                    <option value="dice">Dice (1 - 6)</option>
+                    <option value="dinner">Dinner Options</option>
+                    <option value="truthordare">Truth or Dare</option>
+                </select>
+            </div>
 
-<section class="panel" id="history">
-<button class="close" onclick="closePanels()">×</button><h2>Winner History</h2>
-<div id="historyList"></div>
-<button class="btn" onclick="clearHistory()">Clear History</button>
-</section>
+            <label for="namesInput">Edit entries (one per line):</label>
+            <textarea id="namesInput">Prize 1
+Prize 2
+Prize 3
+Prize 4
+Prize 5
+Prize 6</textarea>
 
-<div class="winner" id="winnerModal">
- <div class="winner-card">
-  <div class="winner-badge">🎉 WINNER 🎉</div>
-  <div id="winnerName"></div>
-  <div id="winnerTime" style="opacity:.65;margin-bottom:22px"></div>
-  <div class="winner-actions">
-   <button class="btn primary" onclick="closeWinner()">Awesome!</button>
-   <button class="btn" id="removeWinnerBtn" onclick="removeWinner()">Remove from Wheel</button>
-  </div>
- </div>
-</div>
-<div class="creator-credit">Created by: <a href="https://miczthemike.online" target="_blank" rel="noopener noreferrer">MicztheMike</a></div>
-<div class="toast" id="toast"></div>
+            <button class="spin-btn" style="width:100%; margin-top:15px;" onclick="updateNames()">Update Wheel</button>
+        </div>
+    </div>
 
-<script>
-const $=id=>document.getElementById(id);
-const wheel=$('wheel'),ctx=wheel.getContext('2d');
-let names=["Prize 1","Prize 2","Prize 3","Prize 4","Prize 5","Prize 6"];
-let rotation=0,isSpinning=false,lastWinner="",lastIndex=-1;
-let config={
- title:"SPIN & WIN",subtitle:"PREMIUM RANDOM WHEEL",button:"SPIN NOW",
- accent:"#ffd700",border:"#ffffff",bg1:"#080b25",bg2:"#141a4a",angle:135,
- duration:6,rotations:7,textSize:27,logoSize:96,logoBorder:"#ffd700",
- style:"luxury",raffle:false,haptic:true,particles:true,
- spinSound:"tick",winnerSound:"fanfare",spinVolume:.55,winnerVolume:.8
-};
-let customWinnerAudio=null, audioCtx=null, spinTimer=null;
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('settingsModal')">&times;</span>
+            <h2>Settings</h2>
+            <div class="form-group">
+                <label for="titleEdit">Main Title</label>
+                <input type="text" id="titleEdit" value="SPIN & WIN">
+            </div>
+            <div class="form-group">
+                <label for="btnEdit">Spin Button Text</label>
+                <input type="text" id="btnEdit" value="SPIN NOW">
+            </div>
+            <div class="form-group">
+                <label for="durationEdit">Duration (seconds)</label>
+                <input type="number" id="durationEdit" value="5" min="1" max="20" step="0.5">
+            </div>
+            <div class="form-group">
+                <label for="logoUpload">Custom Center Logo</label>
+                <input type="file" id="logoUpload" accept="image/*" onchange="handleLogo(event)">
+            </div>
+            <div class="form-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="raffleMode">
+                    <span>Raffle Mode (Allow removing winner)</span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="soundFxToggle" checked>
+                    <span>Enable Sound Effects</span>
+                </label>
+            </div>
+            <button class="spin-btn" style="width:100%;" onclick="saveSettings()">Save Changes</button>
+            <button style="width:100%; margin-top:10px; background:transparent; border:1px solid #ff4444; color:#ff4444; padding:8px; border-radius:25px; cursor:pointer;" onclick="resetDefaults()">Reset to Defaults</button>
+        </div>
+    </div>
 
-function save(){localStorage.setItem("spinWinConfig",JSON.stringify(config));localStorage.setItem("spinWinNames",JSON.stringify(names));}
-function load(){
- try{Object.assign(config,JSON.parse(localStorage.getItem("spinWinConfig")||"{}"));names=JSON.parse(localStorage.getItem("spinWinNames")||"null")||names}catch(e){}
-}
-function applyUI(){
- $('title').textContent=config.title;$('subtitle').textContent=config.subtitle;$('spinBtn').textContent=config.button;
- $('accent').value=config.accent;$('borderColor').value=config.border;$('bg1').value=config.bg1;$('bg2').value=config.bg2;
- $('bgAngle').value=config.angle;$('duration').value=config.duration;$('durationValue').textContent=config.duration;
- $('rotations').value=config.rotations;$('textSize').value=config.textSize;$('logoSize').value=config.logoSize;
- $('logoBorder').value=config.logoBorder;$('wheelStyle').value=config.style;$('raffle').checked=config.raffle;
- $('haptic').checked=config.haptic;$('particles').checked=config.particles;$('spinSound').value=config.spinSound;
- $('winnerSound').value=config.winnerSound;$('spinVolume').value=config.spinVolume;$('winnerVolume').value=config.winnerVolume;
- $('titleInput').value=config.title;$('subtitleInput').value=config.subtitle;$('buttonInput').value=config.button;
- $('namesInput').value=names.join("\\n");document.documentElement.style.setProperty('--accent',config.accent);
- document.documentElement.style.setProperty('--bg1',config.bg1);document.documentElement.style.setProperty('--bg2',config.bg2);
- $('durationValue').textContent=config.duration; $('logo').style.width=config.logoSize+'px';$('logo').style.height=config.logoSize+'px';
- $('logo').style.borderColor=config.logoBorder;draw();drawParticles();
-}
-function openPanel(id){closePanels();$(id).classList.add('open')}
-function closePanels(){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('open'))}
-function parseNames(text){
-  // A pasted line-by-line list becomes one wheel entry per line.
-  // Handles Windows (\r\n), Mac (\r), and normal (\n) line endings.
-  return text
-    .replace(/\r\n/g, "\n")
-    .replace(/\r/g, "\n")
-    .split("\n")
-    .map(x => x.trim())
-    .filter(Boolean);
-}
+    <!-- Winner Modal -->
+    <div id="winnerModal" class="modal winner-modal">
+        <div class="winner-card">
+            <div id="winnerLogoContainer"></div>
+            <h1 id="winnerHeaderDisplay">🎉 YOU WON!</h1>
+            <h2 id="winnerName" style="font-size: 3rem; color: var(--primary-color); word-break: break-word; margin: 20px 0;"></h2>
+            <button class="spin-btn" onclick="closeModal('winnerModal')">Awesome!</button>
+            <br>
+            <button id="removeBtn" style="background:transparent; color:#ff5555; border:1px solid #ff5555; padding:8px 20px; border-radius:20px; margin-top:15px; cursor:pointer; display:none;" onclick="removeWinner()">Remove from Wheel</button>
+        </div>
+    </div>
 
-function applyNames(){
- const a=parseNames($('namesInput').value);
- if(a.length<2){toast("Please paste at least 2 names, one per line.");return}
- names=a;
- rotation=0;
- $('namesInput').value=names.join("\n");
- save();
- draw();
- closePanels();
- toast(a.length+" names added to the wheel.");
-}
-function saveConfig(){
- config.title=$('titleInput').value||"SPIN & WIN";config.subtitle=$('subtitleInput').value||"PREMIUM RANDOM WHEEL";
- config.button=$('buttonInput').value.trim()||"SPIN NOW";config.accent=$('accent').value;config.border=$('borderColor').value;
- config.bg1=$('bg1').value;config.bg2=$('bg2').value;config.angle=+$('bgAngle').value;config.duration=+$('duration').value;
- config.rotations=+$('rotations').value;config.textSize=+$('textSize').value;config.logoSize=+$('logoSize').value;
- config.logoBorder=$('logoBorder').value;config.style=$('wheelStyle').value;config.raffle=$('raffle').checked;
- config.haptic=$('haptic').checked;config.particles=$('particles').checked;config.spinSound=$('spinSound').value;
- config.winnerSound=$('winnerSound').value;config.spinVolume=+$('spinVolume').value;config.winnerVolume=+$('winnerVolume').value;
- applyUI();save();closePanels();toast("Customization saved.");
-}
-function draw(){
- const n=names.length,r=500,sa=Math.PI*2/n;
- ctx.clearRect(0,0,1000,1000);ctx.save();ctx.translate(r,r);ctx.rotate(rotation);
- for(let i=0;i<n;i++){
-  const a=i*sa;
-  const g=ctx.createLinearGradient(Math.cos(a)*r,Math.sin(a)*r,Math.cos(a+sa)*r,Math.sin(a+sa)*r);
-  const hue=(i*360/n+35)%360;
-  let c1,c2;
-  if(config.style==="luxury"){c1=`hsl(${hue},90%,58%)`;c2=`hsl(${hue},80%,30%)`}
-  else if(config.style==="neon"){c1=`hsl(${hue},100%,65%)`;c2=`hsl(${hue},100%,35%)`}
-  else if(config.style==="pastel"){c1=`hsl(${hue},70%,80%)`;c2=`hsl(${hue},65%,60%)`}
-  else{c1=`hsl(${hue},75%,55%)`;c2=`hsl(${hue},70%,38%)`}
-  g.addColorStop(0,c1);g.addColorStop(1,c2);
-  ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,r-12,a,a+sa);ctx.closePath();ctx.fillStyle=g;ctx.fill();
-  ctx.strokeStyle="rgba(255,255,255,.25)";ctx.lineWidth=4;ctx.stroke();
-  ctx.save();ctx.rotate(a+sa/2);ctx.fillStyle="#fff";ctx.font=`900 ${Math.max(13,config.textSize-(n>20?7:0))}px Segoe UI`;
-  ctx.textAlign="right";ctx.textBaseline="middle";ctx.shadowColor="rgba(0,0,0,.65)";ctx.shadowBlur=7;
-  const label=names[i].length>28?names[i].slice(0,26)+"…":names[i];ctx.fillText(label,r-38,0);ctx.restore();
- }
- ctx.restore();
- ctx.beginPath();ctx.arc(r,r,r-7,0,Math.PI*2);ctx.strokeStyle=config.border;ctx.lineWidth=14;ctx.stroke();
- ctx.beginPath();ctx.arc(r,r,r-22,0,Math.PI*2);ctx.strokeStyle=config.accent;ctx.globalAlpha=.55;ctx.lineWidth=4;ctx.stroke();ctx.globalAlpha=1;
-}
-function spin(){
- if(isSpinning||names.length<2)return;
- isSpinning=true;$('spinBtn').disabled=true;$('spinBtn').textContent="SPINNING...";
- const n=names.length,sa=Math.PI*2/n;
- const winner=Math.floor(Math.random()*n);
- // Segment i is centered at i*sa+sa/2. Pointer is at -PI/2.
- const targetCenter=winner*sa+sa/2;
- const pointer=-Math.PI/2;
- let delta=pointer-targetCenter-rotation;
- delta=((delta%(Math.PI*2))+(Math.PI*2))%(Math.PI*2);
- const extra=(config.rotations+Math.random())*Math.PI*2;
- const start=rotation,target=start+extra+delta,dur=config.duration*1000,t0=performance.now();
- playSpinStart();
- function frame(now){
-  let t=Math.min(1,(now-t0)/dur);
-  const e=1-Math.pow(1-t,5);
-  rotation=start+(target-start)*e;draw();
-  if(config.haptic && "vibrate" in navigator && Math.random()<.16)navigator.vibrate(8);
-  if(t<1)requestAnimationFrame(frame);else{
-   rotation=target;draw();isSpinning=false;$('spinBtn').disabled=false;$('spinBtn').textContent=config.button;
-   lastIndex=winner;lastWinner=names[winner];showWinner();
-  }
- }
- requestAnimationFrame(frame);
-}
-function showWinner(){
- const now=new Date();$('winnerName').textContent=lastWinner;$('winnerTime').textContent=now.toLocaleString();
- $('removeWinnerBtn').style.display=config.raffle?'inline-block':'none';$('winnerModal').classList.add('show');
- launchConfetti();playWinnerSound();addHistory(lastWinner,now);
-}
-function closeWinner(){$('winnerModal').classList.remove('show')}
-function removeWinner(){
- if(lastIndex<0)return;names.splice(lastIndex,1);save();closeWinner();
- if(names.length<2){$('spinBtn').disabled=true;toast("All participants have been selected.");}
- else {$('spinBtn').disabled=false;rotation=0;draw();} $('namesInput').value=names.join("\\n");
-}
-function history(){return JSON.parse(localStorage.getItem("spinWinHistory")||"[]")}
-function addHistory(name,date){let h=history();h.unshift({name,time:date.toISOString()});h=h.slice(0,100);localStorage.setItem("spinWinHistory",JSON.stringify(h));renderHistory()}
-function renderHistory(){let h=history();$('historyList').innerHTML=h.length?h.map((x,i)=>`<div style="padding:10px 0;border-bottom:1px solid #ffffff15"><b>${i+1}. ${escapeHtml(x.name)}</b><div style="opacity:.55;font-size:.75rem">${new Date(x.time).toLocaleString()}</div></div>`).join(""):"<p style='opacity:.6'>No winners yet.</p>"}
-function clearHistory(){localStorage.removeItem("spinWinHistory");renderHistory()}
-function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function toast(t){$('toast').textContent=t;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2200)}
+    <script>
+        const canvas = document.getElementById('wheelCanvas');
+        const ctx = canvas.getContext('2d');
+        const spinBtn = document.getElementById('spinBtn');
+        const pointerEl = document.getElementById('pointer');
 
-function ensureAudio(){if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==="suspended")audioCtx.resume()}
-function tone(freq,duration,type="sine",gain=.08,delay=0){
- if(!audioCtx)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;
- g.gain.setValueAtTime(0,audioCtx.currentTime+delay);g.gain.linearRampToValueAtTime(gain,audioCtx.currentTime+delay+.01);
- g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+delay+duration);o.connect(g);g.connect(audioCtx.destination);o.start(audioCtx.currentTime+delay);o.stop(audioCtx.currentTime+delay+duration+.03)
-}
-function playSpinStart(){
- ensureAudio();if(config.spinSound==="none")return;
- if(config.spinSound==="hum"){tone(120,.35,"sawtooth",.035*config.spinVolume)}
- else{let count=0;clearInterval(spinTimer);spinTimer=setInterval(()=>{if(!isSpinning){clearInterval(spinTimer);return}tone(850+Math.random()*180,.045,"square",.025*config.spinVolume);if(++count>200)clearInterval(spinTimer)},90)}
-}
-function playWinnerSound(){
- if(config.winnerSound==="none")return;ensureAudio();
- if(customWinnerAudio){customWinnerAudio.currentTime=0;customWinnerAudio.volume=config.winnerVolume;customWinnerAudio.play().catch(()=>{});return}
- if(config.winnerSound==="coins"){[880,1175,1568,1760].forEach((f,i)=>tone(f,.18,"triangle",.08*config.winnerVolume,i*.12))}
- else if(config.winnerSound==="bell"){tone(880,1.0,"sine",.14*config.winnerVolume);tone(1320,.8,"sine",.08*config.winnerVolume,.12)}
- else if(config.winnerSound==="applause"){for(let i=0;i<18;i++)tone(500+Math.random()*1500,.035,"noise",.012*config.winnerVolume,i*.045)}
- else{[523,659,784,1047,1319].forEach((f,i)=>tone(f,.38,"triangle",.075*config.winnerVolume,i*.14))}
-}
-function testWinnerSound(){ensureAudio();playWinnerSound()}
+        let names = ["Prize 1", "Prize 2", "Prize 3", "Prize 4", "Prize 5", "Prize 6"];
+        let currentRotation = 0;
+        let isSpinning = false;
+        let lastWinner = "";
+        let audioCtx = null;
+        let soundEnabled = true;
 
-$('spinBtn').onclick=spin;
-$('duration').oninput=e=>$('durationValue').textContent=e.target.value;
-$('bgUpload').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=ev=>{$('bgImage').src=ev.target.result;$('bgImage').style.display='block';localStorage.setItem("spinWinBg",ev.target.result)};r.readAsDataURL(f)}
-$('logoUpload').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=ev=>{$('logo').src=ev.target.result;$('logo').style.display='block';$('centerText').style.display='none';localStorage.setItem("spinWinLogo",ev.target.result)};r.readAsDataURL(f)}
-$('winnerUpload').onchange=e=>{let f=e.target.files[0];if(f)customWinnerAudio=new Audio(URL.createObjectURL(f))}
-function clearBgImage(){$('bgImage').style.display='none';$('bgImage').removeAttribute('src');localStorage.removeItem("spinWinBg")}
-function drawParticles(){
- const c=$('backgroundCanvas'),x=c.getContext('2d');c.width=innerWidth*devicePixelRatio;c.height=innerHeight*devicePixelRatio;c.style.width=innerWidth+"px";c.style.height=innerHeight+"px";x.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
- let ps=Array.from({length:config.particles?70:0},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*2+1,dx:(Math.random()-.5)*.45,dy:(Math.random()-.5)*.45}));
- function anim(){x.clearRect(0,0,innerWidth,innerHeight);if(config.particles)ps.forEach(p=>{p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>innerWidth)p.dx*=-1;if(p.y<0||p.y>innerHeight)p.dy*=-1;x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fillStyle="rgba(255,255,255,.45)";x.fill()});requestAnimationFrame(anim)}anim();
-}
-window.addEventListener("resize",drawParticles);
-load();applyUI();
-const savedLogo=localStorage.getItem("spinWinLogo");if(savedLogo){$('logo').src=savedLogo;$('logo').style.display="block";$('centerText').style.display="none"}
-const savedBg=localStorage.getItem("spinWinBg");if(savedBg){$('bgImage').src=savedBg;$('bgImage').style.display="block"}
-renderHistory();
-</script>
+        // Settings config
+        let config = {
+            duration: 5,
+            title: "SPIN & WIN",
+            btnText: "SPIN NOW",
+            raffle: false,
+            sound: true,
+            logoData: ""
+        };
+
+        const presets = {
+            prizes: ["Prize 1", "Prize 2", "Prize 3", "Prize 4", "Prize 5", "Prize 6"],
+            yesno: ["Yes ✅", "No ❌", "Maybe 🤔", "Ask Again 🔄"],
+            dice: ["1 🎲", "2 🎲", "3 🎲", "4 🎲", "5 🎲", "6 🎲"],
+            dinner: ["Pizza 🍕", "Burgers 🍔", "Sushi 🍣", "Tacos 🌮", "Pasta 🍝", "Salad 🥗", "Chinese 🥡", "Thai 🍜"],
+            truthordare: ["Truth 🤫", "Dare 😈", "Truth 🤫", "Dare 😈", "Truth 🤫", "Dare 😈"]
+        };
+
+        // --- Persistence Functions ---
+        function saveState() {
+            try {
+                localStorage.setItem('stw_names', JSON.stringify(names));
+                localStorage.setItem('stw_config', JSON.stringify(config));
+            } catch (e) {
+                console.warn('LocalStorage save failed:', e);
+            }
+        }
+
+        function loadSavedState() {
+            try {
+                const savedNames = localStorage.getItem('stw_names');
+                if (savedNames) names = JSON.parse(savedNames);
+
+                const savedConfig = localStorage.getItem('stw_config');
+                if (savedConfig) {
+                    config = { ...config, ...JSON.parse(savedConfig) };
+                }
+            } catch (e) {
+                console.warn('LocalStorage load failed:', e);
+            }
+
+            // Sync UI elements with loaded state
+            document.getElementById('namesInput').value = names.join('\n');
+            document.getElementById('mainTitle').innerText = config.title;
+            document.getElementById('titleEdit').value = config.title;
+            document.getElementById('spinBtn').innerText = config.btnText;
+            document.getElementById('btnEdit').value = config.btnText;
+            document.getElementById('durationEdit').value = config.duration;
+            document.getElementById('raffleMode').checked = config.raffle;
+            document.getElementById('soundFxToggle').checked = config.sound;
+            soundEnabled = config.sound;
+            updateSoundIcon();
+
+            if (config.logoData) {
+                document.getElementById('logoImg').src = config.logoData;
+            }
+        }
+
+        // --- Web Audio API FX ---
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) audioCtx = new AudioContext();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playTickSound() {
+            if (!soundEnabled) return;
+            initAudio();
+            if (!audioCtx) return;
+
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.03);
+
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.03);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.03);
+            } catch (e) {}
+        }
+
+        function playWinSound() {
+            if (!soundEnabled) return;
+            initAudio();
+            if (!audioCtx) return;
+
+            try {
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                notes.forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    const startTime = audioCtx.currentTime + (idx * 0.1);
+
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, startTime);
+
+                    gain.gain.setValueAtTime(0.2, startTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.3);
+
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+
+                    osc.start(startTime);
+                    osc.stop(startTime + 0.3);
+                });
+            } catch (e) {}
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            config.sound = soundEnabled;
+            document.getElementById('soundFxToggle').checked = soundEnabled;
+            updateSoundIcon();
+            saveState();
+        }
+
+        function updateSoundIcon() {
+            document.getElementById('soundToggleBtn').innerText = soundEnabled ? '🔊' : '🔇';
+        }
+
+        // --- Wheel Drawing ---
+        function drawWheel() {
+            const numSegments = Math.max(1, names.length);
+            const segmentAngle = (2 * Math.PI) / numSegments;
+            const radius = canvas.width / 2;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(radius, radius);
+            ctx.rotate(currentRotation);
+
+            for (let i = 0; i < numSegments; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.arc(0, 0, radius, i * segmentAngle, (i + 1) * segmentAngle);
+                ctx.fillStyle = `hsl(${(i * 360) / numSegments}, 75%, 52%)`;
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(0,0,0,0.15)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Draw Text
+                ctx.save();
+                ctx.rotate(i * segmentAngle + segmentAngle / 2);
+                ctx.fillStyle = 'white';
+                const fontSize = Math.max(12, Math.min(32, 280 / numSegments));
+                ctx.font = `bold ${fontSize}px sans-serif`;
+                ctx.textAlign = 'right';
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+                ctx.shadowBlur = 4;
+                ctx.shadowOffsetX = 1;
+                ctx.shadowOffsetY = 1;
+
+                // Truncate text if too long
+                let text = names[i] || "";
+                if (text.length > 20) text = text.substring(0, 18) + "..";
+                ctx.fillText(text, radius - 40, fontSize / 3);
+                ctx.restore();
+            }
+
+            ctx.restore();
+
+            // Outer border
+            ctx.beginPath();
+            ctx.arc(radius, radius, radius - 6, 0, Math.PI * 2);
+            ctx.strokeStyle = 'gold';
+            ctx.lineWidth = 12;
+            ctx.stroke();
+        }
+
+        // --- Spin Handler ---
+        spinBtn.addEventListener('click', () => {
+            if (isSpinning || names.length === 0) return;
+            initAudio();
+            isSpinning = true;
+            spinBtn.disabled = true;
+            spinBtn.innerText = "SPINNING...";
+
+            const numSegments = names.length;
+            const segmentAngle = (2 * Math.PI) / numSegments;
+            const extraSpins = 5 + Math.random() * 5;
+            const targetRotation = currentRotation + (extraSpins * Math.PI * 2) + (Math.random() * Math.PI * 2);
+            const start = performance.now();
+            const duration = config.duration * 1000;
+
+            let lastSegmentIndex = Math.floor(currentRotation / segmentAngle);
+
+            function animate(time) {
+                const elapsed = time - start;
+                const t = Math.min(elapsed / duration, 1);
+                // Cubic easing out
+                const easeOut = 1 - Math.pow(1 - t, 3);
+
+                currentRotation = targetRotation * easeOut;
+
+                // Detect segment crossings for tick sound & pointer bounce
+                const currentSegmentIndex = Math.floor(currentRotation / segmentAngle);
+                if (currentSegmentIndex !== lastSegmentIndex) {
+                    lastSegmentIndex = currentSegmentIndex;
+                    playTickSound();
+                    pointerEl.classList.add('tick');
+                    setTimeout(() => pointerEl.classList.remove('tick'), 40);
+                }
+
+                drawWheel();
+
+                if (t < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    isSpinning = false;
+                    spinBtn.disabled = false;
+                    spinBtn.innerText = config.btnText;
+                    calculateWinner();
+                }
+            }
+            requestAnimationFrame(animate);
+        });
+
+        function calculateWinner() {
+            if (names.length === 0) return;
+            const numSegments = names.length;
+            const segmentAngle = (2 * Math.PI) / numSegments;
+            const normalizedRotation = (currentRotation % (Math.PI * 2));
+            const pointerAngle = (3 * Math.PI / 2);
+            let winningIndex = Math.floor((pointerAngle - normalizedRotation + Math.PI * 4) % (Math.PI * 2) / segmentAngle);
+
+            lastWinner = names[winningIndex];
+            document.getElementById('winnerName').innerText = lastWinner;
+
+            playWinSound();
+            confetti({ particleCount: 160, spread: 80, origin: { y: 0.6 } });
+            openModal('winnerModal');
+
+            if (config.raffle) {
+                document.getElementById('removeBtn').style.display = 'inline-block';
+            } else {
+                document.getElementById('removeBtn').style.display = 'none';
+            }
+        }
+
+        function removeWinner() {
+            names = names.filter(n => n !== lastWinner);
+            document.getElementById('namesInput').value = names.join('\n');
+            saveState();
+            drawWheel();
+            closeModal('winnerModal');
+        }
+
+        function updateNames() {
+            const input = document.getElementById('namesInput').value;
+            names = input.split('\n').map(s => s.trim()).filter(s => s !== "");
+            saveState();
+            drawWheel();
+            closeModal('namesModal');
+        }
+
+        function loadPreset(key) {
+            if (!key || !presets[key]) return;
+            names = [...presets[key]];
+            document.getElementById('namesInput').value = names.join('\n');
+            saveState();
+            drawWheel();
+        }
+
+        function handleLogo(e) {
+            if (!e.target.files || !e.target.files[0]) return;
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                config.logoData = event.target.result;
+                document.getElementById('logoImg').src = config.logoData;
+                saveState();
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        }
+
+        function saveSettings() {
+            config.title = document.getElementById('titleEdit').value.trim() || "SPIN & WIN";
+            config.btnText = document.getElementById('btnEdit').value.trim() || "SPIN NOW";
+            config.duration = Math.max(1, parseFloat(document.getElementById('durationEdit').value) || 5);
+            config.raffle = document.getElementById('raffleMode').checked;
+            config.sound = document.getElementById('soundFxToggle').checked;
+            soundEnabled = config.sound;
+
+            document.getElementById('mainTitle').innerText = config.title;
+            document.getElementById('spinBtn').innerText = config.btnText;
+            updateSoundIcon();
+
+            saveState();
+            closeModal('settingsModal');
+        }
+
+        function resetDefaults() {
+            if (confirm("Reset all settings and list entries to default?")) {
+                localStorage.removeItem('stw_names');
+                localStorage.removeItem('stw_config');
+                location.reload();
+            }
+        }
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        // --- Particle Background ---
+        const pCanvas = document.getElementById('particle-bg');
+        const pCtx = pCanvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            pCanvas.width = window.innerWidth;
+            pCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * pCanvas.width;
+                this.y = Math.random() * pCanvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > pCanvas.width) this.x = 0;
+                if (this.x < 0) this.x = pCanvas.width;
+                if (this.y > pCanvas.height) this.y = 0;
+                if (this.y < 0) this.y = pCanvas.height;
+            }
+            draw() {
+                pCtx.fillStyle = 'rgba(255,255,255,0.4)';
+                pCtx.beginPath();
+                pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                pCtx.fill();
+            }
+        }
+
+        for (let i = 0; i < 50; i++) particles.push(new Particle());
+
+        function animateParticles() {
+            pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+
+        // --- Init ---
+        loadSavedState();
+        animateParticles();
+        drawWheel();
+    </script>
 </body>
 </html>
