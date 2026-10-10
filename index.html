@@ -22,9 +22,23 @@
     <meta name="twitter:description" content="IT Officer & Dept Head at PROXY Plus by The Oriental Pangasinan. Ruijie Networks, HikVision CCTV, Be-Tech Locksets, Google TV App Launcher, and Database Administration.">
     <meta property="twitter:image" content="I2CS__1_.png">
 
-    <!-- Favicon -->
+    <!-- Favicon & App Icons -->
     <link rel="icon" href="miczthemike.ico" type="image/x-icon">
+    <link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
+    <link rel="icon" href="icon-512.png" type="image/png" sizes="512x512">
+
+    <!-- Web App Manifest (Android & Desktop PWA) -->
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#090d16">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="MiczTheMike">
+
+    <!-- Apple iOS Web App Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MiczTheMike">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1706,6 +1720,14 @@
             border: 1px solid var(--border);
             padding: 5px 12px;
             border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        #footer-pwa-install:hover {
+            color: var(--primary);
+            border-color: rgba(56, 189, 248, 0.5);
+            background: rgba(56, 189, 248, 0.08);
+            transform: translateY(-1px);
         }
 
         /* Back to top */
@@ -2149,6 +2171,10 @@
             <a href="#contact" class="nav-link mobile-link">
                 <span><i class="fa-solid fa-paper-plane" style="margin-right: 10px; color: var(--primary);"></i>Get In Touch</span>
                 <i class="fa-solid fa-chevron-right" style="font-size: 0.75rem; color: var(--text-dim);"></i>
+            </a>
+            <a href="#" id="mobile-pwa-install" class="nav-link mobile-link" style="border-top: 1px solid var(--border); margin-top: 6px; color: var(--primary);">
+                <span><i class="fa-solid fa-mobile-screen-button" style="margin-right: 10px; color: var(--primary);"></i>Install App (PWA)</span>
+                <i class="fa-solid fa-download" style="font-size: 0.75rem; color: var(--primary);"></i>
             </a>
         </div>
     </header>
@@ -3089,6 +3115,9 @@ Available commands:
                 <p style="font-size: 0.8rem; margin-top: 4px;">Michael Joseph Paned • IT Officer / Dept Head @ PROXY Plus by The Oriental Pangasinan</p>
             </div>
             <div class="footer-badges">
+                <div class="gh-badge" id="footer-pwa-install" style="cursor: pointer;" title="Install Portfolio as App">
+                    <i class="fa-solid fa-mobile-screen-button"></i> Install App
+                </div>
                 <div class="gh-badge">
                     <i class="fa-brands fa-github"></i> GitHub Pages Static Deployment
                 </div>
@@ -3555,6 +3584,11 @@ Location: Pangasinan, Philippines`
         termResponses['career'] = termResponses['experience'];
         termResponses['edu'] = termResponses['education'];
         termResponses['lang'] = termResponses['languages'];
+        termResponses['app'] = termResponses['pwa'] = termResponses['install'] = `PROGRESSIVE WEB APP (PWA):
+Status     : PWA Active & Installable
+Android    : Click 'Install App' or Chrome menu (⋮) -> 'Install app'.
+iOS/iPhone : Safari Share button -> 'Add to Home Screen'.
+Offline    : Service Worker active with resilient shell caching.`;
 
         function execCommand(cmdRaw) {
             const cmd = cmdRaw.trim().toLowerCase();
@@ -3630,6 +3664,69 @@ Location: Pangasinan, Philippines`
         }
         setInterval(updateClock, 1000);
         updateClock();
+
+        // 10. Progressive Web App (PWA) Registration & Install Handling
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => {
+                        console.log('[PWA] Service Worker registered with scope:', reg.scope);
+                    })
+                    .catch(err => {
+                        console.warn('[PWA] Service Worker registration failed:', err);
+                    });
+            });
+        }
+
+        let deferredInstallPrompt = null;
+        const footerInstallBtn = document.getElementById('footer-pwa-install');
+        const mobileInstallBtn = document.getElementById('mobile-pwa-install');
+
+        // Check if app is launched in standalone mode
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        if (isStandalone) {
+            if (footerInstallBtn) footerInstallBtn.style.display = 'none';
+            if (mobileInstallBtn) mobileInstallBtn.style.display = 'none';
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+            if (footerInstallBtn) footerInstallBtn.style.display = 'inline-flex';
+            if (mobileInstallBtn) mobileInstallBtn.style.display = 'flex';
+        });
+
+        function handleInstallApp(e) {
+            if (e) e.preventDefault();
+            if (deferredInstallPrompt) {
+                deferredInstallPrompt.prompt();
+                deferredInstallPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showToast('Installing app to your device...');
+                        if (footerInstallBtn) footerInstallBtn.style.display = 'none';
+                        if (mobileInstallBtn) mobileInstallBtn.style.display = 'none';
+                    }
+                    deferredInstallPrompt = null;
+                });
+            } else {
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                if (isIOS) {
+                    showToast('Tap Share [↑] in Safari, then "Add to Home Screen"');
+                } else {
+                    showToast('Tap browser menu (⋮) -> "Install app"');
+                }
+            }
+        }
+
+        if (footerInstallBtn) footerInstallBtn.addEventListener('click', handleInstallApp);
+        if (mobileInstallBtn) mobileInstallBtn.addEventListener('click', handleInstallApp);
+
+        window.addEventListener('appinstalled', () => {
+            showToast('Portfolio app successfully installed!');
+            if (footerInstallBtn) footerInstallBtn.style.display = 'none';
+            if (mobileInstallBtn) mobileInstallBtn.style.display = 'none';
+            deferredInstallPrompt = null;
+        });
     </script>
 </body>
 </html>
