@@ -3,226 +3,609 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Rumble Simulation Extreme</title>
+    <title>Royal Rumble Simulator Extreme | Micz The Mike</title>
+    <meta name="description" content="Extreme 2D Royal Rumble wrestling battle royale simulator with dynamic physics, finisher animations, sound FX, and crowd atmosphere.">
+    <link rel="icon" href="miczthemike.ico" type="image/x-icon">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700;800&family=Impact&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        body {
+        :root {
+            --bg-body: #070a12;
+            --bg-card: rgba(18, 24, 38, 0.85);
+            --bg-panel: #111625;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-highlight: rgba(255, 204, 0, 0.4);
+            --primary: #ffcc00;
+            --primary-glow: rgba(255, 204, 0, 0.35);
+            --accent-cyan: #00f0ff;
+            --accent-red: #ff3344;
+            --accent-green: #10b981;
+            --accent-purple: #c084fc;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --radius-md: 10px;
+            --radius-sm: 6px;
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
-            background-color: #0b0b0f;
-            color: #ffffff;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(255, 204, 0, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(0, 240, 255, 0.05) 0%, transparent 50%);
+            padding-bottom: 30px;
+        }
+
+        /* Top Header Bar */
+        header {
+            width: 100%;
+            max-width: 1200px;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 12px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(255, 204, 0, 0.08);
+            transform: translateX(-2px);
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 7px 14px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .icon-btn.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(255, 204, 0, 0.1);
+        }
+
+        /* Title & Timer Banner */
+        .title-section {
+            text-align: center;
+            margin: 6px 0 14px 0;
         }
 
         h1 {
-            margin: 10px 0 5px 0;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #ffcc00;
-            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5), 2px 2px 4px #000;
+            font-size: clamp(1.6rem, 4vw, 2.3rem);
             font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #fff 20%, #ffcc00 60%, #ff8800 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
         }
 
+        .title-badge {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: var(--primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .timer-display {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-shadow: 0 0 16px rgba(255, 204, 0, 0.6);
+            letter-spacing: 3px;
+            margin-top: 4px;
+        }
+
+        /* Arena & Game Container */
         #game-container {
             display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 20px;
-            background: #141419;
+            max-width: 1200px;
+            width: 95%;
+            background: var(--bg-card);
             padding: 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+        }
+
+        /* Canvas Stage */
+        .stage-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #canvas-holder {
+            position: relative;
             border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.9);
-            border: 1px solid #2a2a35;
+            overflow: hidden;
+            border: 2px solid #23293a;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8), 0 0 30px rgba(0, 240, 255, 0.1);
+            background: #090c14;
         }
 
         canvas {
-            background: #111116;
-            border-radius: 6px;
-            box-shadow: inset 0 0 20px #000;
-            border: 1px solid #222;
+            display: block;
+            width: 580px;
+            height: 580px;
+            max-width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
         }
 
+        /* Live Stage Speed Controls Bar */
+        .stage-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-top: 10px;
+            gap: 10px;
+        }
+
+        .speed-pill-group {
+            display: flex;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 3px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        .speed-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .speed-btn.active {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.4);
+        }
+
+        /* UI Side Panel */
         #ui-panel {
-            width: 320px;
+            width: 380px;
+            max-width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 14px;
         }
 
         .panel-box {
-            background: #1a1a24;
-            padding: 14px;
-            border-radius: 6px;
-            border: 1px solid #323244;
+            background: var(--bg-panel);
+            padding: 14px 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            position: relative;
         }
 
-        h3 {
-            margin: 0 0 12px 0;
-            color: #ffcc00;
-            border-bottom: 2px solid #2a2a3a;
-            padding-bottom: 6px;
-            font-size: 15px;
+        .panel-box h3 {
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: var(--primary);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
+        .panel-box h3 i {
+            color: var(--text-muted);
+        }
+
+        /* Buttons & Inputs */
         #controls {
             display: flex;
             gap: 10px;
         }
 
-        button {
+        .btn-action {
             flex: 1;
-            padding: 12px;
-            background: #ffcc00;
-            border: none;
-            color: #000;
+            padding: 12px 14px;
             font-weight: 800;
             text-transform: uppercase;
-            border-radius: 4px;
+            letter-spacing: 1px;
+            font-size: 0.82rem;
+            border-radius: var(--radius-sm);
+            border: none;
             cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        button:hover {
-            background: #ffee55;
-            transform: translateY(-1px);
+        .btn-start {
+            background: linear-gradient(135deg, #ffcc00, #ff9900);
+            color: #070a12;
+            box-shadow: 0 4px 14px rgba(255, 204, 0, 0.3);
         }
 
-        button:active {
-            transform: translateY(1px);
+        .btn-start:hover {
+            background: linear-gradient(135deg, #ffee44, #ffaa00);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 204, 0, 0.45);
         }
 
-        button:disabled {
-            background: #2a2a35;
-            color: #5a5a6a;
+        .btn-pause {
+            background: rgba(255, 255, 255, 0.07);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+        }
+
+        .btn-pause:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .btn-action:disabled {
+            opacity: 0.4;
             cursor: not-allowed;
-            box-shadow: none;
-            transform: none;
+            transform: none !important;
+            box-shadow: none !important;
         }
 
+        label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="number"], textarea {
+            width: 100%;
+            background: #090d16;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="number"]:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.2);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.25);
+            padding: 10px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card .stat-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-top: 3px;
+        }
+
+        /* Live Commentary Feed */
         #ticker-box {
-            height: 150px;
+            height: 145px;
             overflow-y: auto;
-            font-family: 'Consolas', 'Courier New', monospace;
-            font-size: 12px;
             display: flex;
             flex-direction: column;
             gap: 5px;
-            padding-right: 5px;
+            padding-right: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
         }
 
         #ticker-box::-webkit-scrollbar {
             width: 4px;
         }
         #ticker-box::-webkit-scrollbar-thumb {
-            background: #3a3a4a;
-            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
         }
 
         .ticker-entry {
-            padding: 6px;
+            padding: 6px 10px;
             border-radius: 4px;
-            line-height: 1.4;
-            animation: fadeIn 0.25s ease-out forwards;
+            line-height: 1.35;
+            animation: slideIn 0.2s ease-out;
             border-left: 3px solid transparent;
+            background: rgba(255, 255, 255, 0.02);
         }
 
-        .entry-join { background: rgba(0, 255, 100, 0.08); color: #44ff88; border-left-color: #00ff64; }
-        .entry-elim { background: rgba(255, 50, 50, 0.08); color: #ff5555; border-left-color: #ff3232; }
-        .entry-boom { background: rgba(255, 150, 0, 0.12); color: #ffaa33; font-weight: bold; border-left-color: #ff9600; }
-        .entry-win { background: rgba(255, 204, 0, 0.15); color: #ffcc00; font-weight: bold; font-size: 13px; border-left-color: #ffcc00; border-right: 3px solid #ffcc00; text-align: center; }
+        .entry-join { background: rgba(16, 185, 129, 0.08); color: #34d399; border-left-color: #10b981; }
+        .entry-elim { background: rgba(239, 68, 68, 0.1); color: #f87171; border-left-color: #ef4444; }
+        .entry-boom { background: rgba(245, 158, 11, 0.12); color: #fbbf24; font-weight: 700; border-left-color: #f59e0b; }
+        .entry-win  { background: rgba(255, 204, 0, 0.18); color: #ffcc00; font-weight: 800; border-left-color: #ffcc00; text-align: center; }
 
-        #stats-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            font-size: 13px;
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Top Eliminators Leaderboard */
+        .leaderboard-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
+            max-height: 120px;
+            overflow-y: auto;
         }
 
-        #stats-list li {
-            border-bottom: 1px solid #222230;
-            padding-bottom: 4px;
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.78rem;
+            padding: 5px 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 4px;
         }
 
-        #stats-list span {
-            float: right;
-            font-weight: bold;
-            color: #ffcc00;
+        .leaderboard-item .badge {
+            background: rgba(255, 204, 0, 0.15);
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95) translateY(-3px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+        /* Winner Celebration Overlay Banner */
+        #winner-banner {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 48%;
+            transform: translate(-50%, -50%);
+            z-index: 50;
+            text-align: center;
+            pointer-events: none;
+            padding: 16px 28px;
+            border: 2px solid #ffd700;
+            border-radius: 16px;
+            background: rgba(8, 12, 22, 0.94);
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.65), inset 0 0 20px rgba(255, 215, 0, 0.2);
+            backdrop-filter: blur(8px);
+            animation: winnerPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes winnerPop {
+            0% { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        #winner-banner .winner-trophy {
+            font-size: 3rem;
+            animation: bounceTrophy 1.2s infinite alternate ease-in-out;
+        }
+
+        @keyframes bounceTrophy {
+            from { transform: translateY(0); filter: drop-shadow(0 0 10px #ffd700); }
+            to { transform: translateY(-8px); filter: drop-shadow(0 0 25px #ffd700); }
+        }
+
+        #winner-banner .winner-label {
+            font-size: 0.8rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: #ffd700;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        #winner-banner .winner-name {
+            font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 0 0 15px #ffd700, 0 0 30px #ffd700;
+            margin-top: 4px;
+            letter-spacing: 1px;
+        }
+
+        #winner-banner .winner-subtext {
+            font-size: 0.75rem;
+            color: #cbd5e1;
+            margin-top: 6px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        @media (max-width: 992px) {
+            #game-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            #ui-panel {
+                width: 100%;
+            }
+            canvas {
+                width: 100%;
+                max-width: 520px;
+            }
         }
     </style>
-
-<style>
-#winner-banner{
-    display:none;
-    position:absolute;
-    left:50%;
-    top:46%;
-    transform:translate(-50%,-50%);
-    z-index:20;
-    text-align:center;
-    pointer-events:none;
-    padding:8px 20px 10px;
-    border:2px solid #ffd700;
-    border-radius:12px;
-    background:rgba(0,0,0,.88);
-    box-shadow:0 0 28px rgba(255,215,0,.75);
-}
-#winner-banner .winner-label{
-    font-size:14px;
-    font-weight:900;
-    letter-spacing:4px;
-    color:#ffd700;
-}
-#winner-banner .winner-name{
-    font-size:26px;
-    font-weight:1000;
-    color:#fff;
-    text-shadow:0 0 10px #ffd700,0 0 22px #ffd700;
-    margin-top:2px;
-}
-.winner-glow{
-    animation:winnerPulse 1s infinite alternate;
-}
-@keyframes winnerPulse{
-    from{filter:drop-shadow(0 0 5px #ffd700)}
-    to{filter:drop-shadow(0 0 18px #ffd700)}
-}
-</style>
-
 </head>
 <body>
 
-<div id="winner-banner">
-    <div class="winner-label">🏆 ROYAL RUMBLE WINNER 🏆</div>
-    <div id="winner-name" class="winner-name"></div>
-</div>
+    <!-- Top Navigation Header -->
+    <header>
+        <a href="index.html" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Portfolio Home
+        </a>
+        <div class="top-actions">
+            <button id="soundToggleBtn" class="icon-btn active" title="Toggle Sound FX">
+                <i class="fa-solid fa-volume-high"></i> Sound ON
+            </button>
+            <a href="herzrace.html" class="icon-btn" style="text-decoration: none;" title="Play HerzGang Race">
+                <i class="fa-solid fa-flag-checkered"></i> HerzRace
+            </a>
+            <a href="spinthewheel.html" class="icon-btn" style="text-decoration: none;" title="Spin The Wheel">
+                <i class="fa-solid fa-dharmachakra"></i> Wheel
+            </a>
+        </div>
+    </header>
 
+    <!-- Title & Timer -->
+    <div class="title-section">
+        <h1><i class="fa-solid fa-fire-flame-curved" style="color: #ffcc00;"></i> Royal Rumble Simulator</h1>
+        <div class="title-badge">2D PHYSICS WRESTLING BATTLE ROYALE • EXTREME EDITION</div>
+        <div class="timer-display" id="match-timer">02:00</div>
+    </div>
 
-    <h1>Royal Rumble Simulator</h1><div id="match-timer" style="font-size:32px;font-weight:900;color:#ffcc00;letter-spacing:3px;margin:2px 0 10px;">02:00</div>
-<div style="color:#aaa;font-size:11px;letter-spacing:2px;margin-bottom:8px;">2D WRESTLING SIMULATION</div>
-    
+    <!-- Main Container -->
     <div id="game-container">
-        <canvas id="ringCanvas" width="550" height="550"></canvas>
         
+        <!-- Canvas Stage Area -->
+        <div class="stage-wrapper">
+            <div id="canvas-holder">
+                <canvas id="ringCanvas" width="600" height="600"></canvas>
+
+                <!-- Winner Banner Overlay -->
+                <div id="winner-banner">
+                    <div class="winner-trophy">🏆</div>
+                    <div class="winner-label">Royal Rumble Champion</div>
+                    <div id="winner-name" class="winner-name">The Rock</div>
+                    <div id="winner-subtext" class="winner-subtext">Sole Survivor in the Arena</div>
+                </div>
+            </div>
+
+            <!-- Canvas Bottom Controls -->
+            <div class="stage-controls">
+                <div style="font-size: 0.75rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">
+                    <i class="fa-solid fa-circle-dot" style="color: #10b981; font-size: 0.6rem;"></i> <span id="ring-status-text">Arena Ready</span>
+                </div>
+                <div class="speed-pill-group">
+                    <button class="speed-btn active" data-speed="1">1x</button>
+                    <button class="speed-btn" data-speed="2">2x</button>
+                    <button class="speed-btn" data-speed="3">3x Turbo</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- UI Sidebar Panel -->
         <div id="ui-panel">
+
+            <!-- Primary Match Setup -->
             <div class="panel-box">
-<h3>Match Setup</h3>
-<label style="display:block;font-size:12px;margin-bottom:6px;">Time Limit (minutes)</label>
-<input id="timeLimitInput" type="number" min="1" max="60" value="2" style="width:100%;box-sizing:border-box;padding:9px;background:#111116;color:#fff;border:1px solid #3a3a4a;border-radius:4px;margin-bottom:10px;">
-<label style="display:block;font-size:12px;margin-bottom:6px;">Wrestler Names — one name per line</label>
-<textarea id="namesInput" rows="8" style="width:100%;box-sizing:border-box;resize:vertical;padding:9px;background:#111116;color:#fff;border:1px solid #3a3a4a;border-radius:4px;font-family:Segoe UI,sans-serif;">The Rock
+                <h3><span><i class="fa-solid fa-sliders"></i> Match Configuration</span></h3>
+                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                    <div style="flex: 1;">
+                        <label>Time Limit (Mins)</label>
+                        <input id="timeLimitInput" type="number" min="1" max="60" value="2">
+                    </div>
+                    <div style="flex: 1;">
+                        <label>Combat Pace</label>
+                        <select id="combatPaceSelect" style="width:100%; background:#090d16; color:#fff; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:0.85rem;">
+                            <option value="normal" selected>Normal Action</option>
+                            <option value="chaos">Chaos / High Moves</option>
+                            <option value="ironman">Endurance Battle</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label>Superstars Roster (1 per line)</label>
+                <textarea id="namesInput" rows="6">The Rock
 Stone Cold
 John Cena
 Undertaker
@@ -252,286 +635,1289 @@ Sheamus
 Bobby Lashley
 Gunther
 LA Knight</textarea>
-<div style="font-size:11px;color:#888;margin-top:5px;">All names are placed in the arena at the same time.</div>
-</div><div id="controls">
-                <button id="startBtn">Start Rumble</button>
-                <button id="pauseBtn" disabled>Pause</button>
             </div>
 
-            <div class="panel-box">
-                <h3>Match Tracker</h3>
-                <ul id="stats-list">
-                    <li>Match Status: <span id="stat-status">Ready</span></li>
-                    <li>Entrants Cleared: <span id="stat-count">0 / 30</span></li>
-                    <li>Active in Ring: <span id="stat-inside">0</span></li>
-                    <li>Total Eliminated: <span id="stat-eliminated">0</span></li>
-                </ul>
+            <!-- Control Action Buttons -->
+            <div id="controls">
+                <button id="startBtn" class="btn-action btn-start">
+                    <i class="fa-solid fa-play"></i> Start Rumble
+                </button>
+                <button id="pauseBtn" class="btn-action btn-pause" disabled>
+                    <i class="fa-solid fa-pause"></i> Pause
+                </button>
             </div>
 
+            <!-- Match Live Stats -->
             <div class="panel-box">
-                <h3>Rumble Commentary Feed</h3>
+                <h3><span><i class="fa-solid fa-chart-simple"></i> Match Telemetry</span></h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Active in Ring</div>
+                        <div class="stat-val" id="stat-inside">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Eliminated</div>
+                        <div class="stat-val" id="stat-eliminated" style="color: var(--accent-red);">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Entrants</div>
+                        <div class="stat-val" id="stat-count" style="color: var(--accent-cyan);">30</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Match Status</div>
+                        <div class="stat-val" id="stat-status" style="font-size: 0.85rem; color: #10b981;">Ready</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Eliminators Leaderboard -->
+            <div class="panel-box">
+                <h3><span><i class="fa-solid fa-skull-crossbones"></i> Most Eliminations</span></h3>
+                <div class="leaderboard-list" id="leaderboard-list">
+                    <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; padding: 10px;">
+                        Eliminations will be tracked in real-time.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Commentary Feed -->
+            <div class="panel-box">
+                <h3><span><i class="fa-solid fa-bullhorn"></i> Ringside Commentary</span></h3>
                 <div id="ticker-box"></div>
             </div>
+
         </div>
+
     </div>
 
+    <!-- Game Engine & Audio Logic -->
     <script>
-
-
-
-
-
-const CANVAS=document.getElementById('ringCanvas'),CTX=CANVAS.getContext('2d');
-const RING_SIZE=320,RING_X=(CANVAS.width-RING_SIZE)/2,RING_Y=(CANVAS.height-RING_SIZE)/2;
-let NAMES_POOL=[],TOTAL_ENTRANTS=0,MATCH_TIME_LIMIT=120,timeRemaining=120,matchStartTime=0,matchActive=false,matchOver=false,animationId=null,superstars=[],particles=[],celebrationActive=false,celebrationWinner=null,celebrationStart=0,confetti=[],winnerWalking=false,timeLimitElimination=false;
-const startBtn=document.getElementById('startBtn'),pauseBtn=document.getElementById('pauseBtn'),tickerBox=document.getElementById('ticker-box');
-const statStatus=document.getElementById('stat-status'),statCount=document.getElementById('stat-count'),statInside=document.getElementById('stat-inside'),statEliminated=document.getElementById('stat-eliminated');
-const matchTimer=document.getElementById('match-timer'),namesInput=document.getElementById('namesInput'),timeLimitInput=document.getElementById('timeLimitInput');
-const winnerBanner=document.getElementById('winner-banner'),winnerName=document.getElementById('winner-name');
-const rnd=(a,b)=>Math.random()*(b-a)+a;
-function log(t,type='join'){const e=document.createElement('div');e.className=`ticker-entry entry-${type}`;e.textContent=t;tickerBox.appendChild(e);tickerBox.scrollTop=tickerBox.scrollHeight;}
-function timer(){let n=Math.max(0,Math.ceil(timeRemaining)),m=Math.floor(n/60),s=n%60;matchTimer.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;}
-class Particle{constructor(x,y,c){this.x=x;this.y=y;this.vx=rnd(-3,3);this.vy=rnd(-3,3);this.r=rnd(2,5);this.c=c;this.a=1;this.d=rnd(.02,.05)}update(){this.x+=this.vx;this.y+=this.vy;this.a-=this.d}draw(){CTX.save();CTX.globalAlpha=Math.max(0,this.a);CTX.beginPath();CTX.arc(this.x,this.y,this.r,0,Math.PI*2);CTX.fillStyle=this.c;CTX.fill();CTX.restore()}}
-function boom(x,y,c,n=12){for(let i=0;i<n;i++)particles.push(new Particle(x,y,c))}
-
-class Confetti{
-constructor(x,y){this.x=x;this.y=y;this.vx=rnd(-5,5);this.vy=rnd(-9,-3);this.size=rnd(4,9);this.rotation=rnd(0,6.28);this.spin=rnd(-.2,.2);this.life=1;this.color=['#ffcc00','#ff3b30','#00f0ff','#af52de','#44ff88','#fff'][Math.floor(Math.random()*6)]}
-update(){this.vy+=.18;this.x+=this.vx;this.y+=this.vy;this.rotation+=this.spin;this.life-=.006}
-draw(){CTX.save();CTX.globalAlpha=Math.max(0,this.life);CTX.translate(this.x,this.y);CTX.rotate(this.rotation);CTX.fillStyle=this.color;CTX.fillRect(-this.size/2,-this.size/2,this.size,this.size*1.7);CTX.restore()}
-}
-function launchConfetti(){for(let i=0;i<220;i++)confetti.push(new Confetti(CANVAS.width/2+rnd(-40,40),CANVAS.height*.42+rnd(-10,20)))}
-function updateConfetti(){for(let i=confetti.length-1;i>=0;i--){confetti[i].update();confetti[i].draw();if(confetti[i].life<=0||confetti[i].y>CANVAS.height+30)confetti.splice(i,1)}}
-
-class Superstar{
-constructor(id,name){this.id=id;this.name=name;this.x=RING_X+25+Math.random()*(RING_SIZE-50);this.y=RING_Y+25+Math.random()*(RING_SIZE-50);this.isEliminated=false;this.targetId=null;this.stamina=100;this.vx=0;this.vy=0;let t=['Striker','Giant','High-Flyer','Technician'];this.type=t[Math.floor(Math.random()*4)];if(this.type==='Giant'){this.radius=15;this.speed=rnd(.8,1.2);this.weight=85;this.color='#ff3b30'}else if(this.type==='High-Flyer'){this.radius=10;this.speed=rnd(2.2,3);this.weight=35;this.color='#00f0ff'}else if(this.type==='Striker'){this.radius=12;this.speed=rnd(1.6,2.2);this.weight=55;this.color='#ffcc00'}else{this.radius=11;this.speed=rnd(1.8,2.4);this.weight=50;this.color='#af52de'}}
-update(roster){if(this.isEliminated){this.y+=5;return}let t=roster.find(s=>s.id===this.targetId&&!s.isEliminated);if(!t||Math.random()<.02){let e=roster.filter(s=>s.id!==this.id&&!s.isEliminated);if(e.length){t=e[Math.floor(Math.random()*e.length)];this.targetId=t.id}}if(t){let dx=t.x-this.x,dy=t.y-this.y,d=Math.max(.1,Math.hypot(dx,dy));if(d>this.radius+t.radius+7){this.vx=dx/d*this.speed;this.vy=dy/d*this.speed}else{this.vx=rnd(-1.5,1.5);this.vy=rnd(-1.5,1.5);let f=(this.type==='Striker'?12:8)/(t.weight/45);t.x+=dx/d*f;t.y+=dy/d*f;this.stamina=Math.max(0,this.stamina-.15);if(Math.random()<.008&&this.stamina>15){let p=f*6;t.x+=dx/d*p;t.y+=dy/d*p;t.stamina=Math.max(0,t.stamina-20);log(`💥 ${this.name} hits a Finisher on ${t.name}!`,'boom');boom(t.x,t.y,'#fff',15)}}}this.x+=this.vx;this.y+=this.vy;this.ropes()}
-ropes(){let l=RING_X,r=RING_X+RING_SIZE,t=RING_Y,b=RING_Y+RING_SIZE;if(this.x<l||this.x>r||this.y<t||this.y>b){let chance=.04+(100-this.stamina)/250+(100-this.weight)/300;if(Math.random()<chance){this.isEliminated=true;let k=superstars.find(s=>!s.isEliminated&&s.targetId===this.id);log(`❌ ${this.name} has been ${k?`thrown out by ${k.name}!`:'flung over the top rope!'}`,'elim');boom(this.x,this.y,'#f33',25)}else{if(this.x<l){this.x=l+8;this.vx*=-1.2}if(this.x>r){this.x=r-8;this.vx*=-1.2}if(this.y<t){this.y=t+8;this.vy*=-1.2}if(this.y>b){this.y=b-8;this.vy*=-1.2}this.stamina=Math.max(5,this.stamina-8)}}}
-draw(){if(this.y>CANVAS.height+50)return;CTX.save();let s=this.radius/12;CTX.beginPath();CTX.ellipse(this.x,this.y+18*s,11*s,4*s,0,0,Math.PI*2);CTX.fillStyle='rgba(0,0,0,.45)';CTX.fill();CTX.lineWidth=Math.max(2,3*s);CTX.lineCap='round';CTX.strokeStyle='#ddd';CTX.beginPath();CTX.moveTo(this.x-3*s,this.y+7*s);CTX.lineTo(this.x-5*s,this.y+15*s);CTX.moveTo(this.x+3*s,this.y+7*s);CTX.lineTo(this.x+5*s,this.y+15*s);CTX.stroke();CTX.fillStyle='#111';CTX.fillRect(this.x-8*s,this.y+13*s,6*s,3*s);CTX.fillRect(this.x+2*s,this.y+13*s,6*s,3*s);CTX.strokeStyle=this.color;CTX.lineWidth=Math.max(2,3.5*s);CTX.beginPath();CTX.moveTo(this.x-6*s,this.y-2*s);CTX.lineTo(this.x-11*s,this.y+6*s);CTX.moveTo(this.x+6*s,this.y-2*s);CTX.lineTo(this.x+11*s,this.y+6*s);CTX.stroke();CTX.fillStyle=this.color;CTX.beginPath();CTX.roundRect(this.x-6*s,this.y-4*s,12*s,16*s,3*s);CTX.fill();CTX.beginPath();CTX.arc(this.x,this.y-11*s,6*s,0,Math.PI*2);CTX.fillStyle='#f1c7a5';CTX.fill();CTX.beginPath();CTX.arc(this.x,this.y-12*s,6*s,Math.PI,Math.PI*2);CTX.fillStyle='#202020';CTX.fill();let w=Math.max(24,32*s),x=this.x-w/2,y=this.y-25*s;CTX.fillStyle='#111';CTX.fillRect(x,y,w,4);CTX.fillStyle='#44ff88';CTX.fillRect(x,y,w*this.stamina/100,4);CTX.fillStyle='#fff';CTX.font='bold 10px Segoe UI';CTX.shadowColor='#000';CTX.shadowBlur=4;CTX.textAlign='center';CTX.fillText(this.name.length>16?this.name.slice(0,15)+'…':this.name,this.x,this.y-29*s);CTX.restore()}}
-function arena(){CTX.clearRect(0,0,CANVAS.width,CANVAS.height);CTX.fillStyle='#181822';CTX.fillRect(0,0,CANVAS.width,CANVAS.height);CTX.fillStyle='#282835';CTX.fillRect(RING_X,RING_Y,RING_SIZE,RING_SIZE);CTX.strokeStyle='#111';CTX.lineWidth=8;CTX.strokeRect(RING_X,RING_Y,RING_SIZE,RING_SIZE);CTX.lineWidth=3;CTX.strokeStyle='#e60000';CTX.strokeRect(RING_X-2,RING_Y-2,RING_SIZE+4,RING_SIZE+4);CTX.strokeStyle='#fff';CTX.strokeRect(RING_X-5,RING_Y-5,RING_SIZE+10,RING_SIZE+10);CTX.save();CTX.fillStyle='rgba(255,255,255,.035)';CTX.font='900 58px Impact';CTX.textAlign='center';CTX.textBaseline='middle';CTX.fillText('ROYAL RUMBLE',CANVAS.width/2,CANVAS.height/2);CTX.restore()}
-function stats(roster){statCount.textContent=`${superstars.length} / ${TOTAL_ENTRANTS}`;statInside.textContent=roster.length;statEliminated.textContent=superstars.filter(s=>s.isEliminated).length}
-
-function startTimeLimitElimination(champ, roster){
-    if(timeLimitElimination || celebrationActive)return;
-
-    timeLimitElimination=true;
-    matchOver=true;
-    statStatus.textContent='⏰ TIME LIMIT — ELIMINATING LOSERS';
-
-    // Winner stays in the arena. Every other wrestler is sent
-    // toward the outside of the ring before the winner celebration.
-    roster.forEach(w=>{
-        if(w.id!==champ.id){
-            w.isEliminated=true;
-            w.eliminationX=w.x;
-            w.eliminationY=w.y;
-            w.eliminationTargetX = w.x < RING_X + RING_SIZE/2
-                ? RING_X - 65
-                : RING_X + RING_SIZE + 65;
-            w.eliminationTargetY = w.y;
+    /* ==========================================================================
+       1. SYNTHESIZED WEB AUDIO SOUND ENGINE (Zero External Audio Files Needed)
+       ========================================================================== */
+    class SoundFX {
+        constructor() {
+            this.ctx = null;
+            this.enabled = true;
         }
-    });
 
-    champ.isEliminated=false;
-    champ.targetX=RING_X+(RING_SIZE/2);
-    champ.targetY=RING_Y+(RING_SIZE/2);
-
-    // Keep a short animation window so the losing wrestlers
-    // visibly leave the ring.
-    setTimeout(()=>{
-        timeLimitElimination=false;
-        finish(champ,'time');
-    },1400);
-}
-
-function finish(champ,reason){
-    matchOver=true;
-    matchActive=true;
-    celebrationActive=true;
-    celebrationWinner=champ;
-    celebrationStart=performance.now();
-    winnerWalking=true;
-
-    // Remove every other wrestler from the arena immediately.
-    superstars.forEach(w=>{
-        if(w.id!==champ.id){
-            w.isEliminated=true;
-            w.x=-100;
-            w.y=-100;
-            w.vx=0;
-            w.vy=0;
+        init() {
+            if (!this.ctx) {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (AudioCtx) this.ctx = new AudioCtx();
+            }
+            if (this.ctx && this.ctx.state === 'suspended') {
+                this.ctx.resume();
+            }
         }
-    });
 
-    // Force the winner to walk to the actual ring center.
-    champ.isEliminated=false;
-    champ.targetX=RING_X+(RING_SIZE/2);
-    champ.targetY=RING_Y+(RING_SIZE/2);
-    champ.vx=0;
-    champ.vy=0;
+        bell() {
+            if (!this.enabled) return;
+            this.init();
+            if (!this.ctx) return;
+            const now = this.ctx.currentTime;
+            
+            // Authentic brass ring bell tone
+            [587.33, 880, 1174.66].forEach((freq, i) => {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, now + i * 0.08);
+                gain.gain.setValueAtTime(0.3, now + i * 0.08);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + i * 0.08 + 1.2);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now + i * 0.08);
+                osc.stop(now + i * 0.08 + 1.3);
+            });
+        }
 
-    winnerName.textContent=champ.name;
-    winnerBanner.style.display='block';
-    winnerBanner.classList.add('winner-glow');
+        punch() {
+            if (!this.enabled) return;
+            this.init();
+            if (!this.ctx) return;
+            const now = this.ctx.currentTime;
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(140, now);
+            osc.frequency.exponentialRampToValueAtTime(35, now + 0.12);
+            gain.gain.setValueAtTime(0.35, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.13);
+        }
 
-    if(reason==='time'){
-        log('⏰ TIME LIMIT REACHED!','boom');
-        log(`🏆 ${champ.name} WINS BY SURVIVAL!`,'win');
-    }else{
-        log(`🏆 ${champ.name} IS THE LAST ONE STANDING!`,'win');
+        finisher() {
+            if (!this.enabled) return;
+            this.init();
+            if (!this.ctx) return;
+            const now = this.ctx.currentTime;
+            
+            // Sub-bass heavy slam
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(220, now);
+            osc.frequency.exponentialRampToValueAtTime(20, now + 0.35);
+            gain.gain.setValueAtTime(0.5, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.42);
+        }
+
+        bounce() {
+            if (!this.enabled) return;
+            this.init();
+            if (!this.ctx) return;
+            const now = this.ctx.currentTime;
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(120, now);
+            osc.frequency.exponentialRampToValueAtTime(240, now + 0.07);
+            osc.frequency.exponentialRampToValueAtTime(80, now + 0.15);
+            gain.gain.setValueAtTime(0.2, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.17);
+        }
+
+        elimination() {
+            if (!this.enabled) return;
+            this.init();
+            if (!this.ctx) return;
+            const now = this.ctx.currentTime;
+            
+            // Dramatic crowd whistle / siren descent
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(600, now);
+            osc.frequency.exponentialRampToValueAtTime(80, now + 0.55);
+            gain.gain.setValueAtTime(0.4, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.62);
+        }
+
+        victory() {
+            if (!this.enabled) return;
+            this.init();
+            if (!this.ctx) return;
+            const now = this.ctx.currentTime;
+            const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99];
+            notes.forEach((freq, idx) => {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+                gain.gain.setValueAtTime(0.3, now + idx * 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.8);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now + idx * 0.1);
+                osc.stop(now + idx * 0.1 + 0.85);
+            });
+        }
     }
 
-    boom(champ.x,champ.y,'#ffcc00',60);
-    launchConfetti();
-    timeRemaining=0;
-    timer();
-    stats([champ]);
-    statStatus.textContent='🏆 WINNER CELEBRATION';
-    pauseBtn.disabled=true;
-    startBtn.disabled=false;
-    startBtn.textContent='Simulate Again';
-}
+    const sound = new SoundFX();
 
-function setup(){let names=[...new Set(namesInput.value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean))];if(names.length<2){alert('Please enter at least 2 names, one per line.');return false}let mins=Math.max(1,Math.min(60,Number(timeLimitInput.value)||2));NAMES_POOL=names;TOTAL_ENTRANTS=names.length;MATCH_TIME_LIMIT=mins*60;timeRemaining=MATCH_TIME_LIMIT;matchStartTime=performance.now();superstars=names.map((n,i)=>new Superstar(i+1,n));particles=[];confetti=[];celebrationActive=false;celebrationWinner=null;winnerWalking=false;timeLimitElimination=false;matchOver=false;matchActive=true;winnerBanner.style.display='none';winnerBanner.classList.remove('winner-glow');winnerName.textContent='';winnerBanner.style.display='none';winnerBanner.classList.remove('winner-glow');winnerName.textContent='';tickerBox.innerHTML='';statStatus.textContent='Live Action';startBtn.disabled=true;pauseBtn.disabled=false;startBtn.textContent='Start Rumble';log(`🚀 ALL ${TOTAL_ENTRANTS} WRESTLERS ARE IN THE ARENA!`,'win');log(`⏱️ TIME LIMIT: ${mins} MINUTE${mins===1?'':'S'}`,'boom');stats(superstars);timer();return true}
-function loop(ts){
-    if(!matchActive)return;
+    // Sound Toggle Button
+    const soundToggleBtn = document.getElementById('soundToggleBtn');
+    soundToggleBtn.addEventListener('click', () => {
+        sound.enabled = !sound.enabled;
+        sound.init();
+        if (sound.enabled) {
+            soundToggleBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Sound ON';
+            soundToggleBtn.classList.add('active');
+            sound.bell();
+        } else {
+            soundToggleBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i> Muted';
+            soundToggleBtn.classList.remove('active');
+        }
+    });
 
-    arena();
+    /* ==========================================================================
+       2. ARENA & ENGINE CONSTANTS
+       ========================================================================== */
+    const CANVAS = document.getElementById('ringCanvas');
+    const CTX = CANVAS.getContext('2d');
 
-    // TIME-LIMIT LOSERS LEAVE THE RING FIRST.
-    if(timeLimitElimination){
-        for(let i=particles.length-1;i>=0;i--){
-            particles[i].update();
-            particles[i].draw();
-            if(particles[i].a<=0)particles.splice(i,1);
+    const RING_SIZE = 360;
+    const RING_X = (CANVAS.width - RING_SIZE) / 2;
+    const RING_Y = (CANVAS.height - RING_SIZE) / 2;
+
+    let simulationSpeed = 1;
+    let matchTimeLimit = 120;
+    let timeRemaining = 120;
+    let matchStartTime = 0;
+    let matchActive = false;
+    let matchOver = false;
+    let animationId = null;
+
+    let superstars = [];
+    let particles = [];
+    let confetti = [];
+    let shockwaves = [];
+    let floatingTexts = [];
+    let flashbulbs = [];
+
+    // Screen shake vector
+    let shakeIntensity = 0;
+
+    // Ropes elastic physics (Top, Right, Bottom, Left)
+    const ropes = [
+        { flex: 0, target: 0 },
+        { flex: 0, target: 0 },
+        { flex: 0, target: 0 },
+        { flex: 0, target: 0 }
+    ];
+
+    // Winner celebration
+    let celebrationActive = false;
+    let celebrationWinner = null;
+    let celebrationStart = 0;
+    let winnerWalking = false;
+    let timeLimitElimination = false;
+
+    // Iconic Wrestling Finishers dictionary
+    const SIGNATURE_MOVES = [
+        "Stone Cold Stunner", "Rock Bottom", "RKO out of nowhere", "Tombstone Piledriver",
+        "Sweet Chin Music", "Pedigree", "Spear", "F-5", "Attitude Adjustment", "Chokeslam",
+        "Claymore Kick", "Styles Clash", "619", "GTS (Go To Sleep)", "Curb Stomp",
+        "Cross Rhodes", "Pop-Up Powerbomb", "Helluva Kick", "Brogue Kick", "Powerbomb"
+    ];
+
+    // DOM Elements
+    const startBtn = document.getElementById('startBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const tickerBox = document.getElementById('ticker-box');
+    const statStatus = document.getElementById('stat-status');
+    const statCount = document.getElementById('stat-count');
+    const statInside = document.getElementById('stat-inside');
+    const statEliminated = document.getElementById('stat-eliminated');
+    const matchTimer = document.getElementById('match-timer');
+    const namesInput = document.getElementById('namesInput');
+    const timeLimitInput = document.getElementById('timeLimitInput');
+    const combatPaceSelect = document.getElementById('combatPaceSelect');
+    const winnerBanner = document.getElementById('winner-banner');
+    const winnerName = document.getElementById('winner-name');
+    const winnerSubtext = document.getElementById('winner-subtext');
+    const ringStatusText = document.getElementById('ring-status-text');
+    const leaderboardList = document.getElementById('leaderboard-list');
+
+    // Utility random
+    const rnd = (a, b) => Math.random() * (b - a) + a;
+
+    function applyScreenShake(amount) {
+        shakeIntensity = Math.min(25, shakeIntensity + amount);
+    }
+
+    function log(msg, type = 'join') {
+        const el = document.createElement('div');
+        el.className = `ticker-entry entry-${type}`;
+        el.innerHTML = msg;
+        tickerBox.appendChild(el);
+        tickerBox.scrollTop = tickerBox.scrollHeight;
+    }
+
+    function updateTimerDisplay() {
+        const n = Math.max(0, Math.ceil(timeRemaining));
+        const m = Math.floor(n / 60);
+        const s = n % 60;
+        matchTimer.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    /* Speed selection pills */
+    document.querySelectorAll('.speed-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            simulationSpeed = Number(btn.getAttribute('data-speed')) || 1;
+        });
+    });
+
+    /* ==========================================================================
+       3. SPECIAL EFFECTS & PARTICLES (Sparks, Floating Text, Shockwaves)
+       ========================================================================== */
+    class Particle {
+        constructor(x, y, color, speedScale = 1) {
+            this.x = x;
+            this.y = y;
+            this.vx = rnd(-4, 4) * speedScale;
+            this.vy = rnd(-4, 4) * speedScale;
+            this.r = rnd(2.5, 6);
+            this.color = color;
+            this.alpha = 1;
+            this.decay = rnd(0.02, 0.05);
+            this.spark = Math.random() < 0.3;
         }
 
-        const champ=superstars.find(w=>!w.isEliminated);
-        superstars.forEach(w=>{
-            if(w.id===champ.id){
-                w.draw();
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            this.alpha -= this.decay;
+        }
+
+        draw() {
+            CTX.save();
+            CTX.globalAlpha = Math.max(0, this.alpha);
+            CTX.beginPath();
+            CTX.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+            CTX.fillStyle = this.color;
+            CTX.shadowColor = this.color;
+            CTX.shadowBlur = this.spark ? 10 : 4;
+            CTX.fill();
+            CTX.restore();
+        }
+    }
+
+    class Shockwave {
+        constructor(x, y, color = '#ffcc00') {
+            this.x = x;
+            this.y = y;
+            this.r = 6;
+            this.maxR = rnd(40, 65);
+            this.color = color;
+            this.alpha = 0.9;
+        }
+
+        update() {
+            this.r += 3.5;
+            this.alpha -= 0.045;
+        }
+
+        draw() {
+            if (this.alpha <= 0) return;
+            CTX.save();
+            CTX.globalAlpha = Math.max(0, this.alpha);
+            CTX.beginPath();
+            CTX.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+            CTX.strokeStyle = this.color;
+            CTX.lineWidth = 3;
+            CTX.shadowColor = this.color;
+            CTX.shadowBlur = 8;
+            CTX.stroke();
+            CTX.restore();
+        }
+    }
+
+    class FloatingText {
+        constructor(text, x, y, color = '#ffcc00', size = 16) {
+            this.text = text;
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            this.size = size;
+            this.alpha = 1.0;
+            this.vy = -1.6;
+            this.scale = 0.6;
+        }
+
+        update() {
+            this.y += this.vy;
+            this.alpha -= 0.022;
+            if (this.scale < 1.1) this.scale += 0.08;
+        }
+
+        draw() {
+            if (this.alpha <= 0) return;
+            CTX.save();
+            CTX.globalAlpha = Math.max(0, this.alpha);
+            CTX.translate(this.x, this.y);
+            CTX.scale(this.scale, this.scale);
+            CTX.textAlign = 'center';
+            CTX.font = `900 ${this.size}px 'Plus Jakarta Sans', sans-serif`;
+            CTX.fillStyle = this.color;
+            CTX.strokeStyle = '#000';
+            CTX.lineWidth = 3;
+            CTX.strokeText(this.text, 0, 0);
+            CTX.fillText(this.text, 0, 0);
+            CTX.restore();
+        }
+    }
+
+    class Confetti {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.vx = rnd(-6, 6);
+            this.vy = rnd(-11, -4);
+            this.size = rnd(4, 9);
+            this.rotation = rnd(0, 6.28);
+            this.spin = rnd(-0.25, 0.25);
+            this.life = 1.0;
+            const colors = ['#ffcc00', '#ff3344', '#00f0ff', '#c084fc', '#10b981', '#ffffff', '#ff9900'];
+            this.color = colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        update() {
+            this.vy += 0.22;
+            this.x += this.vx;
+            this.y += this.vy;
+            this.rotation += this.spin;
+            this.life -= 0.007;
+        }
+
+        draw() {
+            CTX.save();
+            CTX.globalAlpha = Math.max(0, this.life);
+            CTX.translate(this.x, this.y);
+            CTX.rotate(this.rotation);
+            CTX.fillStyle = this.color;
+            CTX.fillRect(-this.size / 2, -this.size / 2, this.size, this.size * 1.6);
+            CTX.restore();
+        }
+    }
+
+    function createBoom(x, y, color = '#ffcc00', count = 16) {
+        for (let i = 0; i < count; i++) {
+            particles.push(new Particle(x, y, color));
+        }
+        shockwaves.push(new Shockwave(x, y, color));
+    }
+
+    /* ==========================================================================
+       4. SUPERSTAR WRESTLER ENTITY
+       ========================================================================== */
+    class Superstar {
+        constructor(id, name) {
+            this.id = id;
+            this.name = name;
+            this.x = RING_X + 40 + Math.random() * (RING_SIZE - 80);
+            this.y = RING_Y + 40 + Math.random() * (RING_SIZE - 80);
+            this.vx = 0;
+            this.vy = 0;
+            this.isEliminated = false;
+            this.targetId = null;
+            this.stamina = 100;
+            this.eliminations = 0;
+
+            // Elimination trajectory animation over the ropes
+            this.isFlyingOut = false;
+            this.flightProgress = 0;
+            this.startX = 0;
+            this.startY = 0;
+            this.targetFlightX = 0;
+            this.targetFlightY = 0;
+            this.flightArcHeight = 0;
+            this.rotation = 0;
+
+            // Combat animation states
+            this.attackCooldown = rnd(10, 40);
+            this.isStriking = 0;
+            this.facingAngle = 0;
+            this.walkPhase = rnd(0, 6.28);
+
+            // Wrestler Archetypes
+            const archetypes = ['Striker', 'Giant', 'High-Flyer', 'Technician'];
+            this.type = archetypes[Math.floor(Math.random() * archetypes.length)];
+
+            if (this.type === 'Giant') {
+                this.radius = 16;
+                this.speed = rnd(0.85, 1.25);
+                this.weight = 90;
+                this.color = '#ff3344'; // Red
+                this.strikePower = 18;
+            } else if (this.type === 'High-Flyer') {
+                this.radius = 11;
+                this.speed = rnd(2.1, 2.8);
+                this.weight = 40;
+                this.color = '#00f0ff'; // Cyan
+                this.strikePower = 10;
+            } else if (this.type === 'Striker') {
+                this.radius = 13;
+                this.speed = rnd(1.6, 2.2);
+                this.weight = 60;
+                this.color = '#ffcc00'; // Gold
+                this.strikePower = 15;
+            } else {
+                this.radius = 12;
+                this.speed = rnd(1.7, 2.3);
+                this.weight = 52;
+                this.color = '#c084fc'; // Purple
+                this.strikePower = 12;
+            }
+        }
+
+        update(roster) {
+            if (this.isEliminated) {
+                // If catapulted over ropes, update high arc flight physics
+                if (this.isFlyingOut) {
+                    this.flightProgress += 0.045;
+                    this.rotation += 0.25;
+                    const t = this.flightProgress;
+                    this.x = (1 - t) * this.startX + t * this.targetFlightX;
+                    // Parabolic arc z-height
+                    const arcZ = Math.sin(t * Math.PI) * this.flightArcHeight;
+                    this.y = ((1 - t) * this.startY + t * this.targetFlightY) - arcZ;
+
+                    if (t >= 1) {
+                        this.isFlyingOut = false;
+                        createBoom(this.x, this.y, '#ff3344', 18);
+                        applyScreenShake(3);
+                    }
+                }
                 return;
             }
 
-            // Move each losing wrestler outward from the ring.
-            const dx=w.eliminationTargetX-w.x;
-            const dy=w.eliminationTargetY-w.y;
-            const d=Math.hypot(dx,dy);
+            // Passive stamina recovery
+            if (this.stamina < 100) {
+                this.stamina = Math.min(100, this.stamina + 0.05);
+            }
 
-            if(d>3){
-                w.x+=(dx/d)*3.5;
-                w.y+=(dy/d)*3.5;
-                w.draw();
-            }else{
-                // Draw the loser outside the ring briefly, then it disappears.
-                w.draw();
+            // Target Acquisition & Re-evaluation
+            let target = roster.find(s => s.id === this.targetId && !s.isEliminated);
+            if (!target || Math.random() < 0.025) {
+                const enemies = roster.filter(s => s.id !== this.id && !s.isEliminated);
+                if (enemies.length) {
+                    // Pick closer enemy with lower stamina
+                    enemies.sort((a, b) => {
+                        const distA = Math.hypot(a.x - this.x, a.y - this.y);
+                        const distB = Math.hypot(b.x - this.x, b.y - this.y);
+                        return distA - distB;
+                    });
+                    target = enemies[Math.floor(Math.random() * Math.min(3, enemies.length))];
+                    this.targetId = target.id;
+                }
+            }
+
+            if (target) {
+                const dx = target.x - this.x;
+                const dy = target.y - this.y;
+                const dist = Math.max(0.1, Math.hypot(dx, dy));
+                this.facingAngle = Math.atan2(dy, dx);
+
+                const minEngageDist = this.radius + target.radius + 6;
+
+                if (dist > minEngageDist) {
+                    this.vx = (dx / dist) * this.speed;
+                    this.vy = (dy / dist) * this.speed;
+                    this.walkPhase += 0.2;
+                } else {
+                    // Brawling & Grappling range
+                    this.walkPhase += 0.1;
+                    this.isStriking = 10;
+                    this.vx = rnd(-1.2, 1.2);
+                    this.vy = rnd(-1.2, 1.2);
+
+                    const force = (this.strikePower) / (target.weight / 40);
+                    target.x += (dx / dist) * force;
+                    target.y += (dy / dist) * force;
+
+                    this.stamina = Math.max(0, this.stamina - 0.2);
+                    target.stamina = Math.max(0, target.stamina - (0.4 + this.strikePower * 0.03));
+
+                    if (Math.random() < 0.15) {
+                        sound.punch();
+                        particles.push(new Particle(target.x, target.y, '#fff', 0.5));
+                    }
+
+                    // Finisher Trigger!
+                    const pace = combatPaceSelect.value;
+                    const finisherChance = pace === 'chaos' ? 0.022 : (pace === 'ironman' ? 0.005 : 0.012);
+
+                    if (Math.random() < finisherChance && this.stamina > 15) {
+                        this.executeFinisher(target);
+                    }
+                }
+            }
+
+            this.x += this.vx;
+            this.y += this.vy;
+            this.checkRopeCollisions();
+        }
+
+        executeFinisher(target) {
+            const moveName = SIGNATURE_MOVES[Math.floor(Math.random() * SIGNATURE_MOVES.length)];
+            const power = this.strikePower * 4.5;
+            const dx = target.x - this.x;
+            const dy = target.y - this.y;
+            const dist = Math.max(0.1, Math.hypot(dx, dy));
+
+            target.x += (dx / dist) * power;
+            target.y += (dy / dist) * power;
+            target.stamina = Math.max(0, target.stamina - 30);
+            this.stamina = Math.max(5, this.stamina - 15);
+
+            sound.finisher();
+            applyScreenShake(8);
+            createBoom(target.x, target.y, '#ffcc00', 25);
+            floatingTexts.push(new FloatingText(`💥 ${moveName}!`, target.x, target.y - 20, '#ffcc00', 16));
+
+            log(`💥 <strong>${this.name}</strong> hits <strong>${moveName}</strong> on ${target.name}!`, 'boom');
+        }
+
+        checkRopeCollisions() {
+            const l = RING_X + 15;
+            const r = RING_X + RING_SIZE - 15;
+            const t = RING_Y + 15;
+            const b = RING_Y + RING_SIZE - 15;
+
+            let hitRopeIndex = -1;
+
+            if (this.y < t) hitRopeIndex = 0; // Top
+            else if (this.x > r) hitRopeIndex = 1; // Right
+            else if (this.y > b) hitRopeIndex = 2; // Bottom
+            else if (this.x < l) hitRopeIndex = 3; // Left
+
+            if (hitRopeIndex !== -1) {
+                // Rope vibration physics
+                ropes[hitRopeIndex].flex = 18;
+                sound.bounce();
+
+                // Elimination Calculation: High when tired, pushed hard, or light
+                const fatigueFactor = (100 - this.stamina) / 220;
+                const weightFactor = (100 - this.weight) / 300;
+                const eliminationProbability = 0.05 + fatigueFactor + weightFactor;
+
+                if (Math.random() < eliminationProbability) {
+                    this.eliminateMe(hitRopeIndex);
+                } else {
+                    // Rebound back into the ring with elastic energy
+                    if (this.x < l) { this.x = l + 12; this.vx = Math.abs(this.vx) * 1.4; }
+                    if (this.x > r) { this.x = r - 12; this.vx = -Math.abs(this.vx) * 1.4; }
+                    if (this.y < t) { this.y = t + 12; this.vy = Math.abs(this.vy) * 1.4; }
+                    if (this.y > b) { this.y = b - 12; this.vy = -Math.abs(this.vy) * 1.4; }
+                    this.stamina = Math.max(5, this.stamina - 6);
+                }
+            }
+        }
+
+        eliminateMe(ropeIndex) {
+            this.isEliminated = true;
+            this.isFlyingOut = true;
+            this.flightProgress = 0;
+            this.startX = this.x;
+            this.startY = this.y;
+            this.flightArcHeight = rnd(35, 60);
+
+            // Toss trajectory outward toward arena floor
+            const distOut = rnd(65, 100);
+            if (ropeIndex === 0) { // Top
+                this.targetFlightX = this.x + rnd(-25, 25);
+                this.targetFlightY = RING_Y - distOut;
+            } else if (ropeIndex === 1) { // Right
+                this.targetFlightX = RING_X + RING_SIZE + distOut;
+                this.targetFlightY = this.y + rnd(-25, 25);
+            } else if (ropeIndex === 2) { // Bottom
+                this.targetFlightX = this.x + rnd(-25, 25);
+                this.targetFlightY = RING_Y + RING_SIZE + distOut;
+            } else { // Left
+                this.targetFlightX = RING_X - distOut;
+                this.targetFlightY = this.y + rnd(-25, 25);
+            }
+
+            // Find eliminator
+            const killer = superstars.find(s => !s.isEliminated && s.targetId === this.id);
+            if (killer) {
+                killer.eliminations++;
+                log(`❌ <strong>${this.name}</strong> was thrown over the top rope by <strong>${killer.name}</strong>!`, 'elim');
+            } else {
+                log(`❌ <strong>${this.name}</strong> was flung over the top rope to the arena floor!`, 'elim');
+            }
+
+            sound.elimination();
+            applyScreenShake(12);
+            createBoom(this.x, this.y, '#ff3344', 30);
+            floatingTexts.push(new FloatingText("ELIMINATED!", this.x, this.y, '#ff3344', 18));
+            updateLeaderboard();
+        }
+
+        draw() {
+            if (this.isEliminated && !this.isFlyingOut) return;
+
+            CTX.save();
+            const s = this.radius / 12;
+
+            // Soft shadow underneath
+            CTX.beginPath();
+            CTX.ellipse(this.x, this.y + 16 * s, 12 * s, 5 * s, 0, 0, Math.PI * 2);
+            CTX.fillStyle = 'rgba(0, 0, 0, 0.45)';
+            CTX.fill();
+
+            CTX.translate(this.x, this.y);
+            if (this.isFlyingOut) {
+                CTX.rotate(this.rotation);
+            }
+
+            // Legs oscillation
+            const legWalk = Math.sin(this.walkPhase) * 6 * s;
+            CTX.lineWidth = Math.max(2, 3.5 * s);
+            CTX.strokeStyle = '#222';
+            CTX.beginPath();
+            CTX.moveTo(-4 * s, 6 * s);
+            CTX.lineTo(-5 * s, 14 * s + legWalk);
+            CTX.moveTo(4 * s, 6 * s);
+            CTX.lineTo(5 * s, 14 * s - legWalk);
+            CTX.stroke();
+
+            // Boots
+            CTX.fillStyle = '#0a0a0f';
+            CTX.fillRect(-8 * s, 12 * s + legWalk, 6 * s, 4 * s);
+            CTX.fillRect(2 * s, 12 * s - legWalk, 6 * s, 4 * s);
+
+            // Wrestler Body Trunks
+            CTX.fillStyle = this.color;
+            CTX.beginPath();
+            CTX.roundRect(-6 * s, -4 * s, 12 * s, 15 * s, 3 * s);
+            CTX.fill();
+
+            // Arms (animated during strike)
+            const strikeOffset = this.isStriking > 0 ? Math.sin(this.walkPhase * 3) * 6 : 0;
+            CTX.strokeStyle = this.color;
+            CTX.lineWidth = Math.max(2, 3.8 * s);
+            CTX.beginPath();
+            CTX.moveTo(-6 * s, -2 * s);
+            CTX.lineTo(-12 * s, 6 * s + strikeOffset);
+            CTX.moveTo(6 * s, -2 * s);
+            CTX.lineTo(12 * s, 6 * s - strikeOffset);
+            CTX.stroke();
+
+            // Head & Skin
+            CTX.beginPath();
+            CTX.arc(0, -11 * s, 6.5 * s, 0, Math.PI * 2);
+            CTX.fillStyle = '#f0c29f';
+            CTX.fill();
+
+            // Hair / Mask
+            CTX.beginPath();
+            CTX.arc(0, -12.5 * s, 6.5 * s, Math.PI, Math.PI * 2);
+            CTX.fillStyle = this.type === 'Giant' ? '#441111' : '#1a1a24';
+            CTX.fill();
+
+            // Archetype Badge / Glow
+            if (this.type === 'Giant') {
+                CTX.strokeStyle = 'rgba(255, 50, 50, 0.4)';
+                CTX.strokeRect(-8 * s, -6 * s, 16 * s, 18 * s);
+            }
+
+            CTX.restore();
+
+            // Health / Stamina Bar & Floating Name Tag
+            if (!this.isFlyingOut) {
+                const barW = Math.max(28, 34 * s);
+                const barX = this.x - barW / 2;
+                const barY = this.y - 25 * s;
+
+                // Bar Background
+                CTX.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                CTX.fillRect(barX - 1, barY - 1, barW + 2, 6);
+
+                // Stamina gradient
+                const stPercent = this.stamina / 100;
+                CTX.fillStyle = stPercent > 0.5 ? '#10b981' : (stPercent > 0.25 ? '#f59e0b' : '#ef4444');
+                CTX.fillRect(barX, barY, barW * stPercent, 4);
+
+                // Wrestler Name
+                CTX.font = "700 10px 'Plus Jakarta Sans', sans-serif";
+                CTX.fillStyle = '#ffffff';
+                CTX.textAlign = 'center';
+                CTX.shadowColor = '#000';
+                CTX.shadowBlur = 4;
+                const displayName = this.name.length > 15 ? this.name.slice(0, 14) + '…' : this.name;
+                CTX.fillText(displayName, this.x, this.y - 29 * s);
+                CTX.shadowBlur = 0;
+            }
+        }
+    }
+
+    /* ==========================================================================
+       5. ARENA RENDERING (Spotlights, Ropes Physics, Ring Mat, Flashbulbs)
+       ========================================================================== */
+    function drawArena(timestamp) {
+        // Clear full canvas
+        CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
+
+        // 1. Crowd Stadium Background
+        CTX.fillStyle = '#080a10';
+        CTX.fillRect(0, 0, CANVAS.width, CANVAS.height);
+
+        // Random Stadium Camera Flashbulbs
+        if (Math.random() < 0.22) {
+            flashbulbs.push({
+                x: Math.random() < 0.5 ? rnd(10, RING_X - 15) : rnd(RING_X + RING_SIZE + 15, CANVAS.width - 10),
+                y: rnd(10, CANVAS.height - 10),
+                alpha: 1.0,
+                radius: rnd(15, 30)
+            });
+        }
+
+        flashbulbs.forEach((fb, i) => {
+            CTX.save();
+            CTX.globalAlpha = fb.alpha;
+            const grad = CTX.createRadialGradient(fb.x, fb.y, 0, fb.x, fb.y, fb.radius);
+            grad.addColorStop(0, 'rgba(255, 255, 255, 0.85)');
+            grad.addColorStop(0.3, 'rgba(200, 240, 255, 0.4)');
+            grad.addColorStop(1, 'transparent');
+            CTX.fillStyle = grad;
+            CTX.beginPath();
+            CTX.arc(fb.x, fb.y, fb.radius, 0, Math.PI * 2);
+            CTX.fill();
+            CTX.restore();
+            fb.alpha -= 0.12;
+            if (fb.alpha <= 0) flashbulbs.splice(i, 1);
+        });
+
+        // Sweeping Stadium Spotlights
+        const t = timestamp * 0.0008;
+        const spotX1 = CANVAS.width / 2 + Math.cos(t) * 140;
+        const spotY1 = CANVAS.height / 2 + Math.sin(t * 1.3) * 140;
+        const spotX2 = CANVAS.width / 2 + Math.cos(t * 0.7 + Math.PI) * 150;
+        const spotY2 = CANVAS.height / 2 + Math.sin(t * 0.9 + Math.PI) * 150;
+
+        [ { x: spotX1, y: spotY1, col: 'rgba(255, 204, 0, 0.08)' },
+          { x: spotX2, y: spotY2, col: 'rgba(0, 240, 255, 0.07)' }
+        ].forEach(spot => {
+            CTX.save();
+            const beam = CTX.createRadialGradient(spot.x, spot.y, 10, spot.x, spot.y, 180);
+            beam.addColorStop(0, spot.col);
+            beam.addColorStop(1, 'transparent');
+            CTX.fillStyle = beam;
+            CTX.beginPath();
+            CTX.arc(spot.x, spot.y, 180, 0, Math.PI * 2);
+            CTX.fill();
+            CTX.restore();
+        });
+
+        // 2. Ringside Security Apron & Shadow
+        CTX.save();
+        CTX.fillStyle = 'rgba(0, 0, 0, 0.55)';
+        CTX.fillRect(RING_X - 25, RING_Y - 25, RING_SIZE + 50, RING_SIZE + 50);
+
+        // Ring Mat Platform
+        CTX.fillStyle = '#1c2233';
+        CTX.fillRect(RING_X, RING_Y, RING_SIZE, RING_SIZE);
+
+        // Center Ring Logo
+        CTX.fillStyle = 'rgba(255, 255, 255, 0.04)';
+        CTX.font = "900 64px 'Impact', sans-serif";
+        CTX.textAlign = 'center';
+        CTX.textBaseline = 'middle';
+        CTX.fillText('ROYAL RUMBLE', CANVAS.width / 2, CANVAS.height / 2);
+
+        CTX.font = "800 12px 'JetBrains Mono', monospace";
+        CTX.fillStyle = 'rgba(255, 204, 0, 0.15)';
+        CTX.fillText('MICZ THE MIKE ARENA', CANVAS.width / 2, CANVAS.height / 2 + 42);
+        CTX.restore();
+
+        // 3. Elastic Ring Ropes Drawing
+        // Update rope vibration dampening
+        ropes.forEach(r => {
+            r.flex *= -0.82;
+            if (Math.abs(r.flex) < 0.2) r.flex = 0;
+        });
+
+        const topFlex = ropes[0].flex;
+        const rightFlex = ropes[1].flex;
+        const botFlex = ropes[2].flex;
+        const leftFlex = ropes[3].flex;
+
+        // Draw Multi-layer Ring Ropes with Elastic Quadratic Curves
+        const ropeColors = ['#ff3344', '#ffffff', '#00f0ff']; // Red, White, Blue classic layers
+        ropeColors.forEach((color, layerIdx) => {
+            const inset = layerIdx * 3;
+            CTX.save();
+            CTX.strokeStyle = color;
+            CTX.lineWidth = layerIdx === 0 ? 3.5 : 2.5;
+            CTX.lineCap = 'round';
+            CTX.shadowColor = color;
+            CTX.shadowBlur = layerIdx === 0 ? 6 : 0;
+
+            // Top Rope
+            CTX.beginPath();
+            CTX.moveTo(RING_X + inset, RING_Y + inset);
+            CTX.quadraticCurveTo(RING_X + RING_SIZE / 2, RING_Y + inset - topFlex, RING_X + RING_SIZE - inset, RING_Y + inset);
+            CTX.stroke();
+
+            // Right Rope
+            CTX.beginPath();
+            CTX.moveTo(RING_X + RING_SIZE - inset, RING_Y + inset);
+            CTX.quadraticCurveTo(RING_X + RING_SIZE - inset + rightFlex, RING_Y + RING_SIZE / 2, RING_X + RING_SIZE - inset, RING_Y + RING_SIZE - inset);
+            CTX.stroke();
+
+            // Bottom Rope
+            CTX.beginPath();
+            CTX.moveTo(RING_X + RING_SIZE - inset, RING_Y + RING_SIZE - inset);
+            CTX.quadraticCurveTo(RING_X + RING_SIZE / 2, RING_Y + RING_SIZE - inset + botFlex, RING_X + inset, RING_Y + RING_SIZE - inset);
+            CTX.stroke();
+
+            // Left Rope
+            CTX.beginPath();
+            CTX.moveTo(RING_X + inset, RING_Y + RING_SIZE - inset);
+            CTX.quadraticCurveTo(RING_X + inset - leftFlex, RING_Y + RING_SIZE / 2, RING_X + inset, RING_Y + inset);
+            CTX.stroke();
+
+            CTX.restore();
+        });
+
+        // 4. Steel Ring Posts & Turnbuckles at 4 corners
+        const corners = [
+            { x: RING_X, y: RING_Y, color: '#ff3344' }, // Top-Left
+            { x: RING_X + RING_SIZE, y: RING_Y, color: '#00f0ff' }, // Top-Right
+            { x: RING_X + RING_SIZE, y: RING_Y + RING_SIZE, color: '#ff3344' }, // Bottom-Right
+            { x: RING_X, y: RING_Y + RING_SIZE, color: '#ffcc00' }  // Bottom-Left
+        ];
+
+        corners.forEach(c => {
+            CTX.save();
+            // Steel Base
+            CTX.beginPath();
+            CTX.arc(c.x, c.y, 8, 0, Math.PI * 2);
+            CTX.fillStyle = '#0f172a';
+            CTX.fill();
+            CTX.strokeStyle = '#475569';
+            CTX.lineWidth = 2;
+            CTX.stroke();
+
+            // Turnbuckle Cushion Pad
+            CTX.beginPath();
+            CTX.arc(c.x, c.y, 5, 0, Math.PI * 2);
+            CTX.fillStyle = c.color;
+            CTX.fill();
+            CTX.restore();
+        });
+    }
+
+    /* ==========================================================================
+       6. LEADERBOARD & STATS UPDATE
+       ========================================================================== */
+    function updateLeaderboard() {
+        const sorted = superstars.slice().sort((a, b) => b.eliminations - a.eliminations);
+        const topKillers = sorted.filter(s => s.eliminations > 0).slice(0, 4);
+
+        if (topKillers.length === 0) {
+            leaderboardList.innerHTML = `<div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; padding: 10px;">Eliminations will be tracked in real-time.</div>`;
+            return;
+        }
+
+        leaderboardList.innerHTML = topKillers.map((s, idx) => `
+            <div class="leaderboard-item">
+                <span><strong>#${idx + 1}</strong> ${s.name}</span>
+                <span class="badge"><i class="fa-solid fa-skull"></i> ${s.eliminations} KO${s.eliminations > 1 ? 's' : ''}</span>
+            </div>
+        `).join('');
+    }
+
+    function updateStatsUI(roster) {
+        statCount.textContent = `${superstars.length} Entrants`;
+        statInside.textContent = roster.length;
+        statEliminated.textContent = superstars.filter(s => s.isEliminated).length;
+    }
+
+    /* ==========================================================================
+       7. MATCH LIFECYCLE & TIME LIMIT ELIMINATION
+       ========================================================================== */
+    function startTimeLimitElimination(champ, roster) {
+        if (timeLimitElimination || celebrationActive) return;
+
+        timeLimitElimination = true;
+        matchOver = true;
+        statStatus.textContent = '⏰ Sudden Death';
+        ringStatusText.textContent = 'Time Limit Over: Evicting Remaining Losers';
+
+        roster.forEach(w => {
+            if (w.id !== champ.id) {
+                w.isEliminated = true;
+                w.eliminationTargetX = w.x < RING_X + RING_SIZE / 2 ? RING_X - 80 : RING_X + RING_SIZE + 80;
+                w.eliminationTargetY = w.y;
             }
         });
 
-        stats([champ]);
-        animationId=requestAnimationFrame(loop);
-        return;
+        champ.isEliminated = false;
+        champ.targetX = RING_X + (RING_SIZE / 2);
+        champ.targetY = RING_Y + (RING_SIZE / 2);
+
+        sound.elimination();
+        applyScreenShake(10);
+
+        setTimeout(() => {
+            timeLimitElimination = false;
+            finishMatch(champ, 'time');
+        }, 1400);
     }
 
-    // WINNER WALKING / CELEBRATION MODE
-    if(celebrationActive && celebrationWinner){
-        const w=celebrationWinner;
+    function finishMatch(champ, reason) {
+        matchOver = true;
+        matchActive = true;
+        celebrationActive = true;
+        celebrationWinner = champ;
+        celebrationStart = performance.now();
+        winnerWalking = true;
 
-        // Move the winner toward the exact center of the ring.
-        const dx=w.targetX-w.x;
-        const dy=w.targetY-w.y;
-        const distance=Math.hypot(dx,dy);
+        superstars.forEach(w => {
+            if (w.id !== champ.id) {
+                w.isEliminated = true;
+                w.x = -100;
+                w.y = -100;
+            }
+        });
 
-        if(distance>2){
-            winnerWalking=true;
+        champ.isEliminated = false;
+        champ.targetX = RING_X + (RING_SIZE / 2);
+        champ.targetY = RING_Y + (RING_SIZE / 2);
 
-            // Constant visible walking speed.
-            const speed=Math.min(2.0,Math.max(0.7,distance/12));
-            w.vx=(dx/distance)*speed;
-            w.vy=(dy/distance)*speed;
-            w.x+=w.vx;
-            w.y+=w.vy;
-        }else{
-            w.x=w.targetX;
-            w.y=w.targetY;
-            w.vx=0;
-            w.vy=0;
-            winnerWalking=false;
+        winnerName.textContent = champ.name;
+        winnerSubtext.textContent = reason === 'time'
+            ? `Won by Survival with ${champ.eliminations} Eliminations`
+            : `Last Superstar Standing with ${champ.eliminations} Eliminations`;
+
+        winnerBanner.style.display = 'block';
+
+        if (reason === 'time') {
+            log('⏰ <strong>TIME LIMIT REACHED!</strong>', 'boom');
+            log(`🏆 <strong>${champ.name} WINS BY SURVIVAL!</strong>`, 'win');
+        } else {
+            log(`🏆 <strong>${champ.name} IS THE UNDISPUTED CHAMPION!</strong>`, 'win');
         }
 
-        // Draw celebration effects.
-        for(let i=particles.length-1;i>=0;i--){
+        sound.victory();
+        createBoom(champ.x, champ.y, '#ffd700', 60);
+        applyScreenShake(15);
+
+        // Confetti explosion
+        for (let i = 0; i < 180; i++) {
+            confetti.push(new Confetti(CANVAS.width / 2 + rnd(-50, 50), CANVAS.height * 0.4 + rnd(-20, 20)));
+        }
+
+        timeRemaining = 0;
+        updateTimerDisplay();
+        updateStatsUI([champ]);
+        statStatus.textContent = '🏆 Champion Crowned';
+        ringStatusText.textContent = `Match Ended • Winner: ${champ.name}`;
+        pauseBtn.disabled = true;
+        startBtn.disabled = false;
+        startBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Simulate Again';
+    }
+
+    function setupMatch() {
+        const names = [...new Set(namesInput.value.split(/\r?\n/).map(x => x.trim()).filter(Boolean))];
+        if (names.length < 2) {
+            alert('Please enter at least 2 wrestler names, one per line.');
+            return false;
+        }
+
+        sound.init();
+        sound.bell();
+
+        const mins = Math.max(1, Math.min(60, Number(timeLimitInput.value) || 2));
+        matchTimeLimit = mins * 60;
+        timeRemaining = matchTimeLimit;
+        matchStartTime = performance.now();
+
+        superstars = names.map((n, i) => new Superstar(i + 1, n));
+        particles = [];
+        confetti = [];
+        shockwaves = [];
+        floatingTexts = [];
+        flashbulbs = [];
+
+        celebrationActive = false;
+        celebrationWinner = null;
+        winnerWalking = false;
+        timeLimitElimination = false;
+        matchOver = false;
+        matchActive = true;
+
+        winnerBanner.style.display = 'none';
+        tickerBox.innerHTML = '';
+        statStatus.textContent = 'Live Battle';
+        ringStatusText.textContent = `Live Action • ${superstars.length} Entrants`;
+
+        startBtn.disabled = true;
+        pauseBtn.disabled = false;
+        startBtn.innerHTML = '<i class="fa-solid fa-play"></i> Start Rumble';
+
+        log(`🚀 <strong>ALL ${superstars.length} SUPERSTARS ARE IN THE ARENA!</strong>`, 'win');
+        log(`⏱️ <strong>TIME LIMIT SET TO ${mins} MINUTE${mins === 1 ? '' : 'S'}</strong>`, 'boom');
+
+        updateStatsUI(superstars);
+        updateTimerDisplay();
+        updateLeaderboard();
+        return true;
+    }
+
+    /* ==========================================================================
+       8. MAIN GAME LOOP WITH TIME-STEP SPEED SCALING
+       ========================================================================== */
+    function loop(timestamp) {
+        if (!matchActive) return;
+
+        // Apply and dampen screen shake
+        CTX.save();
+        if (shakeIntensity > 0) {
+            const rx = rnd(-shakeIntensity, shakeIntensity);
+            const ry = rnd(-shakeIntensity, shakeIntensity);
+            CTX.translate(rx, ry);
+            shakeIntensity *= 0.88;
+            if (shakeIntensity < 0.2) shakeIntensity = 0;
+        }
+
+        drawArena(timestamp);
+
+        // Time Limit Eviction Phase
+        if (timeLimitElimination) {
+            updateParticles();
+            const champ = superstars.find(w => !w.isEliminated);
+            superstars.forEach(w => {
+                if (w.id === champ.id) {
+                    w.draw();
+                    return;
+                }
+                const dx = w.eliminationTargetX - w.x;
+                const dy = w.eliminationTargetY - w.y;
+                const d = Math.hypot(dx, dy);
+                if (d > 3) {
+                    w.x += (dx / d) * 4;
+                    w.y += (dy / d) * 4;
+                }
+                w.draw();
+            });
+            updateStatsUI([champ]);
+            CTX.restore();
+            animationId = requestAnimationFrame(loop);
+            return;
+        }
+
+        // Winner Celebration Mode
+        if (celebrationActive && celebrationWinner) {
+            const w = celebrationWinner;
+            const dx = w.targetX - w.x;
+            const dy = w.targetY - w.y;
+            const d = Math.hypot(dx, dy);
+
+            if (d > 2) {
+                const spd = Math.min(2.5, Math.max(0.8, d / 10));
+                w.x += (dx / d) * spd;
+                w.y += (dy / d) * spd;
+            } else {
+                w.x = w.targetX;
+                w.y = w.targetY;
+                winnerWalking = false;
+            }
+
+            updateParticles();
+
+            // Confetti loop
+            for (let i = confetti.length - 1; i >= 0; i--) {
+                confetti[i].update();
+                confetti[i].draw();
+                if (confetti[i].life <= 0 || confetti[i].y > CANVAS.height + 30) confetti.splice(i, 1);
+            }
+
+            if (timestamp - celebrationStart < 2500 && Math.random() < 0.12) {
+                for (let i = 0; i < 25; i++) {
+                    confetti.push(new Confetti(CANVAS.width / 2 + rnd(-60, 60), CANVAS.height * 0.45));
+                }
+            }
+
+            w.draw();
+
+            // Winner Aura & Belt
+            CTX.save();
+            CTX.textAlign = 'center';
+            CTX.font = "900 16px 'Plus Jakarta Sans', sans-serif";
+            CTX.fillStyle = '#ffd700';
+            CTX.shadowColor = '#000';
+            CTX.shadowBlur = 8;
+            CTX.fillText('👑 ROYAL RUMBLE CHAMPION 👑', w.x, w.y - 44);
+            CTX.restore();
+
+            CTX.restore();
+            animationId = requestAnimationFrame(loop);
+            return;
+        }
+
+        // Match Simulation Ticks (scaled by simulationSpeed: 1x, 2x, 3x)
+        const activeRoster = superstars.filter(s => !s.isEliminated);
+
+        for (let step = 0; step < simulationSpeed; step++) {
+            superstars.forEach(s => s.update(activeRoster));
+        }
+
+        // Timer update
+        timeRemaining = Math.max(0, matchTimeLimit - ((timestamp - matchStartTime) / 1000) * simulationSpeed);
+        updateTimerDisplay();
+
+        // Render Superstars
+        superstars.forEach(s => s.draw());
+
+        // Update FX
+        updateParticles();
+        updateStatsUI(activeRoster);
+
+        // Win Condition 1: Last Man Standing
+        if (activeRoster.length === 1) {
+            CTX.restore();
+            finishMatch(activeRoster[0], 'last');
+            return;
+        }
+
+        // Win Condition 2: Time Limit Reached
+        if (timeRemaining <= 0) {
+            const sorted = activeRoster.slice().sort((a, b) => (b.stamina - a.stamina) || (b.eliminations - a.eliminations));
+            CTX.restore();
+            startTimeLimitElimination(sorted[0], activeRoster);
+            return;
+        }
+
+        CTX.restore();
+        animationId = requestAnimationFrame(loop);
+    }
+
+    function updateParticles() {
+        // Shockwaves
+        for (let i = shockwaves.length - 1; i >= 0; i--) {
+            shockwaves[i].update();
+            shockwaves[i].draw();
+            if (shockwaves[i].alpha <= 0) shockwaves.splice(i, 1);
+        }
+
+        // Sparks
+        for (let i = particles.length - 1; i >= 0; i--) {
             particles[i].update();
             particles[i].draw();
-            if(particles[i].a<=0)particles.splice(i,1);
+            if (particles[i].alpha <= 0) particles.splice(i, 1);
         }
 
-        updateConfetti();
-
-        // Only the winner is drawn.
-        w.draw();
-
-        // Winner label appears above the character after reaching center.
-        if(!winnerWalking){
-            CTX.save();
-            CTX.textAlign='center';
-            CTX.font='900 15px Segoe UI,sans-serif';
-            CTX.fillStyle='#ffd700';
-            CTX.shadowColor='#000';
-            CTX.shadowBlur=7;
-            CTX.fillText('🏆 WINNER 🏆',w.x,w.y-42);
-            CTX.restore();
+        // Floating Action Text Popups
+        for (let i = floatingTexts.length - 1; i >= 0; i--) {
+            floatingTexts[i].update();
+            floatingTexts[i].draw();
+            if (floatingTexts[i].alpha <= 0) floatingTexts.splice(i, 1);
         }
-
-        if(ts-celebrationStart<1800 && Math.random()<0.10){
-            launchConfetti();
-        }
-
-        animationId=requestAnimationFrame(loop);
-        return;
     }
 
-    timeRemaining=Math.max(
-        0,
-        MATCH_TIME_LIMIT-((ts-matchStartTime)/1000)
-    );
-    timer();
+    /* Controls Event Listeners */
+    startBtn.addEventListener('click', () => {
+        if (animationId) cancelAnimationFrame(animationId);
+        if (setupMatch()) animationId = requestAnimationFrame(loop);
+    });
 
-    const roster=superstars.filter(s=>!s.isEliminated);
+    pauseBtn.addEventListener('click', () => {
+        if (!matchActive) return;
+        matchActive = false;
+        statStatus.textContent = 'Paused';
+        ringStatusText.textContent = 'Simulation Paused';
+        startBtn.disabled = false;
+        pauseBtn.disabled = true;
+        startBtn.innerHTML = '<i class="fa-solid fa-play"></i> Resume';
+        if (animationId) cancelAnimationFrame(animationId);
+    });
 
-    for(let i=particles.length-1;i>=0;i--){
-        particles[i].update();
-        particles[i].draw();
-        if(particles[i].a<=0)particles.splice(i,1);
-    }
-
-    superstars.forEach(s=>s.update(roster));
-    superstars.forEach(s=>s.draw());
-    stats(roster);
-
-    if(roster.length===1){
-        finish(roster[0],'last');
-        return;
-    }
-
-    if(timeRemaining<=0){
-        const sorted=roster.slice().sort(
-            (x,y)=>(y.stamina-x.stamina)||(y.weight-x.weight)
-        );
-        startTimeLimitElimination(sorted[0], roster);
-        return;
-    }
-
-    animationId=requestAnimationFrame(loop);
-}
-
-startBtn.addEventListener('click',()=>{if(animationId)cancelAnimationFrame(animationId);if(setup())animationId=requestAnimationFrame(loop)});
-pauseBtn.addEventListener('click',()=>{if(!matchActive)return;matchActive=false;statStatus.textContent='Paused';startBtn.disabled=false;pauseBtn.disabled=true;startBtn.textContent='Resume';if(animationId)cancelAnimationFrame(animationId)});
-arena();timer();
-
-    
-    
-    
-    
+    // Initial render
+    drawArena(0);
+    updateTimerDisplay();
     </script>
 </body>
 </html>

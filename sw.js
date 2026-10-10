@@ -1,7 +1,10 @@
-const CACHE_NAME = 'miczthemike-v2';
+const CACHE_NAME = 'miczthemike-v3';
 const PRECACHE_ASSETS = [
     '/',
     '/index.html',
+    '/bugbugan.html',
+    '/herzrace.html',
+    '/spinthewheel.html',
     '/manifest.json',
     '/miczthemike.ico',
     '/apple-touch-icon.png',
