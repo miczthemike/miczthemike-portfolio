@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spin the Wheel - MicztheMike</title>
+    <link rel="icon" href="miczthemike.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
@@ -39,7 +41,7 @@
         }
 
         .header {
-            margin-top: 20px;
+            margin-top: 5px;
             text-align: center;
         }
 
@@ -247,7 +249,96 @@
             bottom: 10px;
             right: 15px;
             font-size: 0.75rem;
-            opacity: 0.6;
+            opacity: 0.75;
+            background: rgba(0, 0, 20, 0.6);
+            padding: 4px 10px;
+            border-radius: 12px;
+            backdrop-filter: blur(4px);
+        }
+
+        .attribution a {
+            transition: color 0.2s;
+        }
+
+        .attribution a:hover {
+            color: #ffffff !important;
+            text-decoration: underline !important;
+        }
+
+        .top-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+
+        .nav-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: rgba(255, 255, 255, 0.85);
+            background: var(--glass-bg);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s ease;
+        }
+
+        .nav-back-link:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.22);
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .play-store-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(6, 95, 70, 0.4));
+            border: 1px solid rgba(52, 211, 153, 0.55);
+            padding: 7px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        .play-store-pill:hover {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.4), rgba(6, 95, 70, 0.55));
+            border-color: #34d399;
+            box-shadow: 0 4px 16px rgba(52, 211, 153, 0.4);
+            transform: translateY(-1px);
+            color: #ffffff;
+        }
+
+        .menu-row .icon-btn.play-btn {
+            color: #34d399;
+            border-color: rgba(52, 211, 153, 0.4);
+            text-decoration: none;
+        }
+
+        .menu-row .icon-btn.play-btn:hover {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: #34d399;
+        }
+
+        @media (max-width: 480px) {
+            .top-bar { padding: 8px 12px; }
+            .play-store-pill { padding: 6px 11px; }
+            .play-store-pill span { font-size: 0.78rem; }
+            .title { font-size: 1.9rem; }
+            .attribution { font-size: 0.7rem; right: 8px; bottom: 6px; }
         }
 
         .checkbox-label {
@@ -268,6 +359,15 @@
 <body>
 
     <canvas id="particle-bg"></canvas>
+
+    <header class="top-bar">
+        <a href="index.html" class="nav-back-link" title="Back to Portfolio">
+            <i class="fa-solid fa-arrow-left"></i> <span>Portfolio</span>
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=com.miczthemike.spinthewheel&amp;pcampaignid=web_share" target="_blank" rel="noopener" class="play-store-pill" title="Install Spin the Wheel on Google Play">
+            <i class="fa-brands fa-google-play" style="color: #34d399; font-size: 1rem;"></i> <span>Install on Google Play</span>
+        </a>
+    </header>
 
     <div class="header">
         <h1 class="title" id="mainTitle">SPIN & WIN</h1>
@@ -290,10 +390,19 @@
             <button class="icon-btn" onclick="openModal('namesModal')" title="Customise Wheel">📝</button>
             <button class="icon-btn" onclick="openModal('settingsModal')" title="Settings">⚙️</button>
             <button class="icon-btn" id="soundToggleBtn" onclick="toggleSound()" title="Sound On/Off">🔊</button>
+            <a href="https://play.google.com/store/apps/details?id=com.miczthemike.spinthewheel&amp;pcampaignid=web_share" target="_blank" rel="noopener" class="icon-btn play-btn" title="Install Spin the Wheel on Google Play">
+                <i class="fa-brands fa-google-play"></i>
+            </a>
         </div>
     </div>
 
-    <div class="attribution">Created by MicztheMike</div>
+    <div class="attribution">
+        Created by MicztheMike &bull; 
+        <a href="https://play.google.com/store/apps/details?id=com.miczthemike.spinthewheel&amp;pcampaignid=web_share" target="_blank" rel="noopener" style="color: #ffd700; text-decoration: none;">
+            <i class="fa-brands fa-google-play"></i> Google Play
+        </a> &bull; 
+        <a href="privacy.html" style="color: #cbd5e1; text-decoration: none;">Privacy</a>
+    </div>
 
     <!-- Names Modal -->
     <div id="namesModal" class="modal">
@@ -360,6 +469,19 @@ Prize 6</textarea>
             </div>
             <button class="spin-btn" style="width:100%;" onclick="saveSettings()">Save Changes</button>
             <button style="width:100%; margin-top:10px; background:transparent; border:1px solid #ff4444; color:#ff4444; padding:8px; border-radius:25px; cursor:pointer;" onclick="resetDefaults()">Reset to Defaults</button>
+            <div class="form-group" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.12);">
+                <label style="margin-bottom: 8px; font-weight: 600; color: #e2e8f0;">Official Android App</label>
+                <a href="https://play.google.com/store/apps/details?id=com.miczthemike.spinthewheel&amp;pcampaignid=web_share" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 12px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(52, 211, 153, 0.4); padding: 10px 16px; border-radius: 12px; color: #ffffff; text-decoration: none; transition: 0.2s;">
+                    <i class="fa-brands fa-google-play" style="font-size: 1.8rem; color: #34d399;"></i>
+                    <div>
+                        <div style="font-size: 0.72rem; text-transform: uppercase; opacity: 0.8; letter-spacing: 0.5px;">Get it on</div>
+                        <div style="font-size: 1.05rem; font-weight: bold; color: #fff;">Google Play</div>
+                    </div>
+                </a>
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+                <a href="privacy.html" target="_blank" style="color: #94a3b8; font-size: 0.8rem; text-decoration: underline;">App Privacy Policy</a>
+            </div>
         </div>
     </div>
 

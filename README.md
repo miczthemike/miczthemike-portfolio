@@ -25,7 +25,7 @@
 - **🎮 Developed Software & Web Showcase**:
   - **HerzGang Race** (`herzrace.html`): 100-racer responsive HTML5 canvas web game with custom avatars.
   - **Hospitality TV App Launcher**: Specialized Android TV guest portal tailored for PROXY Plus by The Oriental Pangasinan.
-  - **Spin & Win**: Physics-based interactive prize wheel (`spinthewheel.html`).
+  - **Spin & Win**: Physics-based interactive prize wheel ([Web App](spinthewheel.html)) — also published on [Google Play](https://play.google.com/store/apps/details?id=com.miczthemike.spinthewheel&pcampaignid=web_share).
   - **Royal Rumble Extreme**: Real-time battle royale elimination simulation (`bugbugan.html`).
 
 - **✨ Production-Ready GitHub Pages Setup**:
