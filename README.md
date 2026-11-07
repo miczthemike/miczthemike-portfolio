@@ -27,6 +27,7 @@
   - **Hospitality TV App Launcher**: Specialized Android TV guest portal tailored for PROXY Plus by The Oriental Pangasinan.
   - **PROXY Plus Centralized Digital Signage System**: Android TV player for centrally managed, device-specific image and video playlists with playback heartbeats.
   - **PROXY Plus IT Inventory & Equipment Tracker**: Node.js and Express app for consumable inventory and requests, equipment deployments and returns, maintenance, role-based access, live updates, and reporting ([GitHub repository](https://github.com/miczthemike/inventoryandtracker)).
+  - **HandyMen — Home Services Marketplace** *(Ongoing)*: Android marketplace connecting customers with nearby home-service professionals such as plumbers, electricians, carpenters, cleaners, and general helpers. Customers can submit location-based job requests with details and optional photos, coordinate through in-app chat, and arrange payment directly with providers. Providers manage skill profiles and bookings, while map-based discovery, ratings, document review, and admin approval and support tools help manage the service lifecycle. Its backend is deployed on Google Cloud.
   - **Spin & Win**: Physics-based interactive prize wheel ([Web App](spinthewheel.html)) — also published on [Google Play](https://play.google.com/store/apps/details?id=com.miczthemike.spinthewheel&pcampaignid=web_share).
   - **Royal Rumble Extreme**: Real-time battle royale elimination simulation (`bugbugan.html`).
 
