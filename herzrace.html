@@ -140,6 +140,9 @@
 </div>
 
 <script>
+  var MAX_PLAYERS = 100;
+  var MAX_NAME_LENGTH = 40;
+
   var game = {
     mode: 'laps', 
     orientation: 'portrait',
@@ -173,7 +176,7 @@
   };
 
   game.activeGifs = game.allGifs.slice();
-  for (var i = 0; i < 100; i++) game.playerNames.push("Player " + (i + 1));
+  for (var i = 0; i < MAX_PLAYERS; i++) game.playerNames.push("Player " + (i + 1));
 
   game.init = function() {
     var modeSelect = document.getElementById('mode-select');
@@ -275,10 +278,10 @@
   game.startRace = function() {
     var self = this;
     self.setActive('loading-screen');
-    var startTime = Date.now();
+    var startTime = performance.now();
     if (self.activeGifs.length === 0) self.activeGifs = self.allGifs.slice();
     self.preloadAll(function() {
-        var elapsed = Date.now() - startTime;
+        var elapsed = performance.now() - startTime;
         var remaining = 5000 - elapsed;
         setTimeout(function() {
             self.setActive('racing');
@@ -337,7 +340,7 @@
                 cd.innerText = "";
                 clearInterval(timer);
                 self.raceActive = true;
-                self.lastTime = Date.now();
+                self.lastTime = performance.now();
                 self.loop();
               }
             }, 1000);
@@ -357,8 +360,9 @@
 
   game.loop = function() {
     if (!this.raceActive) return;
-    var now = Date.now();
-    var dt = (now - this.lastTime) / 1000;
+    var now = performance.now();
+    var dt = Math.max(0, (now - this.lastTime) / 1000);
+    var frameScale = Math.min(dt, 0.05) * 60;
     this.lastTime = now;
     this.frameCounter++;
     
@@ -377,7 +381,7 @@
     }
 
     var activeBoostCount = this.racers.filter(r => !r.finished && r.boostCountdown > 0).length;
-    if (activeBoostCount < 3 && now > this.nextBoostTime && Math.random() < 0.03) { 
+    if (activeBoostCount < 3 && now > this.nextBoostTime && Math.random() < 1 - Math.pow(0.97, dt * 60)) {
         var eligible = this.racers.filter(r => !r.finished && r.boostCountdown <= 0);
         if (eligible.length > 0) {
             eligible.sort(function(a, b) { return a.x - b.x; });
@@ -393,9 +397,9 @@
       var r = this.racers[i];
       if (!r.finished) {
           allDone = false; 
-          if (Math.random() < 0.02) r.speed = 0.8 + Math.random() * 1.1;
-          if (r.boostCountdown > 0) { r.boostCountdown -= dt; r.x += r.speed * 1.3; r.dom.classList.add('boosted-racer'); }
-          else { r.x += r.speed; r.dom.classList.remove('boosted-racer'); }
+          if (Math.random() < 1 - Math.pow(0.98, frameScale)) r.speed = 0.8 + Math.random() * 1.1;
+          if (r.boostCountdown > 0) { r.boostCountdown -= dt; r.x += r.speed * 1.3 * frameScale; r.dom.classList.add('boosted-racer'); }
+          else { r.x += r.speed * frameScale; r.dom.classList.remove('boosted-racer'); }
           if (this.mode === 'laps' && r.x >= this.finishX) { r.x = this.finishX; r.finished = true; r.rank = this.finishRank++; r.dom.classList.remove('boosted-racer'); }
       }
       if (r.x > maxRacerX) maxRacerX = r.x;
@@ -420,7 +424,15 @@
             if (game.mode === 'laps') { if (a.finished && b.finished) return a.rank - b.rank; if (a.finished) return -1; if (b.finished) return 1; }
             return b.x - a.x; 
         }).slice(0, 5);
-        document.getElementById('leaderboard').innerHTML = "<b>RANKINGS</b><br>" + sorted.map(function(r, i) { return (i==0?'🥇 ':i==1?'🥈 ':i==2?'🥉 ':i+1+'. ') + r.name; }).join('<br>');
+        var leaderboard = document.getElementById('leaderboard');
+        var heading = document.createElement('b');
+        heading.textContent = 'RANKINGS';
+        leaderboard.replaceChildren(heading, document.createElement('br'));
+        sorted.forEach(function(r, i) {
+            var entry = document.createElement('div');
+            entry.textContent = (i === 0 ? '🥇 ' : i === 1 ? '🥈 ' : i === 2 ? '🥉 ' : (i + 1) + '. ') + r.name;
+            leaderboard.appendChild(entry);
+        });
     }
 
     if (this.mode === 'laps' && allDone) {
@@ -440,15 +452,19 @@
   document.getElementById('btn-back-menu').onclick = function() { 
     var ta = document.getElementById('names-input');
     var lines = ta.value.split('\n').map(function(n) { return n.trim(); }).filter(function(n) { return n !== ''; });
-    if (lines.length > 0) {
-      game.playerCount = lines.length;
-      document.getElementById('p-count').innerText = game.playerCount;
-      var slider = document.getElementById('p-slider');
-      if (game.playerCount > parseInt(slider.max)) slider.max = game.playerCount;
-      slider.value = game.playerCount;
-      game.playerNames = lines;
-      for (var i = game.playerNames.length; i < Math.max(100, game.playerCount + 50); i++) game.playerNames.push("Player " + (i + 1));
+    if (lines.length < 2 || lines.length > MAX_PLAYERS) {
+      alert('Please enter between 2 and ' + MAX_PLAYERS + ' player names.');
+      return;
     }
+    if (lines.some(function(name) { return name.length > MAX_NAME_LENGTH; })) {
+      alert('Player names must be ' + MAX_NAME_LENGTH + ' characters or fewer.');
+      return;
+    }
+    game.playerCount = lines.length;
+    document.getElementById('p-count').innerText = game.playerCount;
+    document.getElementById('p-slider').value = game.playerCount;
+    game.playerNames = lines;
+    for (var i = game.playerNames.length; i < MAX_PLAYERS; i++) game.playerNames.push("Player " + (i + 1));
     var checkboxes = document.querySelectorAll('.char-checkbox');
     game.activeGifs = [];
     checkboxes.forEach(function(cb) { if (cb.checked) game.activeGifs.push(cb.value); });
