@@ -865,7 +865,7 @@ Prize 6</textarea>
             </div>
             <div class="form-group">
                 <label for="durationEdit">Duration (seconds)</label>
-                <input type="number" id="durationEdit" value="5" min="1" max="20" step="0.5">
+                <input type="number" id="durationEdit" value="5" min="1" max="120" step="0.5">
             </div>
             <div class="form-group">
                 <label for="logoUpload">Custom Center Logo</label>
@@ -904,6 +904,11 @@ Prize 6</textarea>
     <script>
         const canvas = document.getElementById('wheelCanvas');
         const ctx = canvas.getContext('2d');
+        const wheelArtwork = document.createElement('canvas');
+        wheelArtwork.width = canvas.width;
+        wheelArtwork.height = canvas.height;
+        const wheelArtworkCtx = wheelArtwork.getContext('2d');
+        let wheelArtworkDirty = true;
         const spinBtn = document.getElementById('spinBtn');
         const pointerEl = document.getElementById('pointer');
 
@@ -915,6 +920,7 @@ Prize 6</textarea>
         let soundEnabled = true;
         const MAX_ENTRIES = 100;
         const MAX_ENTRY_LENGTH = 40;
+        const MAX_SPIN_DURATION_SECONDS = 120;
         const defaultNames = ["Prize 1", "Prize 2", "Prize 3", "Prize 4", "Prize 5", "Prize 6"];
 
         // Settings config
@@ -975,7 +981,7 @@ Prize 6</textarea>
 
             // Sync UI elements with loaded state
             names = names.slice(0, MAX_ENTRIES);
-            config.duration = Math.max(1, Math.min(20, Number(config.duration) || 5));
+            config.duration = Math.max(1, Math.min(MAX_SPIN_DURATION_SECONDS, Number(config.duration) || 5));
             if (!wheelThemes[config.theme]) config.theme = "aurora";
             document.getElementById('namesInput').value = names.join('\n');
             document.getElementById('themeSelect').value = config.theme;
@@ -1111,50 +1117,54 @@ Prize 6</textarea>
             const numSegments = Math.max(1, names.length);
             const segmentAngle = (2 * Math.PI) / numSegments;
             const radius = canvas.width / 2;
-            const palette = wheelThemes[config.theme] || wheelThemes.aurora;
+            if (wheelArtworkDirty) {
+                const palette = wheelThemes[config.theme] || wheelThemes.aurora;
+                wheelArtworkCtx.clearRect(0, 0, wheelArtwork.width, wheelArtwork.height);
+                wheelArtworkCtx.save();
+                wheelArtworkCtx.translate(radius, radius);
+
+                for (let i = 0; i < numSegments; i++) {
+                    wheelArtworkCtx.beginPath();
+                    wheelArtworkCtx.moveTo(0, 0);
+                    wheelArtworkCtx.arc(0, 0, radius, i * segmentAngle, (i + 1) * segmentAngle);
+                    wheelArtworkCtx.fillStyle = palette[i % palette.length];
+                    wheelArtworkCtx.fill();
+                    wheelArtworkCtx.strokeStyle = 'rgba(0,0,0,0.15)';
+                    wheelArtworkCtx.lineWidth = 2;
+                    wheelArtworkCtx.stroke();
+
+                    wheelArtworkCtx.save();
+                    wheelArtworkCtx.rotate(i * segmentAngle + segmentAngle / 2);
+                    wheelArtworkCtx.fillStyle = 'white';
+                    const fontSize = Math.max(12, Math.min(32, 280 / numSegments));
+                    wheelArtworkCtx.font = `bold ${fontSize}px sans-serif`;
+                    wheelArtworkCtx.textAlign = 'right';
+                    wheelArtworkCtx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+                    wheelArtworkCtx.shadowBlur = 4;
+                    wheelArtworkCtx.shadowOffsetX = 1;
+                    wheelArtworkCtx.shadowOffsetY = 1;
+
+                    let text = names[i] || "";
+                    if (text.length > 20) text = text.substring(0, 18) + "..";
+                    wheelArtworkCtx.fillText(text, radius - 40, fontSize / 3);
+                    wheelArtworkCtx.restore();
+                }
+
+                wheelArtworkCtx.restore();
+                wheelArtworkCtx.beginPath();
+                wheelArtworkCtx.arc(radius, radius, radius - 6, 0, Math.PI * 2);
+                wheelArtworkCtx.strokeStyle = '#d9fbff';
+                wheelArtworkCtx.lineWidth = 10;
+                wheelArtworkCtx.stroke();
+                wheelArtworkDirty = false;
+            }
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.save();
             ctx.translate(radius, radius);
             ctx.rotate(currentRotation);
-
-            for (let i = 0; i < numSegments; i++) {
-                ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.arc(0, 0, radius, i * segmentAngle, (i + 1) * segmentAngle);
-                ctx.fillStyle = palette[i % palette.length];
-                ctx.fill();
-                ctx.strokeStyle = 'rgba(0,0,0,0.15)';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                // Draw Text
-                ctx.save();
-                ctx.rotate(i * segmentAngle + segmentAngle / 2);
-                ctx.fillStyle = 'white';
-                const fontSize = Math.max(12, Math.min(32, 280 / numSegments));
-                ctx.font = `bold ${fontSize}px sans-serif`;
-                ctx.textAlign = 'right';
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
-                ctx.shadowBlur = 4;
-                ctx.shadowOffsetX = 1;
-                ctx.shadowOffsetY = 1;
-
-                // Truncate text if too long
-                let text = names[i] || "";
-                if (text.length > 20) text = text.substring(0, 18) + "..";
-                ctx.fillText(text, radius - 40, fontSize / 3);
-                ctx.restore();
-            }
-
+            ctx.drawImage(wheelArtwork, -radius, -radius);
             ctx.restore();
-
-            // Outer border
-            ctx.beginPath();
-            ctx.arc(radius, radius, radius - 6, 0, Math.PI * 2);
-            ctx.strokeStyle = '#d9fbff';
-            ctx.lineWidth = 10;
-            ctx.stroke();
         }
 
         // --- Spin Handler ---
@@ -1168,9 +1178,15 @@ Prize 6</textarea>
             const numSegments = names.length;
             const segmentAngle = (2 * Math.PI) / numSegments;
             const durationSeconds = config.duration;
-            const extraSpins = Math.max(3, durationSeconds * 2.5);
+            const decelerationPower = 3;
+            const maxStartSpeed = 8;
+            const desiredStartSpeed = Math.min(maxStartSpeed - decelerationPower / durationSeconds, 0.3 + durationSeconds * 0.08);
+            const maxRotation = maxStartSpeed * durationSeconds * (2 * Math.PI) / decelerationPower;
+            const plannedRotation = desiredStartSpeed * durationSeconds * (2 * Math.PI) / decelerationPower;
+            const randomRotation = Math.random() * Math.min(2 * Math.PI, maxRotation - plannedRotation);
+            const totalRotation = plannedRotation + randomRotation;
             const startRotation = currentRotation;
-            const targetRotation = startRotation + (extraSpins * Math.PI * 2) + (Math.random() * Math.PI * 2);
+            const targetRotation = startRotation + totalRotation;
             const start = performance.now();
             const duration = durationSeconds * 1000;
 
@@ -1179,8 +1195,7 @@ Prize 6</textarea>
             function animate(time) {
                 const elapsed = time - start;
                 const t = Math.min(elapsed / duration, 1);
-                // Cubic easing out
-                const easeOut = 1 - Math.pow(1 - t, 3);
+                const easeOut = 1 - Math.pow(1 - t, decelerationPower);
 
                 currentRotation = startRotation + (targetRotation - startRotation) * easeOut;
 
@@ -1238,6 +1253,7 @@ Prize 6</textarea>
             document.getElementById('namesInput').value = names.join('\n');
             updateEntryCount();
             saveState();
+            wheelArtworkDirty = true;
             drawWheel();
             closeModal('winnerModal');
             showWheelMessage('Winner removed');
@@ -1250,6 +1266,7 @@ Prize 6</textarea>
             if (!validateEntries(entries)) return;
             names = entries;
             saveState();
+            wheelArtworkDirty = true;
             drawWheel();
             closeModal('namesModal');
             showWheelMessage('Wheel entries updated');
@@ -1262,6 +1279,7 @@ Prize 6</textarea>
             updateEntryCount();
             document.getElementById('entryError').textContent = '';
             saveState();
+            wheelArtworkDirty = true;
             drawWheel();
             showWheelMessage('Preset loaded');
         }
@@ -1313,7 +1331,7 @@ Prize 6</textarea>
             config.btnText = document.getElementById('btnEdit').value.trim() || "SPIN NOW";
             config.title = config.title.slice(0, 40);
             config.btnText = config.btnText.slice(0, 24);
-            config.duration = Math.max(1, Math.min(20, parseFloat(document.getElementById('durationEdit').value) || 5));
+            config.duration = Math.max(1, Math.min(MAX_SPIN_DURATION_SECONDS, parseFloat(document.getElementById('durationEdit').value) || 5));
             config.raffle = document.getElementById('raffleMode').checked;
             config.sound = document.getElementById('soundFxToggle').checked;
             config.theme = wheelThemes[document.getElementById('themeSelect').value] ? document.getElementById('themeSelect').value : 'aurora';
@@ -1324,6 +1342,7 @@ Prize 6</textarea>
             updateSoundIcon();
 
             saveState();
+            wheelArtworkDirty = true;
             drawWheel();
             closeModal('settingsModal');
             showWheelMessage('Design saved');
