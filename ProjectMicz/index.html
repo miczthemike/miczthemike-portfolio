@@ -426,6 +426,7 @@
       .floating-chat-widget { bottom: 18px; right: 18px; }
       .chat-trigger-btn { width: 54px; height: 54px; }
       .chat-option-icon { width: 44px; height: 44px; }
+      .chat-tooltip { display: none !important; }
     }
 
   </style>
@@ -598,6 +599,43 @@
     </div>
   </footer>
 
+  <!-- Floating Contact Widget (Messenger & Telegram) -->
+  <div class="floating-chat-widget" id="floatingChatWidget">
+    <div class="chat-options" id="chatOptions" aria-hidden="true">
+      <a href="https://m.me/111267844957044" target="_blank" rel="noopener noreferrer" class="chat-option messenger-btn" aria-label="Message Micz Corner on Facebook Messenger">
+        <span class="chat-option-label">Messenger</span>
+        <span class="chat-option-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.915 1.453 5.518 3.734 7.207v3.535l3.39-1.862c.905.251 1.867.387 2.876.387 5.523 0 10-4.145 10-9.258C22 6.145 17.523 2 12 2zm1.066 12.443l-2.613-2.787-5.097 2.787 5.607-5.952 2.68 2.787 5.03-2.787-5.607 5.952z"/>
+          </svg>
+        </span>
+      </a>
+      <a href="https://t.me/miczthemike" target="_blank" rel="noopener noreferrer" class="chat-option telegram-btn" aria-label="Message Micz Corner on Telegram">
+        <span class="chat-option-label">Telegram</span>
+        <span class="chat-option-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+          </svg>
+        </span>
+      </a>
+    </div>
+    <button type="button" class="chat-trigger-btn" id="chatTriggerBtn" onclick="toggleChatWidget(event)" aria-expanded="false" aria-label="Toggle contact options">
+      <span class="chat-badge" aria-hidden="true">1</span>
+      <span class="icon-open" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+      </span>
+      <span class="icon-close" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </span>
+    </button>
+    <div class="chat-tooltip" id="chatTooltip">Chat with Micz Corner!</div>
+  </div>
+
   <script>
     const filterButtons = [...document.querySelectorAll(".filter-button")];
     const demoCards = [...document.querySelectorAll(".demo-card")];
@@ -658,62 +696,32 @@
     }
 
     // Floating Chat Widget Toggle
-    const chatWidget = document.querySelector("#floatingChatWidget");
-    const chatTrigger = document.querySelector("#chatTriggerBtn");
-    const chatOptions = document.querySelector("#chatOptions");
+    window.toggleChatWidget = function(event) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      const widget = document.getElementById("floatingChatWidget");
+      const trigger = document.getElementById("chatTriggerBtn");
+      const options = document.getElementById("chatOptions");
+      if (!widget) return;
 
-    if (chatTrigger && chatWidget) {
-      chatTrigger.addEventListener("click", () => {
-        const isOpen = chatWidget.classList.toggle("is-open");
-        chatTrigger.setAttribute("aria-expanded", String(isOpen));
-        chatOptions.setAttribute("aria-hidden", String(!isOpen));
-      });
+      const isOpen = widget.classList.toggle("is-open");
+      if (trigger) trigger.setAttribute("aria-expanded", String(isOpen));
+      if (options) options.setAttribute("aria-hidden", String(!isOpen));
+    };
 
-      document.addEventListener("click", (e) => {
-        if (!chatWidget.contains(e.target) && chatWidget.classList.contains("is-open")) {
-          chatWidget.classList.remove("is-open");
-          chatTrigger.setAttribute("aria-expanded", "false");
-          chatOptions.setAttribute("aria-hidden", "true");
-        }
-      });
-    }
+    // Close when tapping / clicking outside
+    document.addEventListener("click", function(event) {
+      const widget = document.getElementById("floatingChatWidget");
+      if (widget && widget.classList.contains("is-open") && !widget.contains(event.target)) {
+        widget.classList.remove("is-open");
+        const trigger = document.getElementById("chatTriggerBtn");
+        const options = document.getElementById("chatOptions");
+        if (trigger) trigger.setAttribute("aria-expanded", "false");
+        if (options) options.setAttribute("aria-hidden", "true");
+      }
+    });
   </script>
-  <!-- Floating Contact Widget (Messenger & Telegram) -->
-  <div class="floating-chat-widget" id="floatingChatWidget">
-    <div class="chat-options" id="chatOptions" aria-hidden="true">
-      <a href="https://m.me/111267844957044" target="_blank" rel="noopener noreferrer" class="chat-option messenger-btn" aria-label="Message Micz Corner on Facebook Messenger">
-        <span class="chat-option-label">Messenger</span>
-        <span class="chat-option-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-            <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.915 1.453 5.518 3.734 7.207v3.535l3.39-1.862c.905.251 1.867.387 2.876.387 5.523 0 10-4.145 10-9.258C22 6.145 17.523 2 12 2zm1.066 12.443l-2.613-2.787-5.097 2.787 5.607-5.952 2.68 2.787 5.03-2.787-5.607 5.952z"/>
-          </svg>
-        </span>
-      </a>
-      <a href="https://t.me/miczthemike" target="_blank" rel="noopener noreferrer" class="chat-option telegram-btn" aria-label="Message Micz Corner on Telegram">
-        <span class="chat-option-label">Telegram</span>
-        <span class="chat-option-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-          </svg>
-        </span>
-      </a>
-    </div>
-    <button type="button" class="chat-trigger-btn" id="chatTriggerBtn" aria-expanded="false" aria-label="Toggle contact options">
-      <span class="chat-badge" aria-hidden="true">1</span>
-      <span class="icon-open" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-        </svg>
-      </span>
-      <span class="icon-close" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </span>
-    </button>
-    <div class="chat-tooltip" id="chatTooltip">Chat with Micz Corner!</div>
-  </div>
-
 </body>
 </html>
