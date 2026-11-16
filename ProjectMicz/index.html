@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#061309">
+  <meta name="description" content="Explore website concepts made for Alaminos City businesses by Micz Corner IT Solutions. Discover hospitality, restaurant, and clinic demos inspired by the Hundred Islands.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Micz Corner — Local business, beautifully online">
+  <meta property="og:description" content="Explore website concepts for Alaminos City businesses, inspired by the Hundred Islands.">
+  <title>Micz Corner | Alaminos Business Website Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #102114;
+      --muted: #647468;
+      --sea: #176f19;
+      --sea-deep: #061309;
+      --coral: #e43c2e;
+      --sand: #f0f3ed;
+      --paper: #fbfcf9;
+      --line: rgba(16, 43, 21, .13);
+      --shadow: 0 24px 70px rgba(9, 41, 12, .13);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "DM Sans", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .skip-link {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 20;
+      transform: translateY(-160%);
+      border-radius: 8px;
+      background: white;
+      padding: 12px 16px;
+      color: var(--ink);
+    }
+    .skip-link:focus { transform: translateY(0); }
+    .wrap { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      background: rgba(6, 19, 9, .97);
+      color: white;
+      backdrop-filter: blur(14px);
+    }
+    .nav-row { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; }
+    .brand-mark {
+      display: block;
+      width: 58px;
+      height: 48px;
+      object-fit: contain;
+    }
+    .brand-name { display: grid; gap: 1px; font-family: "Manrope", sans-serif; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .brand-name small { color: #83d978; font-family: "DM Sans", sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 30px; }
+    .nav-links a { color: #e0e9e5; font-size: 13px; font-weight: 600; text-decoration: none; transition: color .2s ease; }
+    .nav-links a:hover { color: #6cf442; }
+    .nav-links .nav-cta { padding: 11px 16px; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; }
+    .menu-toggle { display: none; border: 1px solid rgba(255,255,255,.27); border-radius: 10px; background: transparent; color: white; padding: 9px 12px; cursor: pointer; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 71% 21%, rgba(56, 230, 42, .17), transparent 34%),
+        linear-gradient(118deg, #061309 2%, #0b2110 55%, #12361a 100%);
+      color: white;
+    }
+    .hero::before, .hero::after { position: absolute; pointer-events: none; content: ""; }
+    .hero::before {
+      inset: auto -6% -182px 32%;
+      height: 340px;
+      border: 1px solid rgba(115, 244, 83, .14);
+      border-radius: 50%;
+      box-shadow: 0 -18px 0 rgba(115,244,83,.025), 0 -38px 0 rgba(115,244,83,.025), 0 -60px 0 rgba(115,244,83,.022);
+      transform: rotate(-7deg);
+    }
+    .hero::after {
+      top: 48px;
+      right: 12%;
+      width: 170px;
+      height: 170px;
+      border: 1px solid rgba(108, 244, 66, .16);
+      border-radius: 50%;
+      box-shadow: 0 0 0 18px rgba(108, 244, 66, .025), 0 0 0 37px rgba(108, 244, 66, .018);
+    }
+    .hero-grid { position: relative; z-index: 1; display: grid; min-height: 560px; grid-template-columns: 1.08fr .92fr; align-items: center; gap: 54px; padding-block: 74px 82px; }
+    .eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 20px; color: #7bf05a; font-size: 11px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
+    .eyebrow::before { width: 25px; height: 1px; background: currentColor; content: ""; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { font-family: "Manrope", sans-serif; }
+    h1 { max-width: 650px; margin-bottom: 20px; font-size: clamp(42px, 5.4vw, 70px); font-weight: 600; letter-spacing: -.065em; line-height: 1.04; }
+    h1 em { color: #69e94a; font-style: normal; }
+    .hero-copy > p:not(.eyebrow) { max-width: 505px; margin-bottom: 28px; color: #d1e0dc; font-size: 16px; line-height: 1.8; }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 13px; }
+    .button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 10px; border: 1px solid transparent; border-radius: 999px; padding: 0 21px; font-size: 13px; font-weight: 700; text-decoration: none; transition: transform .2s ease, background .2s ease, border-color .2s ease; }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { background: #64e443; color: #071509; }
+    .button-primary:hover { background: #82f064; }
+    .button-quiet { border-color: rgba(255,255,255,.31); color: white; }
+    .button-quiet:hover { border-color: rgba(255,255,255,.68); background: rgba(255,255,255,.08); }
+    .hero-note { display: flex; align-items: center; gap: 10px; margin-top: 30px; color: #b6c8b7; font-size: 12px; }
+    .hero-note strong { color: white; }
+    .hero-note .dot { width: 6px; height: 6px; border-radius: 50%; background: #64e443; box-shadow: 0 0 12px rgba(100,228,67,.7); }
+
+    .island-scene {
+      position: relative;
+      min-height: 350px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 48% 48% 24px 24px;
+      background: #87c6bd;
+      box-shadow: 0 32px 80px rgba(4, 12, 4, .38), 0 0 34px rgba(61,223,45,.1);
+    }
+    .island-scene img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .island-scene::after { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,44,47,.02) 25%, rgba(10,44,47,.7) 100%); content: ""; }
+    .island-label { position: absolute; z-index: 1; right: 22px; bottom: 23px; left: 24px; display: flex; align-items: end; justify-content: space-between; gap: 14px; color: white; }
+    .island-label span { display: block; color: #d6e8df; font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+    .island-label strong { display: block; margin-top: 4px; font-family: "Manrope", sans-serif; font-size: 23px; letter-spacing: -.04em; }
+    .island-stamp { display: grid; width: 62px; height: 62px; flex: 0 0 62px; place-items: center; border: 1px solid rgba(255,255,255,.7); border-radius: 50%; color: white; font-size: 9px; font-weight: 700; line-height: 1.25; text-align: center; transform: rotate(9deg); }
+    .hero-photo-credit { position: absolute; z-index: 2; right: 10px; bottom: 6px; color: rgba(255,255,255,.76); font-size: 8px; text-decoration: none; }
+
+    .trust-strip { border-bottom: 1px solid var(--line); background: var(--sand); }
+    .trust-row { display: flex; min-height: 80px; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; }
+    .trust-intro { color: var(--muted); font-size: 12px; }
+    .trust-items { display: flex; flex-wrap: wrap; gap: 10px; }
+    .trust-items span { display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(16,43,21,.1); border-radius: 999px; background: rgba(255,255,255,.68); padding: 8px 12px; color: #29452d; font-size: 11px; font-weight: 600; }
+    .trust-items b { color: var(--sea); font-size: 12px; }
+
+    .section { padding-block: 92px; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 31px; }
+    .section-heading-copy { max-width: 620px; }
+    .section-kicker { margin-bottom: 10px; color: var(--sea); font-size: 10px; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
+    h2 { margin-bottom: 10px; font-size: clamp(30px, 4vw, 44px); font-weight: 600; letter-spacing: -.055em; line-height: 1.13; }
+    .section-heading p:last-child { max-width: 590px; margin-bottom: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .demo-count { flex: 0 0 auto; padding-bottom: 4px; color: var(--muted); font-size: 12px; }
+    .demo-count strong { color: var(--ink); font-family: "Manrope", sans-serif; font-size: 30px; letter-spacing: -.05em; }
+    .demo-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin: 28px 0 24px; }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+    .filter-button { border: 1px solid var(--line); border-radius: 999px; background: transparent; padding: 9px 14px; color: #5d7071; cursor: pointer; font-size: 11px; font-weight: 700; transition: all .2s ease; }
+    .filter-button:hover, .filter-button[aria-pressed="true"] { border-color: var(--sea-deep); background: var(--sea-deep); color: white; }
+    .search-wrap { position: relative; width: min(100%, 250px); }
+    .search-wrap::before { position: absolute; top: 50%; left: 13px; color: #6f8584; content: "⌕"; font-size: 20px; transform: translateY(-54%); }
+    .search-input { width: 100%; min-height: 39px; border: 1px solid var(--line); border-radius: 999px; outline: 0; background: white; padding: 0 14px 0 36px; color: var(--ink); font-size: 12px; }
+    .search-input:focus { border-color: var(--sea); box-shadow: 0 0 0 3px rgba(54,201,43,.16); }
+    .demo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 19px; }
+    .demo-card {
+      --card-accent: #25871f;
+      position: relative;
+      display: flex;
+      min-height: 257px;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: white;
+      padding: 23px;
+      text-decoration: none;
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+    }
+    .demo-card::before { position: absolute; top: 0; right: 0; left: 0; height: 3px; background: var(--card-accent); content: ""; transform: scaleX(0); transform-origin: left; transition: transform .24s ease; }
+    .demo-card:hover { border-color: rgba(16,43,21,.18); box-shadow: var(--shadow); transform: translateY(-5px); }
+    .demo-card:hover::before, .demo-card:focus-visible::before { transform: scaleX(1); }
+    .demo-card[hidden] { display: none; }
+    .card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 27px; }
+    .card-icon { display: grid; width: 43px; height: 43px; place-items: center; border-radius: 14px; background: color-mix(in srgb, var(--card-accent) 11%, white); color: var(--card-accent); font-size: 19px; }
+    .card-category { border: 1px solid var(--line); border-radius: 999px; padding: 6px 9px; color: #71817e; font-size: 9px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .demo-card h3 { margin: 0 0 8px; font-size: 18px; font-weight: 700; letter-spacing: -.035em; line-height: 1.3; }
+    .demo-card p { margin: 0 0 18px; color: var(--muted); font-size: 12px; line-height: 1.65; }
+    .card-link { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; color: var(--card-accent); font-size: 11px; font-weight: 800; }
+    .card-link span:last-child { font-size: 17px; transition: transform .2s ease; }
+    .demo-card:hover .card-link span:last-child { transform: translateX(4px); }
+    .empty-state { display: none; grid-column: 1 / -1; border: 1px dashed var(--line); border-radius: 15px; padding: 34px; color: var(--muted); text-align: center; }
+    .empty-state.is-visible { display: block; }
+
+    .story { overflow: hidden; background: var(--sand); }
+    .story-grid { display: grid; grid-template-columns: 1fr .95fr; align-items: center; gap: 74px; }
+    .story-art { position: relative; min-height: 350px; overflow: hidden; border-radius: 26px; background: linear-gradient(155deg, #a4d2c8, #e8d8ae 75%); }
+    .story-art::before { position: absolute; inset: 0; background: radial-gradient(circle at 76% 21%, #ffe1a0 0 38px, transparent 39px); content: ""; }
+    .story-art svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .story-art figcaption { position: absolute; bottom: 18px; left: 20px; border: 1px solid rgba(255,255,255,.65); border-radius: 999px; background: rgba(255,255,255,.73); padding: 8px 12px; color: #365650; font-size: 10px; font-weight: 700; backdrop-filter: blur(5px); }
+    .story-copy h2 { max-width: 490px; }
+    .story-copy > p:not(.section-kicker) { max-width: 490px; color: var(--muted); font-size: 14px; line-height: 1.8; }
+    .story-list { display: grid; gap: 15px; margin: 25px 0 0; padding: 0; list-style: none; }
+    .story-list li { display: flex; align-items: flex-start; gap: 12px; color: #3c5556; font-size: 12px; line-height: 1.6; }
+    .check { display: grid; width: 21px; height: 21px; flex: 0 0 21px; place-items: center; border-radius: 50%; background: #dbe9df; color: var(--sea); font-size: 11px; font-weight: 800; }
+
+    .closing { padding-block: 72px; }
+    .closing-panel { position: relative; overflow: hidden; border-radius: 25px; background: var(--sea-deep); padding: 45px 52px; color: white; }
+    .closing-panel::after { position: absolute; top: -90px; right: 90px; width: 300px; height: 300px; border: 1px solid rgba(255,255,255,.12); border-radius: 50%; box-shadow: 0 0 0 25px rgba(255,255,255,.035), 0 0 0 55px rgba(255,255,255,.025); content: ""; }
+    .closing-content { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+    .closing-panel .section-kicker { color: #7bf05a; }
+    .closing-panel h2 { max-width: 600px; margin-bottom: 9px; }
+    .closing-panel p:last-child { max-width: 560px; margin-bottom: 0; color: #c3d5d0; font-size: 13px; line-height: 1.7; }
+    .closing-content .button { flex: 0 0 auto; }
+    .site-footer { border-top: 1px solid var(--line); background: #fbfaf6; }
+    .footer-row { display: flex; min-height: 76px; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; color: #758583; font-size: 10px; }
+    .footer-brand { color: var(--ink); font-family: "Manrope", sans-serif; font-size: 12px; font-weight: 800; }
+    .footer-links { display: flex; gap: 18px; }
+    .footer-links a { color: #647468; text-decoration: none; }
+    .footer-links a:hover { color: var(--sea); }
+
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s ease; }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    :focus-visible { outline: 3px solid #e43c2e; outline-offset: 3px; }
+
+    @media (max-width: 860px) {
+      .hero-grid { min-height: 0; grid-template-columns: 1fr .8fr; gap: 28px; padding-block: 66px; }
+      .island-scene { min-height: 315px; }
+      .demo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .story-grid { gap: 40px; }
+      .story-art { min-height: 320px; }
+    }
+    @media (max-width: 640px) {
+      .wrap { width: min(100% - 34px, 500px); }
+      .nav-row { min-height: 66px; }
+      .menu-toggle { display: inline-flex; align-items: center; gap: 8px; }
+      .menu-toggle .menu-icon { font-size: 17px; }
+      .nav-links { position: absolute; top: calc(100% - 1px); right: 0; left: 0; display: none; align-items: stretch; gap: 0; border-top: 1px solid rgba(255,255,255,.12); background: var(--sea-deep); padding: 7px 17px 14px; }
+      .nav-links.is-open { display: flex; flex-direction: column; }
+      .nav-links a { padding: 13px 8px; }
+      .nav-links .nav-cta { margin-top: 5px; text-align: center; }
+      .hero-grid { grid-template-columns: 1fr; gap: 34px; padding-block: 58px 52px; }
+      h1 { max-width: 520px; font-size: clamp(42px, 12vw, 60px); }
+      .hero-copy > p:not(.eyebrow) { font-size: 14px; }
+      .island-scene { min-height: 290px; border-radius: 46% 46% 20px 20px; }
+      .hero::after { top: auto; right: 3%; bottom: 8%; width: 110px; height: 110px; }
+      .trust-row { justify-content: center; padding-block: 17px; }
+      .trust-intro { flex-basis: 100%; text-align: center; }
+      .trust-items { justify-content: center; gap: 7px; }
+      .trust-items span { padding: 7px 9px; font-size: 10px; }
+      .section { padding-block: 68px; }
+      .section-heading { align-items: flex-start; flex-direction: column; gap: 12px; }
+      .demo-count { display: flex; align-items: baseline; gap: 8px; }
+      .demo-tools { align-items: stretch; flex-direction: column-reverse; }
+      .search-wrap { width: 100%; }
+      .filters { gap: 7px; }
+      .filter-button { padding: 9px 11px; }
+      .demo-grid { grid-template-columns: 1fr; gap: 12px; }
+      .demo-card { min-height: 0; padding: 19px; }
+      .card-top { margin-bottom: 17px; }
+      .story-grid { grid-template-columns: 1fr; gap: 33px; }
+      .story-art { min-height: 275px; }
+      .closing { padding-block: 50px; }
+      .closing-panel { padding: 30px 24px; }
+      .closing-content { align-items: flex-start; flex-direction: column; }
+      .closing-content .button { align-self: flex-start; }
+      .footer-row { justify-content: center; padding-block: 19px; text-align: center; }
+      .footer-links { flex-basis: 100%; justify-content: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap nav-row">
+      <a class="brand" href="#home" aria-label="Micz Corner home">
+        <img class="brand-mark" src="assets/micz-corner-logo.png" alt="Micz Corner logo">
+        <span class="brand-name">IT Solutions<small>Alaminos City</small></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="menu-icon" aria-hidden="true">☰</span><span>Menu</span>
+      </button>
+      <nav class="nav-links" id="site-nav" aria-label="Main navigation">
+        <a href="#demos">Website demos</a>
+        <a href="#about">Our approach</a>
+        <a class="nav-cta" href="#demos">Explore demos <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="home">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Inspired by the islands</p>
+          <h1>Local business, <em>beautifully</em> online.</h1>
+          <p>Thoughtful website concepts for the people who make our corner of Pangasinan worth visiting, tasting, and calling home.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#demos">Explore the websites <span aria-hidden="true">↓</span></a>
+            <a class="button button-quiet" href="#about">Meet the approach</a>
+          </div>
+          <div class="hero-note"><span class="dot" aria-hidden="true"></span><strong>9 local business concepts</strong><span>·</span><span>3 industries</span></div>
+        </div>
+        <div class="island-scene" aria-label="Hundred Islands-inspired coastal scene">
+          <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&amp;fit=crop&amp;w=1100&amp;q=85" alt="Turquoise water and a tropical coastline" fetchpriority="high">
+          <div class="island-label">
+            <div><span>From Alaminos, with pride</span><strong>Room for your business to shine.</strong></div>
+            <span class="island-stamp" aria-label="Inspired by the Hundred Islands">100<br>ISLANDS<br>SPIRIT</span>
+          </div>
+          <a class="hero-photo-credit" href="https://unsplash.com/" target="_blank" rel="noopener noreferrer" aria-label="Image from Unsplash">Illustrative photo · Unsplash</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="trust-strip" aria-label="Website categories">
+      <div class="wrap trust-row">
+        <span class="trust-intro">A little local flavor for every kind of business</span>
+        <div class="trust-items">
+          <span><b aria-hidden="true">⌂</b> Stays &amp; getaways</span>
+          <span><b aria-hidden="true">✳</b> Restaurants</span>
+          <span><b aria-hidden="true">+</b> Health &amp; clinics</span>
+        </div>
+      </div>
+    </div>
+
+    <section class="section" id="demos">
+      <div class="wrap">
+        <div class="section-heading reveal">
+          <div class="section-heading-copy">
+            <p class="section-kicker">The local collection</p>
+            <h2>Find a website that feels like your business.</h2>
+            <p>Browse the concepts, pick a neighborhood favorite, and open each live preview. These demos are a starting point for a site tailored to the real business.</p>
+          </div>
+          <div class="demo-count"><strong id="visible-count">9</strong><span>website concepts</span></div>
+        </div>
+        <div class="demo-tools">
+          <div class="filters" role="group" aria-label="Filter demos by business type">
+            <button class="filter-button" type="button" data-filter="all" aria-pressed="true">All demos</button>
+            <button class="filter-button" type="button" data-filter="stay" aria-pressed="false">Stays &amp; resorts</button>
+            <button class="filter-button" type="button" data-filter="food" aria-pressed="false">Restaurants</button>
+            <button class="filter-button" type="button" data-filter="health" aria-pressed="false">Clinics</button>
+          </div>
+          <label class="search-wrap"><span class="skip-link">Search the business websites</span><input class="search-input" type="search" id="demo-search" placeholder="Search business names" autocomplete="off"></label>
+        </div>
+        <div class="demo-grid" id="demo-grid">
+          <a class="demo-card reveal" style="--card-accent:#25871f" href="01-hotels-resorts/maries-sleep-house/index.html" data-category="stay" data-name="Marie's Sleep House">
+            <div class="card-top"><span class="card-icon" aria-hidden="true">⌂</span><span class="card-category">Stay &amp; unwind</span></div>
+            <h3>Marie's Sleep House</h3><p>A welcoming home base for a comfortable Alaminos stay.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
+          </a>
+          <a class="demo-card reveal" style="--card-accent:#176f19" href="01-hotels-resorts/bolo-hills-beach-club/index.html" data-category="stay" data-name="Bolo Hills Beach Club">
+            <div class="card-top"><span class="card-icon" aria-hidden="true">☼</span><span class="card-category">Beach &amp; getaway</span></div>
+            <h3>Bolo Hills Beach Club</h3><p>A coastal escape concept with day-trip and group-stay inspiration.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
+          </a>
+          <a class="demo-card reveal" style="--card-accent:#327c2b" href="01-hotels-resorts/carribean-transient-house/index.html" data-category="stay" data-name="Carribean Transient House">
+            <div class="card-top"><span class="card-icon" aria-hidden="true">⌂</span><span class="card-category">Group stays</span></div>
+            <h3>Carribean Transient House</h3><p>A bright, group-friendly stay concept for island-hopping plans.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
+          </a>
+          <a class="demo-card reveal" style="--card-accent:#bb3026" href="02-restaurants-eateries/along-d-rod-bulaluhan/index.html" data-category="food" data-name="Along D' Rod Bulaluhan at Kambingan">
+            <div class="card-top"><span class="card-icon" aria-hidden="true">✳</span><span class="card-category">Local dining</span></div>
+            <h3>Along D' Rod Bulaluhan at Kambingan</h3><p>A hearty, homegrown restaurant concept made to welcome hungry guests.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
+          </a>
+          <a class="demo-card reveal" style="--card-accent:#d13b2e" href="02-restaurants-eateries/azons-crispy-ulo-sutukil/index.html" data-category="food" data-name="Azon's Crispy Ulo and Sutukil">
+            <div class="card-top"><span class="card-icon" aria-hidden="true">✳</span><span class="card-category">Filipino flavors</span></div>
+            <h3>Azon's Crispy Ulo and Sutukil</h3><p>A lively showcase concept for local specialties and seafood favorites.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
+          </a>
+          <a class="demo-card reveal" style="--card-accent:#a52b23" href="02-restaurants-eateries/golden-cress-restaurant-events/index.html" data-category="food" data-name="Golden Cress Restaurant and Events">
+            <div class="card-top"><span class="card-icon" aria-hidden="true">✧</span><span class="card-category">Dining &amp; events</span></div>
+            <h3>Golden Cress Restaurant &amp; Events</h3><p>An elegant dining and celebration concept for meals worth gathering over.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
+          </a>
+          <a class="demo-card reveal" style="--card-accent:#25871f" href="03-medical-clinics/tanaytay-medical-clinic/index.html" data-category="health" data-name="Tanaytay Medical Clinic">
+            <div class="card-top"><span class="card-icon" aria-hidden="true">+</span><span class="card-category">Health &amp; care</span></div>
+            <h3>Tanaytay Medical Clinic</h3><p>A clear, reassuring clinic website concept that puts patients first.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
+          </a>
+          <a class="demo-card reveal" style="--card-accent:#176f19" href="03-medical-clinics/tnf-medical-clinic/index.html" data-category="health" data-name="TNF Medical Clinic">
+            <div class="card-top"><span class="card-icon" aria-hidden="true">+</span><span class="card-category">Health &amp; care</span></div>
+            <h3>TNF Medical Clinic</h3><p>A straightforward digital front door for clinic information and inquiries.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
+          </a>
+          <a class="demo-card reveal" style="--card-accent:#327c2b" href="03-medical-clinics/cliniqua-alaminos-diagnostic/index.html" data-category="health" data-name="Cliniqua Alaminos Medical and Diagnostic Center">
+            <div class="card-top"><span class="card-icon" aria-hidden="true">+</span><span class="card-category">Medical &amp; diagnostic</span></div>
+            <h3>Cliniqua Alaminos Medical and Diagnostic Center</h3><p>A polished information hub concept for patients exploring clinic services.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
+          </a>
+          <p class="empty-state" id="empty-state" role="status">No demos match that search. Try another name or category.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="story section" id="about">
+      <div class="wrap story-grid">
+        <figure class="story-art reveal" aria-label="Illustration of small islands in the sea">
+          <svg viewBox="0 0 620 400" role="img" aria-labelledby="island-title">
+            <title id="island-title">Hundred Islands-inspired island silhouettes</title>
+            <path d="M0 166c55-24 99 12 158-2s101-22 158 1 101 19 153 1 103-29 151-4v238H0Z" fill="#6fb8af"/>
+            <path d="M0 205c52-20 92 14 150 1s106-23 160 1 100 19 151 0 104-24 159-4v197H0Z" fill="#3c9794"/>
+            <path d="M0 266c61-19 99 18 161 2s107-19 156 5 100 16 153-2 103-19 150-3v135H0Z" fill="#267a7b"/>
+            <path d="M64 194c13-34 25-42 42-38 9 2 15 13 19 31 16-21 27-27 39-22 10 5 17 18 21 37-30 13-84 18-121-8Z" fill="#526f51"/>
+            <path d="M204 171c10-25 21-35 33-32 10 2 17 11 22 25 12-15 22-18 31-13 9 6 14 16 17 30-29 11-71 9-103-10Z" fill="#5b7752"/>
+            <path d="M359 197c9-30 20-40 34-37 11 2 18 14 23 30 12-17 24-20 34-13 8 6 14 18 17 34-34 12-75 7-108-14Z" fill="#4a694e"/>
+            <path d="M480 169c8-20 17-28 27-25 9 2 15 10 19 22 9-13 18-16 26-11 7 5 11 13 14 25-25 8-59 5-86-11Z" fill="#607b53"/>
+            <path d="M115 183c9-12 22-20 38-23m82 5c12-10 23-16 37-17m121 28c10-12 22-19 36-22m105 0c8-9 17-13 27-14" fill="none" stroke="#d7d0a6" stroke-linecap="round" stroke-width="4" opacity=".8"/>
+            <path d="M0 323c73-18 122 22 191 6s110-19 169 4 120 14 260-13" fill="none" stroke="#bce0d4" stroke-linecap="round" stroke-width="3" opacity=".48"/>
+            <path d="M0 355c69-14 122 17 193 4s116-15 175 6 119 11 252-9" fill="none" stroke="#bce0d4" stroke-linecap="round" stroke-width="2" opacity=".34"/>
+          </svg>
+          <figcaption>A local spirit, a world of possibilities</figcaption>
+        </figure>
+        <div class="story-copy reveal">
+          <p class="section-kicker">Rooted here. Ready for anywhere.</p>
+          <h2>A little island inspiration goes a long way.</h2>
+          <p>Alaminos has a character all its own: welcoming, resourceful, and connected to the sea. These concepts bring a hint of that local spirit to the screen, while keeping each business at the heart of its own story.</p>
+          <ul class="story-list">
+            <li><span class="check" aria-hidden="true">✓</span><span>Designed to feel right at home in Alaminos City and Pangasinan.</span></li>
+            <li><span class="check" aria-hidden="true">✓</span><span>Mobile-friendly previews, because good browsing should work wherever you are.</span></li>
+            <li><span class="check" aria-hidden="true">✓</span><span>Each demo is a starting point—not a claim that sample details are verified or ready to publish.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing" id="next-steps">
+      <div class="wrap closing-panel reveal">
+        <div class="closing-content">
+          <div>
+            <p class="section-kicker">Your business could be next</p>
+            <h2>Have a good business? Let's give it a great website.</h2>
+            <p>Explore a preview above to see what's possible. When you're ready, let's shape something around your business, your people, and your corner of Alaminos.</p>
+          </div>
+          <a class="button button-primary" href="#demos">Find your inspiration <span aria-hidden="true">↑</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span class="footer-brand">Micz Corner IT Solutions</span>
+      <span>Made with local pride in Alaminos City, Pangasinan.</span>
+      <div class="footer-links"><a href="#demos">Website demos</a><a href="#home">Back to top ↑</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const filterButtons = [...document.querySelectorAll(".filter-button")];
+    const demoCards = [...document.querySelectorAll(".demo-card")];
+    const searchInput = document.querySelector("#demo-search");
+    const visibleCount = document.querySelector("#visible-count");
+    const emptyState = document.querySelector("#empty-state");
+    let activeCategory = "all";
+
+    function updateDemos() {
+      const query = searchInput.value.trim().toLocaleLowerCase();
+      let count = 0;
+      for (const card of demoCards) {
+        const matchesCategory = activeCategory === "all" || card.dataset.category === activeCategory;
+        const matchesSearch = card.dataset.name.toLocaleLowerCase().includes(query);
+        const visible = matchesCategory && matchesSearch;
+        card.hidden = !visible;
+        if (visible) count += 1;
+      }
+      visibleCount.textContent = String(count);
+      emptyState.classList.toggle("is-visible", count === 0);
+    }
+
+    for (const button of filterButtons) {
+      button.addEventListener("click", () => {
+        activeCategory = button.dataset.filter;
+        for (const item of filterButtons) item.setAttribute("aria-pressed", String(item === button));
+        updateDemos();
+      });
+    }
+    searchInput.addEventListener("input", updateDemos);
+
+    const menuToggle = document.querySelector(".menu-toggle");
+    const siteNav = document.querySelector("#site-nav");
+    menuToggle.addEventListener("click", () => {
+      const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+      menuToggle.setAttribute("aria-expanded", String(!isOpen));
+      siteNav.classList.toggle("is-open", !isOpen);
+    });
+    siteNav.addEventListener("click", event => {
+      if (event.target.closest("a")) {
+        menuToggle.setAttribute("aria-expanded", "false");
+        siteNav.classList.remove("is-open");
+      }
+    });
+
+    if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const observer = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        }
+      }, { threshold: 0.12 });
+      document.querySelectorAll(".reveal").forEach(element => observer.observe(element));
+    } else {
+      document.querySelectorAll(".reveal").forEach(element => element.classList.add("is-visible"));
+    }
+  </script>
+</body>
+</html>
