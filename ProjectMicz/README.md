@@ -1,6 +1,6 @@
 # Micz Corner IT Solutions — Alaminos City Demo Websites
 
-Nine mobile-first, standalone website previews for local businesses in Alaminos City, Pangasinan. Each client folder contains its own `index.html`, `styles.css`, and `script.js`; there is no build step, package manager, or shared runtime dependency.
+Nine mobile-first, standalone website previews for local businesses in Alaminos City, Pangasinan. Each client folder contains its own `index.html`, `styles.css`, `reviews.css`, and `script.js`; there is no build step, package manager, or shared runtime dependency.
 
 ## Demo directory
 
@@ -27,6 +27,8 @@ To publish a demo independently, upload or push only that business folder to its
 ## Before a business launch
 
 These are sales previews, not verified business listings. **All displayed prices are illustrative sample rates.** Confirm current rates, phone and Messenger details, hours, exact address, amenities, policies, clinical credentials, accreditation, and service availability directly with each business before publishing. Replace the sample copy and connect each inquiry form to an agreed booking/contact channel. Map buttons use Google Maps search links rather than claiming a verified pin. Photos are illustrative Unsplash images.
+
+Each preview includes a Google profile/reviews panel that opens the business's supplied Google Maps listing. Reviews and ratings are not copied into these demos, so visitors see current information on Google and no review text or score is presented as verified site content. Confirm each listing matches the business before publishing.
 
 ## Public reference checks
 
