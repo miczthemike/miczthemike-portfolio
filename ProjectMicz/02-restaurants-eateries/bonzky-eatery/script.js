@@ -51,4 +51,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }));
   menuSearch?.addEventListener("input", updateMenu);
   updateMenu();
+
+  // Floating Chat Widget Toggle
+  const chatWidget = document.getElementById("floatingChatWidget");
+  const chatTrigger = document.getElementById("chatTriggerBtn");
+  const chatOptions = document.getElementById("chatOptions");
+
+  chatTrigger?.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!chatWidget) return;
+    const isOpen = chatWidget.classList.toggle("is-open");
+    chatTrigger.setAttribute("aria-expanded", String(isOpen));
+    if (chatOptions) chatOptions.setAttribute("aria-hidden", String(!isOpen));
+  });
+
+  // Close when clicking outside
+  document.addEventListener("click", (event) => {
+    if (chatWidget && chatWidget.classList.contains("is-open") && !chatWidget.contains(event.target)) {
+      chatWidget.classList.remove("is-open");
+      chatTrigger?.setAttribute("aria-expanded", "false");
+      if (chatOptions) chatOptions.setAttribute("aria-hidden", "true");
+    }
+  });
 });

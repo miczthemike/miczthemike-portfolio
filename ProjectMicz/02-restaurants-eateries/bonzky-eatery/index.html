@@ -331,5 +331,43 @@
     <a href="tel:+639129123606">Call Bonzky</a>
     <a href="https://maps.app.goo.gl/8h1RqxCqkWUhGpq77" target="_blank" rel="noopener noreferrer">Directions</a>
   </div>
+
+  <!-- Floating Contact Widget (Messenger & Phone) -->
+  <div class="floating-chat-widget" id="floatingChatWidget">
+    <div class="chat-options" id="chatOptions" aria-hidden="true">
+      <a href="https://m.me/BonzkyEateryformerRausaRestaurant" target="_blank" rel="noopener noreferrer" class="chat-option messenger-btn" aria-label="Message Bonzky Eatery on Facebook Messenger">
+        <span class="chat-option-label">Messenger</span>
+        <span class="chat-option-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.915 1.453 5.518 3.734 7.207v3.535l3.39-1.862c.905.251 1.867.387 2.876.387 5.523 0 10-4.145 10-9.258C22 6.145 17.523 2 12 2zm1.066 12.443l-2.613-2.787-5.097 2.787 5.607-5.952 2.68 2.787 5.03-2.787-5.607 5.952z"/>
+          </svg>
+        </span>
+      </a>
+      <a href="tel:+639129123606" class="chat-option phone-btn" aria-label="Call Bonzky Eatery">
+        <span class="chat-option-label">Call +63 912 912 3606</span>
+        <span class="chat-option-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+            <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1.003 1.003 0 011.01-.24c1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.07 21 3 13.93 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.1.31.03.66-.25 1.02l-2.2 2.2z"/>
+          </svg>
+        </span>
+      </a>
+    </div>
+    <button type="button" class="chat-trigger-btn" id="chatTriggerBtn" aria-expanded="false" aria-label="Toggle contact options">
+      <span class="chat-badge" aria-hidden="true">2</span>
+      <span class="icon-open" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+      </span>
+      <span class="icon-close" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </span>
+    </button>
+    <div class="chat-tooltip" id="chatTooltip">Message or call Bonzky!</div>
+  </div>
+
 </body>
 </html>
