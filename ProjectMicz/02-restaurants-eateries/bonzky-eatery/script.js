@@ -18,4 +18,37 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("[data-dismiss]")?.addEventListener("click", () => {
     document.querySelector("[data-demo-banner]")?.remove();
   });
+
+  const menuFilterButtons = [...document.querySelectorAll("[data-menu-filter]")];
+  const menuCategories = [...document.querySelectorAll("[data-menu-category]")];
+  const menuSearch = document.querySelector("[data-menu-search]");
+  const menuEmpty = document.querySelector("[data-menu-empty]");
+
+  const updateMenu = () => {
+    const activeFilter = menuFilterButtons.find((button) => button.getAttribute("aria-pressed") === "true")?.dataset.menuFilter ?? "all";
+    const query = menuSearch?.value.trim().toLowerCase() ?? "";
+    let visibleItems = 0;
+
+    menuCategories.forEach((category) => {
+      let matchingItems = 0;
+      category.querySelectorAll("[data-menu-item]").forEach((item) => {
+        const matchesSearch = item.textContent.toLowerCase().includes(query);
+        item.hidden = !matchesSearch;
+        if (matchesSearch) matchingItems += 1;
+      });
+
+      const matchesCategory = activeFilter === "all" || category.dataset.menuCategory === activeFilter;
+      category.hidden = !matchesCategory || matchingItems === 0;
+      if (!category.hidden) visibleItems += matchingItems;
+    });
+
+    if (menuEmpty) menuEmpty.hidden = visibleItems > 0;
+  };
+
+  menuFilterButtons.forEach((button) => button.addEventListener("click", () => {
+    menuFilterButtons.forEach((filter) => filter.setAttribute("aria-pressed", String(filter === button)));
+    updateMenu();
+  }));
+  menuSearch?.addEventListener("input", updateMenu);
+  updateMenu();
 });

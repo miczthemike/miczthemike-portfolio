@@ -34,6 +34,7 @@
       </button>
       <nav class="site-nav" id="primary-navigation" data-nav aria-label="Main navigation">
         <a href="#story">Our story</a>
+        <a href="#menu">Menu</a>
         <a href="#gallery">Food gallery</a>
         <a href="#visit">Find us</a>
         <a class="nav-cta" href="https://www.facebook.com/BonzkyEateryformerRausaRestaurant/" target="_blank" rel="noopener noreferrer">Message on Facebook <span aria-hidden="true">↗</span></a>
@@ -49,7 +50,7 @@
           <h1>Come hungry.<br><em>Leave happy.</em></h1>
           <p class="hero-description">Gather around Filipino comfort food at Bonzky Eatery, known locally as a bulalohan and kambingan stop.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#gallery">Take a look around <span aria-hidden="true">↓</span></a>
+            <a class="button button-primary" href="#menu">Explore the menu <span aria-hidden="true">↓</span></a>
             <a class="button button-outline" href="https://maps.app.goo.gl/8h1RqxCqkWUhGpq77" target="_blank" rel="noopener noreferrer">Get directions <span aria-hidden="true">↗</span></a>
           </div>
           <p class="hero-note">Bonzky Eatery <span>Formerly Rausa Restaurant</span></p>
@@ -97,6 +98,144 @@
           <p>Menus and availability may change, so ask the team what is cooking today.</p>
           <a class="text-link" href="https://www.facebook.com/BonzkyEateryformerRausaRestaurant/" target="_blank" rel="noopener noreferrer">Get updates on Facebook <span aria-hidden="true">↗</span></a>
         </div>
+      </div>
+    </section>
+
+    <section class="section menu-section" id="menu" aria-labelledby="menu-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">From the menu</p>
+            <h2 id="menu-title">Find your next favorite.</h2>
+          </div>
+          <p>Browse by category or search the menu. Prices are transcribed from the supplied menu photos; service fee/gratuity will be added.</p>
+        </div>
+        <div class="menu-tools">
+          <div class="menu-filters" role="group" aria-label="Filter menu by category">
+            <button class="menu-filter" type="button" data-menu-filter="all" aria-pressed="true">All items</button>
+            <button class="menu-filter" type="button" data-menu-filter="kambing" aria-pressed="false">Kambing</button>
+            <button class="menu-filter" type="button" data-menu-filter="manok" aria-pressed="false">Manok</button>
+            <button class="menu-filter" type="button" data-menu-filter="beef" aria-pressed="false">Beef</button>
+            <button class="menu-filter" type="button" data-menu-filter="pork" aria-pressed="false">Pork</button>
+            <button class="menu-filter" type="button" data-menu-filter="seafood" aria-pressed="false">Seafood</button>
+            <button class="menu-filter" type="button" data-menu-filter="vegetables" aria-pressed="false">Vegetables</button>
+            <button class="menu-filter" type="button" data-menu-filter="desserts" aria-pressed="false">Desserts</button>
+            <button class="menu-filter" type="button" data-menu-filter="drinks" aria-pressed="false">Drinks</button>
+            <button class="menu-filter" type="button" data-menu-filter="bilao" aria-pressed="false">Pansit bilao</button>
+          </div>
+          <label class="menu-search">
+            <span class="sr-only">Search menu items</span>
+            <input type="search" placeholder="Search menu items" autocomplete="off" data-menu-search>
+          </label>
+        </div>
+        <div class="menu-grid" data-menu-grid>
+          <article class="menu-category" data-menu-category="kambing" aria-labelledby="menu-kambing">
+            <h3 id="menu-kambing">Kambing</h3>
+            <ul class="menu-items">
+              <li data-menu-item><span>Pinapaitan</span><strong>₱160</strong></li>
+              <li data-menu-item><span>Sinampalokan</span><strong>₱160</strong></li>
+              <li data-menu-item><span>Kaldereta</span><strong>₱180</strong></li>
+            </ul>
+          </article>
+          <article class="menu-category" data-menu-category="manok" aria-labelledby="menu-manok">
+            <h3 id="menu-manok">Manok</h3>
+            <ul class="menu-items">
+              <li data-menu-item><span>Tinola</span><strong>₱180</strong></li>
+              <li data-menu-item><span>Sinampalokan</span><strong>₱180</strong></li>
+              <li data-menu-item><span>Buffalo Wings</span><strong>₱180</strong></li>
+              <li data-menu-item><span>Savory</span><strong>₱180</strong></li>
+            </ul>
+          </article>
+          <article class="menu-category" data-menu-category="beef" aria-labelledby="menu-beef">
+            <h3 id="menu-beef">Beef</h3>
+            <ul class="menu-items">
+              <li data-menu-item><span>Bulalo</span><strong>₱250</strong></li>
+              <li data-menu-item><span>Pinapaitan</span><strong>₱160</strong></li>
+              <li data-menu-item><span>Pigar-pigar</span><strong>₱160</strong></li>
+              <li data-menu-item><span>Kinigot</span><strong>₱160</strong></li>
+              <li data-menu-item><span>Lengua</span><strong>₱180</strong></li>
+              <li data-menu-item><span>Kare-Kare</span><strong>₱180</strong></li>
+              <li data-menu-item><span>Beef Steak</span><strong>₱180</strong></li>
+              <li data-menu-item><span>Beef Ampalaya</span><strong>₱180</strong></li>
+              <li data-menu-item><span>Kaldereta</span><strong>₱180</strong></li>
+            </ul>
+          </article>
+          <article class="menu-category" data-menu-category="pork" aria-labelledby="menu-pork">
+            <h3 id="menu-pork">Pork</h3>
+            <ul class="menu-items">
+              <li data-menu-item><span>Sisig</span><strong>₱160</strong></li>
+              <li data-menu-item><span>Lechon Kawali</span><strong>₱250</strong></li>
+              <li data-menu-item><span>Sinigang na Lechon</span><strong>₱250</strong></li>
+              <li data-menu-item><span>Crispy Pata</span><strong>₱700</strong></li>
+              <li data-menu-item><span>Crispy Pork Kare-Kare</span><strong>₱250</strong></li>
+            </ul>
+          </article>
+          <article class="menu-category" data-menu-category="seafood" aria-labelledby="menu-seafood">
+            <h3 id="menu-seafood">Seafoods</h3>
+            <ul class="menu-items">
+              <li data-menu-item><span>Inihaw na Bangus</span><strong>₱200</strong></li>
+              <li data-menu-item><span>Inihaw na Hito</span><strong>₱200</strong></li>
+              <li data-menu-item><span>Crispy Hito (boneless)</span><strong>₱200</strong></li>
+              <li data-menu-item><span>Crispy Bangus (boneless)</span><strong>₱200</strong></li>
+              <li data-menu-item><span>Kilawing Bangus</span><strong>₱150</strong></li>
+              <li data-menu-item><span>Shanghai Bangus</span><strong>₱150</strong></li>
+              <li data-menu-item><span>Sisig Bangus</span><strong>₱200</strong></li>
+              <li data-menu-item><span>Sinigang Bangus Belly</span><strong>₱200</strong></li>
+              <li data-menu-item><span>Sinigang na Malaga</span><strong>₱200</strong></li>
+              <li data-menu-item><span>Sinigang na Hipon</span><strong>₱200</strong></li>
+              <li data-menu-item><span>Nilasing na Hipon</span><strong>₱150</strong></li>
+              <li data-menu-item><span>Calamares</span><strong>₱180</strong></li>
+              <li data-menu-item><span>Kare-Kareng Pusit</span><strong>₱180</strong></li>
+            </ul>
+          </article>
+          <article class="menu-category" data-menu-category="vegetables" aria-labelledby="menu-vegetables">
+            <h3 id="menu-vegetables">Vegetables</h3>
+            <ul class="menu-items">
+              <li data-menu-item><span>Chopsuey</span><strong>₱150</strong></li>
+              <li data-menu-item><span>Pinakbet</span><strong>₱150</strong></li>
+            </ul>
+          </article>
+          <article class="menu-category" data-menu-category="desserts" aria-labelledby="menu-desserts">
+            <h3 id="menu-desserts">Desserts</h3>
+            <ul class="menu-items">
+              <li data-menu-item><span>Leche Flan</span><strong>₱90</strong></li>
+              <li data-menu-item><span>Mais Con Yelo</span><strong>₱60</strong></li>
+              <li data-menu-item><span>Graham Bar</span><strong>₱60</strong></li>
+            </ul>
+          </article>
+          <article class="menu-category" data-menu-category="drinks" aria-labelledby="menu-drinks">
+            <h3 id="menu-drinks">Drinks</h3>
+            <ul class="menu-items">
+              <li data-menu-item><span>Coke 8oz</span><strong>₱17</strong></li>
+              <li data-menu-item><span>Coke 1.5</span><strong>₱100</strong></li>
+              <li data-menu-item><span>Bottled Water</span><strong>₱25</strong></li>
+              <li data-menu-item><span>Pineapple Juice in can</span><strong>₱60</strong></li>
+              <li data-menu-item><span>Gulaman</span><strong>₱100</strong></li>
+              <li data-menu-item><span>Blue Lemonade</span><strong>₱100</strong></li>
+              <li data-menu-item><span>Apple Tea</span><strong>₱100</strong></li>
+              <li data-menu-item><span>Pineapple Juice Pitcher</span><strong>₱100</strong></li>
+              <li data-menu-item><span>Cucumber Lemonade</span><strong>₱100</strong></li>
+              <li data-menu-item><span>Red Iced Tea</span><strong>₱100</strong></li>
+              <li data-menu-item><span>Mango</span><strong>₱100</strong></li>
+              <li data-menu-item><span>Four Seasons</span><strong>₱100</strong></li>
+              <li data-menu-item><span>Pale Pilsen Bucket</span><strong>₱430</strong></li>
+              <li data-menu-item><span>SanMig Light Bucket</span><strong>₱450</strong></li>
+            </ul>
+          </article>
+          <article class="menu-category" data-menu-category="bilao" aria-labelledby="menu-bilao">
+            <h3 id="menu-bilao">Pansit Bilao</h3>
+            <ul class="menu-items">
+              <li data-menu-item><span>Bihon · Small (4–5 pax)</span><strong>₱250</strong></li>
+              <li data-menu-item><span>Bihon · Medium (6–8 pax)</span><strong>₱350</strong></li>
+              <li data-menu-item><span>Bihon · Large (10–12 pax)</span><strong>₱600</strong></li>
+              <li data-menu-item><span>Canton/Sotanghon · Small (4–5 pax)</span><strong>₱350</strong></li>
+              <li data-menu-item><span>Canton/Sotanghon · Medium (6–8 pax)</span><strong>₱450</strong></li>
+              <li data-menu-item><span>Canton/Sotanghon · Large (10–12 pax)</span><strong>₱750</strong></li>
+            </ul>
+          </article>
+        </div>
+        <p class="menu-empty" data-menu-empty role="status" hidden>No menu items match your search. Try another name or category.</p>
+        <p class="menu-note">Please confirm current menu items and prices with the restaurant. Service fee/gratuity will be added.</p>
       </div>
     </section>
 
@@ -151,10 +290,16 @@
           </dl>
           <small class="source-note">Hours, services, and phone number are from a public directory listing and should be confirmed directly.</small>
         </div>
-        <a class="visit-card" href="https://maps.app.goo.gl/8h1RqxCqkWUhGpq77" target="_blank" rel="noopener noreferrer" aria-label="Open Bonzky Eatery in Google Maps">
-          <span class="map-art" aria-hidden="true"><span class="map-road road-one"></span><span class="map-road road-two"></span><span class="map-pin">●</span></span>
-          <span class="visit-card-copy"><strong>Bonzky Eatery</strong><span>Bulalohan · Kambingan</span><b>View location <span aria-hidden="true">↗</span></b></span>
-        </a>
+        <div class="visit-card">
+          <iframe class="live-map" title="Interactive Google map showing Bonzky Eatery in Alaminos City" src="https://maps.google.com/maps?cid=5540757551921401897&amp;z=16&amp;t=k&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+          <div class="visit-card-copy">
+            <strong>Bonzky Eatery</strong>
+            <span>Bulalohan · Kambingan</span>
+            <div class="map-links">
+              <a class="map-directions" href="https://maps.app.goo.gl/8h1RqxCqkWUhGpq77" target="_blank" rel="noopener noreferrer">Google Maps directions <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
