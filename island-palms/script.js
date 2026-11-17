@@ -37,11 +37,11 @@
         image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80',
         shortDesc: 'Thoughtfully designed sanctuary with hotel-grade queen mattress, natural rattan accents, and private en-suite hot rain shower.',
         amenities: [
-          { icon: 'fa-solid fa-wifi', text: 'Fiber Wi-Fi (200 Mbps)' },
+          { icon: 'fa-solid fa-wifi', text: 'Starlink & Fiber Wi-Fi (200 Mbps)' },
           { icon: 'fa-solid fa-snowflake', text: 'Silent Inverter A/C' },
           { icon: 'fa-solid fa-shower', text: 'Pressurized Hot Shower' },
           { icon: 'fa-solid fa-tv', text: '43" Smart TV (Netflix)' },
-          { icon: 'fa-solid fa-mug-hot', text: 'Complimentary Local Coffee' },
+          { icon: 'fa-solid fa-sun', text: 'Rooftop Sunset Deck Access' },
           { icon: 'fa-solid fa-lock', text: 'Digital Keyless Lock' }
         ],
         longDesc: 'Ideal for couples seeking peace and relaxation after a day on the islands. Features a plush 10-inch pocket-spring queen bed, quiet Daikin inverter air-conditioner, ambient warm coastal lighting, dedicated vanity desk, and modern en-suite bathroom with glass enclosure. Enjoy complimentary morning Pangasinan brewed coffee.'
@@ -1257,6 +1257,52 @@ Looking forward to our stay at The Island Palms Homestay in Lucap!`;
     }
   }
 
+  // --- Floating Contact Widget (Messenger & Mobile Phone) ---
+  function initFloatingChatWidget() {
+    const chatWidget = document.getElementById('floatingChatWidget');
+    const chatTrigger = document.getElementById('chatTriggerBtn');
+    const chatOptions = document.getElementById('chatOptions');
+
+    if (!chatWidget || !chatTrigger) return;
+
+    const closeWidget = () => {
+      chatWidget.classList.remove('is-open');
+      chatTrigger.setAttribute('aria-expanded', 'false');
+      if (chatOptions) chatOptions.setAttribute('aria-hidden', 'true');
+    };
+
+    chatTrigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isOpen = chatWidget.classList.toggle('is-open');
+      chatTrigger.setAttribute('aria-expanded', String(isOpen));
+      if (chatOptions) chatOptions.setAttribute('aria-hidden', String(!isOpen));
+    });
+
+    // Open external links (Messenger) cleanly via window.open so the page never navigates away or pops
+    chatWidget.querySelectorAll('[data-external]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeWidget();
+        window.open(link.href, '_blank', 'noopener');
+      });
+    });
+
+    // Close when tapping/clicking outside
+    document.addEventListener('click', (e) => {
+      if (chatWidget.classList.contains('is-open') && !chatWidget.contains(e.target)) {
+        closeWidget();
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && chatWidget.classList.contains('is-open')) {
+        closeWidget();
+      }
+    });
+  }
+
   // --- Main Bootstrapping ---
   document.addEventListener('DOMContentLoaded', () => {
     initDates();
@@ -1267,6 +1313,7 @@ Looking forward to our stay at The Island Palms Homestay in Lucap!`;
     initFaqAccordion();
     initInteractiveMap();
     initNavigation();
+    initFloatingChatWidget();
   });
 
 })();

@@ -1850,6 +1850,169 @@ a {
   color: var(--text-muted);
 }
 
+/* --- Multi-Platform Verified Ratings Showcase --- */
+.ota-ratings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.ota-card {
+  background: var(--surface-card);
+  border: 1.5px solid var(--sand-200);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-decoration: none;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+.ota-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--palm-500);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.ota-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--palm-500);
+}
+
+.ota-card:hover::before {
+  opacity: 1;
+}
+
+.ota-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.ota-badge-icon {
+  font-weight: 900;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.booking-icon {
+  background: #003580;
+  color: #ffffff;
+  font-family: var(--font-heading);
+  letter-spacing: -0.5px;
+}
+
+.agoda-icon {
+  background: #e6f7f2;
+  color: #0b7956;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.trip-icon {
+  background: #e8f3ff;
+  color: #2681ff;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.hotels-icon {
+  background: #fbe9e7;
+  color: #d32f2f;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.traveloka-icon {
+  background: #e1f5fe;
+  color: #0288d1;
+  font-size: 0.95rem;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.facebook-icon {
+  background: #1877f2;
+  color: #ffffff;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 0.95rem;
+}
+
+.ota-score-badge {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--palm-800);
+  background: var(--palm-100);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+}
+
+.ota-card-body {
+  margin-bottom: 16px;
+}
+
+.ota-score-label {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--palm-600);
+  margin-bottom: 4px;
+}
+
+.ota-platform-name {
+  font-family: var(--font-heading);
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.ota-subtext {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.ota-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px dashed var(--sand-300);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--palm-700);
+}
+
+.ota-card:hover .ota-card-foot {
+  color: var(--palm-500);
+}
+
 /* --- Direct Booking Modal (Multi-Step Checkout) --- */
 .modal-overlay {
   position: fixed;
@@ -2550,6 +2713,192 @@ a {
   .footer-grid {
     grid-template-columns: 1fr;
   }
+  .floating-chat-widget {
+    bottom: 84px;
+    right: 18px;
+  }
+  .chat-trigger-btn {
+    width: 54px;
+    height: 54px;
+  }
+  .chat-option-icon {
+    width: 44px;
+    height: 44px;
+  }
+  .chat-tooltip {
+    display: none !important;
+  }
+}
+
+/* --- Floating Contact Widget (Messenger & Mobile Phone) --- */
+.floating-chat-widget {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  font-family: var(--font-body);
+}
+
+.chat-options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.95);
+  transition: opacity .25s ease, transform .25s cubic-bezier(.16, 1, .3, 1), visibility .25s;
+  pointer-events: none;
+}
+
+.floating-chat-widget.is-open .chat-options {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.chat-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  transition: transform .2s ease;
+}
+
+.chat-option:hover {
+  transform: scale(1.05);
+}
+
+.chat-option-label {
+  background: rgba(10, 49, 29, 0.94);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.chat-option-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+  color: white;
+}
+
+.messenger-btn .chat-option-icon {
+  background: linear-gradient(135deg, #00B2FF, #006AFF);
+}
+
+.phone-btn .chat-option-icon {
+  background: linear-gradient(135deg, #34C759, #248A3D);
+}
+
+.chat-trigger-btn {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, var(--palm-600), var(--palm-800));
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  color: white;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 28px rgba(18, 77, 48, 0.45);
+  transition: transform .25s cubic-bezier(.34, 1.56, .64, 1), box-shadow .25s ease;
+}
+
+.chat-trigger-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 12px 36px rgba(18, 77, 48, 0.6);
+}
+
+.chat-trigger-btn .icon-open,
+.chat-trigger-btn .icon-close {
+  transition: transform .25s ease, opacity .25s ease;
+  position: absolute;
+}
+
+.chat-trigger-btn .icon-open {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.chat-trigger-btn .icon-close {
+  opacity: 0;
+  transform: scale(0.5) rotate(-90deg);
+}
+
+.floating-chat-widget.is-open .chat-trigger-btn .icon-open {
+  opacity: 0;
+  transform: scale(0.5) rotate(90deg);
+}
+
+.floating-chat-widget.is-open .chat-trigger-btn .icon-close {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.chat-badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--sunset-500);
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  border: 2px solid white;
+  animation: chatPulse 2.5s infinite;
+}
+
+.floating-chat-widget.is-open .chat-badge {
+  display: none;
+}
+
+@keyframes chatPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(242, 111, 34, 0.7); }
+  50% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(242, 111, 34, 0); }
+}
+
+.chat-tooltip {
+  position: absolute;
+  right: 74px;
+  bottom: 12px;
+  background: rgba(10, 49, 29, 0.95);
+  color: white;
+  padding: 7px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(8px);
+  transition: opacity .25s ease, transform .25s ease;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.floating-chat-widget:not(.is-open):hover .chat-tooltip {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 /* --- Print Stylesheet for Guest Voucher --- */
