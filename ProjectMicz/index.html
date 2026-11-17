@@ -195,10 +195,14 @@
 
     .story { overflow: hidden; background: var(--sand); }
     .story-grid { display: grid; grid-template-columns: 1fr .95fr; align-items: center; gap: 74px; }
-    .story-art { position: relative; min-height: 350px; overflow: hidden; border-radius: 26px; background: linear-gradient(155deg, #a4d2c8, #e8d8ae 75%); }
-    .story-art::before { position: absolute; inset: 0; background: radial-gradient(circle at 76% 21%, #ffe1a0 0 38px, transparent 39px); content: ""; }
-    .story-art svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-    .story-art figcaption { position: absolute; bottom: 18px; left: 20px; border: 1px solid rgba(255,255,255,.65); border-radius: 999px; background: rgba(255,255,255,.73); padding: 8px 12px; color: #365650; font-size: 10px; font-weight: 700; backdrop-filter: blur(5px); }
+    .story-art { position: relative; min-height: 350px; overflow: hidden; border-radius: 26px; background: #176f79; }
+    .story-art::before { position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg, transparent 48%, rgba(6,19,9,.48)); content: ""; pointer-events: none; }
+    .story-art img { position: absolute; object-fit: cover; }
+    .story-art .island-photo-primary { inset: 0; width: 100%; height: 100%; }
+    .story-art .island-photo-detail { z-index: 2; top: 18px; right: 18px; width: 42%; height: 43%; border: 4px solid rgba(255,255,255,.94); border-radius: 18px; box-shadow: 0 12px 32px rgba(0,0,0,.24); }
+    .story-art figcaption { position: absolute; z-index: 2; bottom: 18px; left: 20px; border: 1px solid rgba(255,255,255,.65); border-radius: 999px; background: rgba(255,255,255,.82); padding: 8px 12px; color: #365650; font-size: 10px; font-weight: 700; backdrop-filter: blur(5px); }
+    .story-art figcaption a { color: inherit; text-decoration: none; }
+    .story-art figcaption a:hover { text-decoration: underline; }
     .story-copy h2 { max-width: 490px; }
     .story-copy > p:not(.section-kicker) { max-width: 490px; color: var(--muted); font-size: 14px; line-height: 1.8; }
     .story-list { display: grid; gap: 15px; margin: 25px 0 0; padding: 0; list-style: none; }
@@ -464,12 +468,12 @@
           <div class="hero-note"><span class="dot" aria-hidden="true"></span><strong>9 local business concepts</strong><span>·</span><span>3 industries</span></div>
         </div>
         <div class="island-scene" aria-label="Hundred Islands-inspired coastal scene">
-          <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&amp;fit=crop&amp;w=1100&amp;q=85" alt="Turquoise water and a tropical coastline" fetchpriority="high">
+          <img src="https://seepangasinan.com/wp-content/uploads/2021/03/pilgrimisland2-1024x576.jpg" alt="Pilgrim Island surrounded by the blue waters of Hundred Islands" fetchpriority="high">
           <div class="island-label">
             <div><span>From Alaminos, with pride</span><strong>Room for your business to shine.</strong></div>
             <span class="island-stamp" aria-label="Inspired by the Hundred Islands">100<br>ISLANDS<br>SPIRIT</span>
           </div>
-          <a class="hero-photo-credit" href="https://unsplash.com/" target="_blank" rel="noopener noreferrer" aria-label="Image from Unsplash">Illustrative photo · Unsplash</a>
+          <a class="hero-photo-credit" href="https://seepangasinan.com/wp-content/uploads/2021/03/pilgrimisland2-1024x576.jpg" target="_blank" rel="noopener noreferrer" aria-label="Photo from See Pangasinan">Photo: See Pangasinan</a>
         </div>
       </div>
     </section>
@@ -548,21 +552,10 @@
 
     <section class="story section" id="about">
       <div class="wrap story-grid">
-        <figure class="story-art reveal" aria-label="Illustration of small islands in the sea">
-          <svg viewBox="0 0 620 400" role="img" aria-labelledby="island-title">
-            <title id="island-title">Hundred Islands-inspired island silhouettes</title>
-            <path d="M0 166c55-24 99 12 158-2s101-22 158 1 101 19 153 1 103-29 151-4v238H0Z" fill="#6fb8af"/>
-            <path d="M0 205c52-20 92 14 150 1s106-23 160 1 100 19 151 0 104-24 159-4v197H0Z" fill="#3c9794"/>
-            <path d="M0 266c61-19 99 18 161 2s107-19 156 5 100 16 153-2 103-19 150-3v135H0Z" fill="#267a7b"/>
-            <path d="M64 194c13-34 25-42 42-38 9 2 15 13 19 31 16-21 27-27 39-22 10 5 17 18 21 37-30 13-84 18-121-8Z" fill="#526f51"/>
-            <path d="M204 171c10-25 21-35 33-32 10 2 17 11 22 25 12-15 22-18 31-13 9 6 14 16 17 30-29 11-71 9-103-10Z" fill="#5b7752"/>
-            <path d="M359 197c9-30 20-40 34-37 11 2 18 14 23 30 12-17 24-20 34-13 8 6 14 18 17 34-34 12-75 7-108-14Z" fill="#4a694e"/>
-            <path d="M480 169c8-20 17-28 27-25 9 2 15 10 19 22 9-13 18-16 26-11 7 5 11 13 14 25-25 8-59 5-86-11Z" fill="#607b53"/>
-            <path d="M115 183c9-12 22-20 38-23m82 5c12-10 23-16 37-17m121 28c10-12 22-19 36-22m105 0c8-9 17-13 27-14" fill="none" stroke="#d7d0a6" stroke-linecap="round" stroke-width="4" opacity=".8"/>
-            <path d="M0 323c73-18 122 22 191 6s110-19 169 4 120 14 260-13" fill="none" stroke="#bce0d4" stroke-linecap="round" stroke-width="3" opacity=".48"/>
-            <path d="M0 355c69-14 122 17 193 4s116-15 175 6 119 11 252-9" fill="none" stroke="#bce0d4" stroke-linecap="round" stroke-width="2" opacity=".34"/>
-          </svg>
-          <figcaption>A local spirit, a world of possibilities</figcaption>
+        <figure class="story-art reveal" aria-label="Photographs of the Hundred Islands National Park">
+          <img class="island-photo-primary" src="https://thehundredislands.ph/res/images/carousel/carousel1.jpg" alt="Islands scattered across the water at Hundred Islands National Park" loading="lazy">
+          <img class="island-photo-detail" src="https://thehundredislands.ph/res/images/carousel/carousel8.jpg" alt="Aerial view of green islands and turquoise water" loading="lazy">
+          <figcaption><a href="https://thehundredislands.ph/" target="_blank" rel="noopener noreferrer">Photos: Hundred Islands National Park ↗</a></figcaption>
         </figure>
         <div class="story-copy reveal">
           <p class="section-kicker">Rooted here. Ready for anywhere.</p>
