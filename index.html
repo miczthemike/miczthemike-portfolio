@@ -199,7 +199,7 @@
 
         .nav-center {
             display: flex;
-            gap: 1.5rem;
+            gap: clamp(0.75rem, 1.2vw, 1.5rem);
             list-style: none;
         }
 
@@ -207,10 +207,11 @@
             text-decoration: none;
             color: var(--text-muted);
             font-weight: 500;
-            font-size: 0.92rem;
+            font-size: clamp(0.82rem, 0.9vw, 0.92rem);
             transition: var(--transition);
             position: relative;
             padding: 6px 0;
+            white-space: nowrap;
         }
 
         .nav-link:hover, .nav-link.active {
@@ -1764,13 +1765,19 @@
         }
 
         /* Responsive Breakpoints */
-        @media (max-width: 992px) {
+        @media (max-width: 1080px) {
+            .nav-center, .status-pill {
+                display: none;
+            }
+            .mobile-toggle {
+                display: inline-flex;
+            }
             .hero-grid {
                 grid-template-columns: 1fr;
                 gap: 2.5rem;
             }
             .hero-title {
-                font-size: 2.75rem;
+                font-size: clamp(2.2rem, 4.5vw, 2.85rem);
             }
             .about-grid, .edu-lang-grid {
                 grid-template-columns: 1fr;
@@ -1782,12 +1789,6 @@
         }
 
         @media (max-width: 768px) {
-            .nav-center, .status-pill {
-                display: none;
-            }
-            .mobile-toggle {
-                display: inline-flex;
-            }
             .container {
                 padding: 0 1.25rem;
             }

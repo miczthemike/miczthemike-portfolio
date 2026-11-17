@@ -337,35 +337,38 @@ a {
 
 .brand-title {
   font-family: var(--font-heading);
-  font-size: 1.18rem;
+  font-size: clamp(0.95rem, 1.8vw, 1.18rem);
   font-weight: 800;
   color: var(--palm-900);
   line-height: 1.15;
   letter-spacing: -0.01em;
+  white-space: nowrap;
 }
 
 .brand-subtitle {
-  font-size: 0.72rem;
+  font-size: clamp(0.62rem, 1.1vw, 0.72rem);
   font-weight: 700;
   color: var(--ocean-700);
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  white-space: nowrap;
 }
 
 /* Nav Links */
 .nav-menu {
   display: flex;
   align-items: center;
-  gap: 26px;
+  gap: clamp(10px, 1.3vw, 24px);
   list-style: none;
 }
 
 .nav-link {
-  font-size: 0.94rem;
+  font-size: clamp(0.82rem, 0.9vw, 0.94rem);
   font-weight: 600;
   color: var(--text-primary);
   padding: 6px 2px;
   position: relative;
+  white-space: nowrap;
 }
 
 .nav-link::after {
@@ -2657,9 +2660,77 @@ a {
 }
 
 /* --- Responsive Media Queries --- */
-@media (max-width: 1024px) {
+@media (max-width: 1080px) {
+  /* Top Utility Bar */
+  .top-announcement {
+    padding: 6px 0;
+  }
+  .top-bar-inner {
+    justify-content: center;
+    gap: 8px 16px;
+  }
+  .top-bar-left, .top-bar-right {
+    justify-content: center;
+    gap: 8px 14px;
+    flex-wrap: wrap;
+  }
+  .top-bar-left .top-item:first-child,
+  .top-bar-right > .top-item:last-child {
+    display: none; /* Hide full street address and raw phone string on tablet/mobile to keep bar compact */
+  }
+
+  /* Main Navigation Header: Switch to Drawer */
+  .nav-menu {
+    display: none !important;
+  }
+  .mobile-toggle-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-actions .btn:not(.btn-trigger-booking) {
+    display: none; /* Hide secondary buttons from header; keep Book Direct and hamburger */
+  }
+  .nav-actions .btn-trigger-booking {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    min-height: auto;
+    padding: 40px 0 85px 0;
+  }
+  .hero-badge-row {
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .proximity-tag {
+    font-size: 0.82rem;
+    padding: 6px 14px;
+  }
+  .hero-headline {
+    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .hero-subtitle {
+    font-size: clamp(0.92rem, 1.8vw, 1.15rem);
+    line-height: 1.55;
+    margin-bottom: 24px;
+    padding: 0 10px;
+  }
+  .hero-trust-list {
+    gap: 12px 18px;
+    font-size: 0.82rem;
+    margin-bottom: 28px;
+  }
+
+  /* Floating Quick-Reservation Bar */
   .quick-reserve-bar {
     grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    padding: 20px;
   }
   .reserve-action {
     grid-column: span 2;
@@ -2667,36 +2738,64 @@ a {
   .reserve-submit-btn {
     width: 100%;
   }
+
+  /* Planner & Neighborhood Layouts */
   .planner-layout {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
   .planner-summary-card {
     position: static;
+    width: 100%;
   }
   .neighborhood-layout {
     grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  /* Grid Layouts on Tablet */
+  .rooms-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .reviews-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
   .footer-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 28px;
   }
 }
 
 @media (max-width: 768px) {
-  .nav-menu, .nav-actions .btn {
-    display: none;
+  .top-announcement {
+    display: none; /* Mobile displays status inside hero & drawer */
   }
-  .mobile-toggle-btn {
-    display: block;
+  .site-header {
+    height: 68px;
+  }
+  .nav-container {
+    height: 68px;
+  }
+  .nav-actions .btn {
+    display: none;
   }
   .quick-reserve-bar {
     grid-template-columns: 1fr;
-    padding: 18px;
+    padding: 16px;
   }
   .reserve-action {
     grid-column: span 1;
   }
   .quick-reserve-wrapper {
     margin-top: -30px;
+  }
+  .rooms-grid {
+    grid-template-columns: 1fr;
+  }
+  .reviews-grid {
+    grid-template-columns: 1fr;
   }
   .form-grid-2, .form-grid-3, .payment-methods-grid {
     grid-template-columns: 1fr;
@@ -2707,11 +2806,9 @@ a {
   body {
     padding-bottom: 74px; /* Space for mobile sticky bar */
   }
-  .rooms-grid {
-    grid-template-columns: 1fr;
-  }
   .footer-grid {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
   .floating-chat-widget {
     bottom: 84px;
