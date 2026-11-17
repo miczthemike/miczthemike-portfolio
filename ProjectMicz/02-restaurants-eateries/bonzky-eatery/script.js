@@ -57,6 +57,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const chatTrigger = document.getElementById("chatTriggerBtn");
   const chatOptions = document.getElementById("chatOptions");
 
+  const closeWidget = () => {
+    if (!chatWidget) return;
+    chatWidget.classList.remove("is-open");
+    chatTrigger?.setAttribute("aria-expanded", "false");
+    if (chatOptions) chatOptions.setAttribute("aria-hidden", "true");
+  };
+
   chatTrigger?.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -66,12 +73,19 @@ document.addEventListener("DOMContentLoaded", () => {
     if (chatOptions) chatOptions.setAttribute("aria-hidden", String(!isOpen));
   });
 
+  // Open external links (Messenger) via window.open so the page never navigates away
+  chatWidget?.querySelectorAll("[data-external]").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      closeWidget();
+      window.open(link.href, "_blank", "noopener");
+    });
+  });
+
   // Close when clicking outside
   document.addEventListener("click", (event) => {
     if (chatWidget && chatWidget.classList.contains("is-open") && !chatWidget.contains(event.target)) {
-      chatWidget.classList.remove("is-open");
-      chatTrigger?.setAttribute("aria-expanded", "false");
-      if (chatOptions) chatOptions.setAttribute("aria-hidden", "true");
+      closeWidget();
     }
   });
 });
