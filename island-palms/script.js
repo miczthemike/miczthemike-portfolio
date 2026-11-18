@@ -946,11 +946,7 @@ Looking forward to our stay at The Island Palms Homestay in Lucap!`;
   // ------------------------------------------------------------------------
   // GOOGLE SHEETS RESERVATION BACKEND & DOUBLE-BOOKING SHIELD
   // ------------------------------------------------------------------------
-  const GOOGLE_SHEETS_CONFIG = {
-    // Paste deployed Google Apps Script Web App URL here or set via localStorage
-    ENDPOINT: localStorage.getItem('IPH_SHEETS_ENDPOINT') || '',
-    STORAGE_KEY: 'iph_active_reservations_db'
-  };
+  const GOOGLE_SHEETS_CONFIG = "https://script.google.com/macros/s/AKfycby3VD1DBAjL6s9Rew11LLbV7zAGvHoMFVgLrePORxPAbCkRNdsK8WYjmDWBA9rMBZR0ow/exec";
 
   /**
    * Evaluates date collisions:
