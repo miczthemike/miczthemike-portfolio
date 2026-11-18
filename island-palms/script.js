@@ -943,6 +943,47 @@ Looking forward to our stay at The Island Palms Homestay in Lucap!`;
     }
   }
 
+  // ------------------------------------------------------------------------
+  // GOOGLE SHEETS RESERVATION BACKEND & DOUBLE-BOOKING SHIELD
+  // ------------------------------------------------------------------------
+  const GOOGLE_SHEETS_CONFIG = {
+    // Paste deployed Google Apps Script Web App URL here or set via localStorage
+    ENDPOINT: localStorage.getItem('IPH_SHEETS_ENDPOINT') || '',
+    STORAGE_KEY: 'iph_active_reservations_db'
+  };
+
+  /**
+   * Evaluates date collisions:
+   * Formula: New_CheckIn < Existing_CheckOut AND New_CheckOut > Existing_CheckIn
+   */
+  function checkLocalCollision(roomName, checkInStr, checkOutStr) {
+    const rawDb = localStorage.getItem(GOOGLE_SHEETS_CONFIG.STORAGE_KEY);
+    const bookings = rawDb ? JSON.parse(rawDb) : [];
+    
+    const newIn = new Date(checkInStr);
+    const newOut = new Date(checkOutStr);
+
+    for (let i = 0; i < bookings.length; i++) {
+      const b = bookings[i];
+      if (b.room && b.room.toLowerCase() === roomName.toLowerCase()) {
+        if (b.status === 'Confirmed' || b.status === 'Pending Deposit') {
+          const existIn = new Date(b.checkIn);
+          const existOut = new Date(b.checkOut);
+
+          if (!isNaN(existIn.getTime()) && !isNaN(existOut.getTime())) {
+            if (newIn < existOut && newOut > existIn) {
+              return {
+                isCollision: true,
+                conflict: b
+              };
+            }
+          }
+        }
+      }
+    }
+    return { isCollision: false };
+  }
+
   function initBookingModalLogic() {
     // Modal Close
     const closeBtn = document.getElementById('modalCloseBtn');
@@ -965,7 +1006,7 @@ Looking forward to our stay at The Island Palms Homestay in Lucap!`;
     // Step navigation buttons
     const btnNext = document.getElementById('btnModalNext');
     if (btnNext) {
-      btnNext.addEventListener('click', () => {
+      btnNext.addEventListener('click', async () => {
         const nameInput = document.getElementById('guestFullName');
         const phoneInput = document.getElementById('guestPhone');
 
@@ -977,6 +1018,15 @@ Looking forward to our stay at The Island Palms Homestay in Lucap!`;
         if (!phoneInput.value.trim() || phoneInput.value.trim().length < 8) {
           phoneInput.focus();
           showToast('Please enter a valid mobile number', 'fa-solid fa-triangle-exclamation');
+          return;
+        }
+
+        // Pre-validation against double booking
+        const calc = updateModalCalculations();
+        const collision = checkLocalCollision(calc.roomName, state.checkIn, state.checkOut);
+        if (collision.isCollision) {
+          showToast('Selected dates already reserved for this room!', 'fa-solid fa-calendar-xmark', 4000);
+          alert(`⚠️ DATES UNAVAILABLE (Double Booking Shield)\n\nSorry, "${calc.roomName}" is already reserved from ${collision.conflict.checkIn} to ${collision.conflict.checkOut}.\n\nPlease choose another room type or change your check-in/check-out dates.`);
           return;
         }
 
@@ -995,9 +1045,89 @@ Looking forward to our stay at The Island Palms Homestay in Lucap!`;
 
     const btnSubmit = document.getElementById('btnModalSubmit');
     if (btnSubmit) {
-      btnSubmit.addEventListener('click', () => {
-        showStep(3);
-        showToast('Reservation provisional hold generated! Reference: ' + state.bookingRef);
+      btnSubmit.addEventListener('click', async () => {
+        const calc = updateModalCalculations();
+        const guestName = document.getElementById('guestFullName')?.value.trim() || 'Valued Guest';
+        const guestPhone = document.getElementById('guestPhone')?.value.trim() || '+63 9XX XXX XXXX';
+        const guestEmail = document.getElementById('guestEmail')?.value.trim() || 'guest@example.com';
+        const guestRequests = document.getElementById('guestNotes')?.value.trim() || 'Standard check-in';
+
+        // Lock button during submission
+        btnSubmit.disabled = true;
+        const originalBtnHtml = btnSubmit.innerHTML;
+        btnSubmit.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Securing Dates...`;
+
+        // Generate Ref ID if not set
+        if (!state.bookingRef) {
+          state.bookingRef = 'IPH-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
+        }
+
+        const payload = {
+          bookingRef: state.bookingRef,
+          fullName: guestName,
+          phone: guestPhone,
+          email: guestEmail,
+          room: calc.roomName,
+          checkIn: state.checkIn,
+          checkOut: state.checkOut,
+          nights: state.nights,
+          guests: state.adults,
+          tourAddons: calc.addonNames.length > 0 ? calc.addonNames.join(', ') : 'None',
+          grandTotal: formatCurrency(calc.grandTotal),
+          depositAmt: formatCurrency(calc.depositAmount),
+          paymentMethod: state.selectedPaymentMethod,
+          paymentType: state.paymentType,
+          notes: guestRequests,
+          status: 'Pending Deposit',
+          timestamp: new Date().toLocaleString()
+        };
+
+        try {
+          // If a remote Google Apps Script endpoint is configured, submit via API
+          if (GOOGLE_SHEETS_CONFIG.ENDPOINT) {
+            const response = await fetch(GOOGLE_SHEETS_CONFIG.ENDPOINT, {
+              method: 'POST',
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: JSON.stringify(payload)
+            });
+            const result = await response.json();
+
+            if (!result.success) {
+              alert(`⚠️ Double Booking Alert!\n\n${result.error || 'This room is already reserved for these dates.'}`);
+              showToast('Dates unavailable. Please choose another date or room.', 'fa-solid fa-calendar-xmark', 4000);
+              showStep(1);
+              return;
+            }
+
+            if (result.bookingRef) {
+              state.bookingRef = result.bookingRef;
+            }
+          } else {
+            // Local fallback validation & storage
+            const collision = checkLocalCollision(calc.roomName, state.checkIn, state.checkOut);
+            if (collision.isCollision) {
+              alert(`⚠️ Dates Conflict (Double Booking Shield)\n\nSorry, "${calc.roomName}" is already reserved from ${collision.conflict.checkIn} to ${collision.conflict.checkOut}.\n\nPlease select another room type or adjust your dates.`);
+              showStep(1);
+              return;
+            }
+
+            const existingList = JSON.parse(localStorage.getItem(GOOGLE_SHEETS_CONFIG.STORAGE_KEY) || '[]');
+            existingList.push(payload);
+            localStorage.setItem(GOOGLE_SHEETS_CONFIG.STORAGE_KEY, JSON.stringify(existingList));
+          }
+
+          // Advance to Confirmation Step
+          showStep(3);
+          showToast('Reservation secured! Reference: ' + state.bookingRef);
+        } catch (err) {
+          console.warn("Google Sheets submission fallback:", err);
+          // Still advance to Step 3 so the customer is not stranded
+          showStep(3);
+          showToast('Provisional reservation hold generated! Reference: ' + state.bookingRef);
+        } finally {
+          btnSubmit.disabled = false;
+          btnSubmit.innerHTML = originalBtnHtml;
+        }
       });
     }
 
