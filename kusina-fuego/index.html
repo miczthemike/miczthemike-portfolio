@@ -1,0 +1,2213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Kusina Fuego | Modern Wood-Fired Kitchen & Craft Smokehouse</title>
+  <meta name="description" content="Experience artisanal wood-fired steaks, smoked lechon belly, handcrafted brick oven pizzas, and signature cocktails at Kusina Fuego. Reserve a table or order online.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #080c14;
+      --bg-card: #0f1523;
+      --bg-card-hover: #162035;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --fuego-amber: #f97316;
+      --fuego-ember: #ef4444;
+      --fuego-gold: #fbbf24;
+      --fuego-glow: rgba(249, 115, 22, 0.25);
+      --emerald-green: #10b981;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-heading: 'Space Grotesk', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    /* Ambient background mesh */
+    .bg-mesh {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(249, 115, 22, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 40%, rgba(239, 68, 68, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 50% 80%, rgba(251, 191, 36, 0.05) 0%, transparent 50%),
+        #080c14;
+      pointer-events: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    /* ====================================================
+       DEMO TIER SWITCHER (STICKY FLOATING CONTROLLER)
+       ==================================================== */
+    .tier-bar-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8, 12, 20, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .tier-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.6rem 0;
+      flex-wrap: wrap;
+    }
+
+    .tier-branding {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tier-brand-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--fuego-amber);
+      background: rgba(249, 115, 22, 0.12);
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      border: 1px solid rgba(249, 115, 22, 0.25);
+    }
+
+    .tier-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.25rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+    }
+
+    .tier-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tier-btn:hover {
+      color: var(--text-main);
+    }
+
+    .tier-btn.active {
+      background: var(--fuego-amber);
+      color: #ffffff;
+      box-shadow: 0 2px 12px var(--fuego-glow);
+    }
+
+    .tier-btn.active.tier-1 {
+      background: #10b981;
+      color: #ffffff;
+      box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+    }
+
+    .tier-btn.active.tier-3 {
+      background: #8b5cf6;
+      color: #ffffff;
+      box-shadow: 0 2px 12px rgba(139, 92, 246, 0.4);
+    }
+
+    .tier-info-modal-trigger {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--fuego-gold);
+      cursor: pointer;
+      background: rgba(251, 191, 36, 0.08);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .tier-info-modal-trigger:hover {
+      background: rgba(251, 191, 36, 0.16);
+    }
+
+    /* Active Plan Status Banner */
+    .tier-status-banner {
+      background: rgba(249, 115, 22, 0.1);
+      border-bottom: 1px solid rgba(249, 115, 22, 0.2);
+      padding: 0.4rem 1.25rem;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--fuego-amber);
+    }
+
+    .tier-status-banner.t1 {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+    }
+
+    .tier-status-banner.t3 {
+      background: rgba(139, 92, 246, 0.1);
+      border-color: rgba(139, 92, 246, 0.2);
+      color: #c4b5fd;
+    }
+
+    /* ====================================================
+       SITE NAVIGATION HEADER
+       ==================================================== */
+    .site-nav {
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+    }
+
+    .logo-flame {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #f97316, #ef4444);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 16px var(--fuego-glow);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-title {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 1.35rem;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .logo-title span {
+      color: var(--fuego-amber);
+    }
+
+    .logo-sub {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--fuego-amber);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .cart-btn-trigger {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: #ffffff;
+      padding: 0.55rem 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .cart-btn-trigger:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--fuego-amber);
+    }
+
+    .cart-badge {
+      background: var(--fuego-amber);
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+    }
+
+    .nav-cta {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.55rem 1.15rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 14px var(--fuego-glow);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .nav-cta:hover {
+      background: linear-gradient(135deg, #fb923c, #f97316);
+      transform: translateY(-1px);
+    }
+
+    /* ====================================================
+       HERO SECTION
+       ==================================================== */
+    .hero {
+      position: relative;
+      padding: 5rem 0 4rem;
+      background: linear-gradient(180deg, rgba(8, 12, 20, 0.4) 0%, rgba(8, 12, 20, 0.95) 100%),
+                  url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    }
+
+    .hero-content {
+      max-width: 680px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(249, 115, 22, 0.15);
+      border: 1px solid rgba(249, 115, 22, 0.35);
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--fuego-gold);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-badge .flame-dot {
+      font-size: 0.9rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: 3.4rem;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+      color: #ffffff;
+    }
+
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, #fbbf24 20%, #f97316 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: #cbd5e1;
+      margin-bottom: 2rem;
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #ffffff;
+      padding: 0.85rem 1.6rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 6px 20px var(--fuego-glow);
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #fb923c, #f97316);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-color);
+      color: #ffffff;
+      padding: 0.85rem 1.4rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .hero-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      max-width: 500px;
+    }
+
+    .hero-stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-stat-val {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .hero-stat-lbl {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    /* ====================================================
+       SECTION COMMON STYLES
+       ==================================================== */
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .section-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(249, 115, 22, 0.1);
+      border: 1px solid rgba(249, 115, 22, 0.25);
+      color: var(--fuego-amber);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+    }
+
+    /* ====================================================
+       MENU CATALOG WITH CATEGORY FILTER
+       ==================================================== */
+    .menu-section {
+      padding: 4.5rem 0 3rem;
+    }
+
+    .menu-filters {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.5rem 1.1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      color: #ffffff;
+      border-color: rgba(249, 115, 22, 0.3);
+    }
+
+    .filter-btn.active {
+      background: var(--fuego-amber);
+      color: #ffffff;
+      border-color: var(--fuego-amber);
+      box-shadow: 0 4px 14px var(--fuego-glow);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.8rem;
+    }
+
+    .dish-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .dish-card:hover {
+      border-color: rgba(249, 115, 22, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+    }
+
+    .dish-img-box {
+      width: 100%;
+      height: 210px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dish-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .dish-card:hover .dish-img {
+      transform: scale(1.06);
+    }
+
+    .dish-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(8, 12, 20, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--fuego-gold);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .dish-body {
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    .dish-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .dish-title {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .dish-price {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--fuego-amber);
+      white-space: nowrap;
+    }
+
+    .dish-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .dish-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-add-cart {
+      width: 100%;
+      background: rgba(249, 115, 22, 0.12);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      color: var(--fuego-amber);
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+
+    .btn-add-cart:hover {
+      background: var(--fuego-amber);
+      color: #ffffff;
+      box-shadow: 0 4px 14px var(--fuego-glow);
+    }
+
+    /* ====================================================
+       INSTANT TABLE RESERVATION ENGINE (TIER 2+ FEATURE)
+       ==================================================== */
+    .reservation-section {
+      padding: 4rem 0;
+      position: relative;
+    }
+
+    .reserve-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reserve-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #f97316, #ef4444, #fbbf24);
+    }
+
+    .reserve-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .reserve-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+    }
+
+    .form-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+      display: block;
+      font-weight: 600;
+    }
+
+    .custom-input {
+      width: 100%;
+      background: rgba(8, 12, 20, 0.8);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .custom-input:focus {
+      border-color: var(--fuego-amber);
+    }
+
+    .party-size-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.4rem;
+    }
+
+    .party-btn {
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-muted);
+      font-weight: 700;
+      padding: 0.6rem 0;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .party-btn:hover {
+      border-color: var(--fuego-amber);
+      color: #ffffff;
+    }
+
+    .party-btn.active {
+      background: var(--fuego-amber);
+      border-color: var(--fuego-amber);
+      color: #ffffff;
+      box-shadow: 0 2px 10px var(--fuego-glow);
+    }
+
+    .reserve-preview-box {
+      background: rgba(8, 12, 20, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .preview-summary-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      font-size: 0.9rem;
+      margin: 1.2rem 0;
+    }
+
+    .preview-summary-item {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+    }
+
+    .preview-summary-item strong {
+      color: #ffffff;
+    }
+
+    /* Lock Overlay for Tier Limitations */
+    .tier-lock-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(8, 12, 20, 0.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 20px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      z-index: 20;
+    }
+
+    .tier-lock-overlay.active {
+      display: flex;
+    }
+
+    .lock-icon-circle {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: rgba(249, 115, 22, 0.15);
+      border: 1px solid var(--fuego-amber);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--fuego-amber);
+      font-size: 1.7rem;
+      margin-bottom: 1rem;
+    }
+
+    .lock-title {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    .lock-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ====================================================
+       TIER 3 EXCLUSIVE: PRIVATE BANQUETS & VIP CATERING
+       ==================================================== */
+    .tier3-section {
+      background: linear-gradient(180deg, rgba(139, 92, 246, 0.08) 0%, transparent 100%);
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin: 3.5rem 0;
+      position: relative;
+    }
+
+    .tier3-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .banquet-pkg-box {
+      background: rgba(8, 12, 20, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ====================================================
+       INTERACTIVE CART SLIDE-OVER DRAWER
+       ==================================================== */
+    .cart-drawer-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(6px);
+      z-index: 250;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .cart-drawer-backdrop.open {
+      display: block;
+      opacity: 1;
+    }
+
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: -420px;
+      width: 420px;
+      max-width: 90vw;
+      height: 100vh;
+      background: #0d131f;
+      border-left: 1px solid var(--border-color);
+      z-index: 260;
+      box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8);
+      transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .cart-drawer.open {
+      right: 0;
+    }
+
+    .cart-header {
+      padding: 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cart-items-body {
+      padding: 1.25rem;
+      overflow-y: auto;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cart-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 0.8rem;
+    }
+
+    .cart-item-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-item-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .cart-item-price {
+      font-size: 0.8rem;
+      color: var(--fuego-amber);
+    }
+
+    .cart-item-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .qty-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .cart-footer {
+      padding: 1.25rem;
+      border-top: 1px solid var(--border-color);
+      background: rgba(8, 12, 20, 0.8);
+    }
+
+    .cart-calc-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      margin-bottom: 0.4rem;
+      color: var(--text-muted);
+    }
+
+    .cart-calc-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0.8rem 0 1.2rem;
+      padding-top: 0.6rem;
+      border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    }
+
+    /* ====================================================
+       FOOTER & LOCATION SECTION
+       ==================================================== */
+    .location-section {
+      padding: 4rem 0 2rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .loc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .map-box {
+      width: 100%;
+      height: 320px;
+      background: #111827;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=800&q=80') center/cover;
+      opacity: 0.25;
+    }
+
+    .map-card-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--border-color);
+      padding: 2.5rem 0;
+      background: #05080e;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    /* ====================================================
+       MODAL: TIER SPECIFICATION & PRICING MATRIX
+       ==================================================== */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-dialog {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: #ffffff;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      font-size: 0.88rem;
+    }
+
+    .matrix-table th, .matrix-table td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .matrix-table th {
+      background: rgba(255, 255, 255, 0.04);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .matrix-check {
+      color: #10b981;
+      font-weight: bold;
+    }
+
+    .matrix-cross {
+      color: #64748b;
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f1523;
+      border: 1px solid var(--fuego-amber);
+      color: #ffffff;
+      padding: 0.9rem 1.4rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+      transform: translateY(120%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 400;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+    }
+
+    /* ====================================================
+       RESPONSIVE ADAPTATIONS (MOBILE & TABLETS)
+       ==================================================== */
+    @media (max-width: 992px) {
+      .hero-title {
+        font-size: 2.7rem;
+      }
+      .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .reserve-grid {
+        grid-template-columns: 1fr;
+      }
+      .tier3-grid {
+        grid-template-columns: 1fr;
+      }
+      .loc-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+      .tier-bar {
+        justify-content: center;
+      }
+      .tier-controls {
+        width: 100%;
+        justify-content: center;
+      }
+      .party-size-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .reserve-card {
+        padding: 1.4rem;
+      }
+      .tier3-section {
+        padding: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient background mesh -->
+  <div class="bg-mesh"></div>
+
+  <!-- ====================================================
+       INTERACTIVE TIER SWITCHER DOCK (FLOATING DEMO CONTROL)
+       ==================================================== -->
+  <aside class="tier-bar-wrapper" aria-label="Interactive Demo Controls">
+    <div class="container">
+      <div class="tier-bar">
+        <div class="tier-branding">
+          <span class="tier-brand-tag">🔥 Live Demo Mode</span>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Preview Plan:</span>
+        </div>
+
+        <div class="tier-controls" role="tablist">
+          <button class="tier-btn" id="btn-tier-1" onclick="switchTier(1)">
+            <span>🟢 Starter</span>
+            <small style="opacity: 0.8;">₱899/mo</small>
+          </button>
+          <button class="tier-btn active" id="btn-tier-2" onclick="switchTier(2)">
+            <span>🟡 Interactive</span>
+            <small style="opacity: 0.8;">₱1,499/mo</small>
+          </button>
+          <button class="tier-btn" id="btn-tier-3" onclick="switchTier(3)">
+            <span>🔵 Full Platform</span>
+            <small style="opacity: 0.8;">₱2,499/mo</small>
+          </button>
+        </div>
+
+        <button class="tier-info-modal-trigger" onclick="openTierModal()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          Compare All 3 Tiers
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Dynamic Active Tier Status Banner -->
+  <div class="tier-status-banner" id="tier-status-bar">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+      <span id="tier-status-text">
+        <strong>Currently Viewing: Tier 2 (₱1,499/mo Interactive Plan)</strong> — Unlocks Online Food Ordering Cart + Table Reservation Engine.
+      </span>
+      <span style="font-size: 0.75rem; text-decoration: underline; cursor: pointer;" onclick="openTierModal()">View Limitations & Features</span>
+    </div>
+  </div>
+
+  <!-- ====================================================
+       SITE NAVIGATION HEADER
+       ==================================================== -->
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="#" class="logo-wrapper">
+        <div class="logo-flame">🔥</div>
+        <div class="logo-text">
+          <span class="logo-title">Kusina<span>Fuego</span></span>
+          <span class="logo-sub">Wood-Fired Smokehouse & Bar</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#menu">Digital Menu</a></li>
+        <li><a href="#reserve">Table Reservation</a></li>
+        <li><a href="#banquets" id="nav-link-banquet">Private Banquets</a></li>
+        <li><a href="#location">Hours & Location</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="cart-btn-trigger" onclick="toggleCartDrawer(true)" id="cart-nav-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          <span>Order</span>
+          <span class="cart-badge" id="cart-count">2</span>
+        </button>
+
+        <a href="#reserve" class="nav-cta">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          Book a Table
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ====================================================
+       HERO SECTION
+       ==================================================== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="flame-dot">🔥</span>
+          Artisanal Smokehouse & Craft Kitchen
+        </div>
+
+        <h1 class="hero-title">
+          Wood-Fired Flavors. <br>Crafted for the <span class="gradient-text">Modern Soul.</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          From 14-hour smoked Angus beef brisket and crispy pork belly lechon to blistered brick-oven sourdough pizzas and signature bourbon infusions.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#reserve" class="btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            Reserve Your Table
+          </a>
+
+          <a href="#menu" class="btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+            Explore Digital Menu
+          </a>
+        </div>
+
+        <div class="hero-stats-row">
+          <div class="hero-stat-item">
+            <div class="hero-stat-val">4.9 ★</div>
+            <div class="hero-stat-lbl">850+ Google Reviews</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-val">100%</div>
+            <div class="hero-stat-lbl">Hardwood Smoked</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-val">Al Fresco</div>
+            <div class="hero-stat-lbl">& Indoor Dining</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       DIGITAL MENU SHOWCASE (CORE FEATURE)
+       ==================================================== -->
+  <section class="menu-section" id="menu">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pill">Culinary Excellence</div>
+        <h2 class="section-title">The Smokehouse & Kitchen Menu</h2>
+        <p class="section-desc">
+          Slow-cooked with local coffee wood and seasoned with Philippine sea salt. Browse our favorites or build your pick-up order.
+        </p>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="menu-filters">
+        <button class="filter-btn active" onclick="filterMenu('all')">All Offerings</button>
+        <button class="filter-btn" onclick="filterMenu('steaks')">🥩 Wood-Fired Meats</button>
+        <button class="filter-btn" onclick="filterMenu('pizzas')">🍕 Brick Oven Pizzas</button>
+        <button class="filter-btn" onclick="filterMenu('pastas')">🍝 Pastas & Starters</button>
+        <button class="filter-btn" onclick="filterMenu('drinks')">🍸 Craft Cocktails</button>
+      </div>
+
+      <!-- Menu Grid -->
+      <div class="menu-grid">
+
+        <!-- Item 1 -->
+        <div class="dish-card" data-category="steaks">
+          <div class="dish-img-box">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="14-Hour Smoked Angus Brisket" class="dish-img">
+            <span class="dish-tag">Chef's Signature</span>
+          </div>
+          <div class="dish-body">
+            <div>
+              <div class="dish-title-row">
+                <h3 class="dish-title">14-Hour Smoked Angus Brisket</h3>
+                <span class="dish-price">₱980</span>
+              </div>
+              <p class="dish-desc">
+                Black Angus beef brisket smoked over local fruitwood for 14 hours. Served with charred street corn, pickled onions, and house bourbon BBQ glaze.
+              </p>
+            </div>
+            <div class="dish-actions">
+              <button class="btn-add-cart" onclick="addToCart('14-Hour Smoked Angus Brisket', 980)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Add to Order
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="dish-card" data-category="steaks">
+          <div class="dish-img-box">
+            <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80" alt="Wood-Fired Ribeye Steak" class="dish-img">
+            <span class="dish-tag">Prime Cut</span>
+          </div>
+          <div class="dish-body">
+            <div>
+              <div class="dish-title-row">
+                <h3 class="dish-title">Wood-Fired Ribeye (400g)</h3>
+                <span class="dish-price">₱1,450</span>
+              </div>
+              <p class="dish-desc">
+                Seared on high heat over roaring embers, basted with roasted garlic herb butter, accompanied by roasted bone marrow and truffled mash.
+              </p>
+            </div>
+            <div class="dish-actions">
+              <button class="btn-add-cart" onclick="addToCart('Wood-Fired Ribeye (400g)', 1450)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Add to Order
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="dish-card" data-category="pizzas">
+          <div class="dish-img-box">
+            <img src="https://images.unsplash.com/photo-1604382355076-af4b0eb60143?auto=format&fit=crop&w=800&q=80" alt="Fuego Brick Oven Sourdough Pizza" class="dish-img">
+            <span class="dish-tag">Wood Fired</span>
+          </div>
+          <div class="dish-body">
+            <div>
+              <div class="dish-title-row">
+                <h3 class="dish-title">Truffle Prosciutto Sourdough Pizza</h3>
+                <span class="dish-price">₱680</span>
+              </div>
+              <p class="dish-desc">
+                48-hour fermented sourdough crust blistered at 450°C, fresh fior di latte mozzarella, black truffle cream, aged prosciutto, and wild baby arugula.
+              </p>
+            </div>
+            <div class="dish-actions">
+              <button class="btn-add-cart" onclick="addToCart('Truffle Prosciutto Pizza', 680)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Add to Order
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="dish-card" data-category="pastas">
+          <div class="dish-img-box">
+            <img src="https://images.unsplash.com/photo-1621996346565-e3d5d6281699?auto=format&fit=crop&w=800&q=80" alt="Handmade Truffle Tagliatelle" class="dish-img">
+            <span class="dish-tag">Fresh Pasta</span>
+          </div>
+          <div class="dish-body">
+            <div>
+              <div class="dish-title-row">
+                <h3 class="dish-title">Wild Mushroom & Truffle Tagliatelle</h3>
+                <span class="dish-price">₱560</span>
+              </div>
+              <p class="dish-desc">
+                Hand-rolled egg pasta tossed in brown butter, roasted porcini, shiitake mushrooms, Parmigiano Reggiano, and white truffle oil drizzle.
+              </p>
+            </div>
+            <div class="dish-actions">
+              <button class="btn-add-cart" onclick="addToCart('Wild Mushroom Tagliatelle', 560)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Add to Order
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="dish-card" data-category="pastas">
+          <div class="dish-img-box">
+            <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80" alt="Smoked Pork Belly Lechon Roll" class="dish-img">
+            <span class="dish-tag">Crowd Favorite</span>
+          </div>
+          <div class="dish-body">
+            <div>
+              <div class="dish-title-row">
+                <h3 class="dish-title">Smoked Crispy Lechon Roll</h3>
+                <span class="dish-price">₱620</span>
+              </div>
+              <p class="dish-desc">
+                Rolled pork belly stuffed with lemongrass and scallions, smoked then flash-crisped for glass-like crackling skin. Served with spiced liver sauce.
+              </p>
+            </div>
+            <div class="dish-actions">
+              <button class="btn-add-cart" onclick="addToCart('Smoked Crispy Lechon Roll', 620)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Add to Order
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 6 -->
+        <div class="dish-card" data-category="drinks">
+          <div class="dish-img-box">
+            <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80" alt="Smoked Cinnamon Old Fashioned" class="dish-img">
+            <span class="dish-tag">Craft Bar</span>
+          </div>
+          <div class="dish-body">
+            <div>
+              <div class="dish-title-row">
+                <h3 class="dish-title">Smoked Cinnamon Old Fashioned</h3>
+                <span class="dish-price">₱380</span>
+              </div>
+              <p class="dish-desc">
+                Small-batch bourbon, Angostura bitters, raw muscovado syrup, served under a glass cloche infused with charred cinnamon bark smoke.
+              </p>
+            </div>
+            <div class="dish-actions">
+              <button class="btn-add-cart" onclick="addToCart('Smoked Cinnamon Old Fashioned', 380)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Add to Order
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       INSTANT TABLE RESERVATION ENGINE (TIER 2+ FEATURE)
+       ==================================================== -->
+  <section class="reservation-section" id="reserve">
+    <div class="container">
+      <div class="reserve-card" id="reserve-card-box">
+
+        <!-- TIER 1 LOCK OVERLAY (Locked in Tier 1) -->
+        <div class="tier-lock-overlay" id="reserve-tier-lock">
+          <div class="lock-icon-circle">🔒</div>
+          <h3 class="lock-title">Online Table Reservations are a Tier 2+ Feature</h3>
+          <p class="lock-desc">
+            You are currently previewing the <strong>Tier 1 Starter Plan (₱899/mo)</strong>, which directs customers to call or send a direct message. 
+            Upgrade to <strong>Tier 2 Interactive (₱1,499/mo)</strong> to unlock this live automated table booking calendar!
+          </p>
+          <button class="btn-primary" onclick="switchTier(2)">
+            🔥 Switch to Tier 2 Preview to Test
+          </button>
+        </div>
+
+        <div class="reserve-grid">
+          <!-- Reservation Inputs -->
+          <div class="reserve-form-group">
+            <div>
+              <div class="section-pill">Real-time Table Booking</div>
+              <h2 style="font-family: var(--font-serif); font-size: 2rem; margin-bottom: 0.4rem;">
+                Reserve Your Dining Experience
+              </h2>
+              <p style="color: var(--text-muted); font-size: 0.9rem;">
+                Select your party size and preferred dining area. Receive immediate confirmation via SMS/Email.
+              </p>
+            </div>
+
+            <!-- Party Size Selector -->
+            <div>
+              <label class="form-label">Number of Guests</label>
+              <div class="party-size-grid">
+                <div class="party-btn" onclick="setPartySize(1)">1</div>
+                <div class="party-btn active" onclick="setPartySize(2)">2</div>
+                <div class="party-btn" onclick="setPartySize(4)">4</div>
+                <div class="party-btn" onclick="setPartySize(6)">6</div>
+                <div class="party-btn" onclick="setPartySize(8)">8</div>
+                <div class="party-btn" onclick="setPartySize('10+')">10+</div>
+              </div>
+            </div>
+
+            <!-- Date & Time Row -->
+            <div class="form-row">
+              <div>
+                <label class="form-label">Reservation Date</label>
+                <input type="date" class="custom-input" id="res-date" value="2026-11-20" onchange="updateReserveSummary()">
+              </div>
+              <div>
+                <label class="form-label">Seating Service</label>
+                <select class="custom-input" id="res-time-slot" onchange="updateReserveSummary()">
+                  <option value="12:00 PM">12:00 PM (Lunch Service)</option>
+                  <option value="01:30 PM">01:30 PM (Lunch Service)</option>
+                  <option value="06:00 PM" selected>06:00 PM (Dinner Rush)</option>
+                  <option value="07:30 PM">07:30 PM (Dinner Peak)</option>
+                  <option value="09:00 PM">09:00 PM (Late Night & Bar)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Dining Area Preference -->
+            <div>
+              <label class="form-label">Preferred Dining Area</label>
+              <select class="custom-input" id="res-area" onchange="updateReserveSummary()">
+                <option value="Main Dining Hall (Air-conditioned)">Main Dining Hall (Air-conditioned)</option>
+                <option value="Al Fresco Garden Veranda">Al Fresco Garden Veranda (Open Air)</option>
+                <option value="Chef's Kitchen Counter">Chef's Kitchen Counter (Interactive)</option>
+                <option value="Cocktail Lounge">Cocktail Lounge (High Tables)</option>
+              </select>
+            </div>
+
+            <!-- Guest Contact Details -->
+            <div class="form-row">
+              <div>
+                <label class="form-label">Contact Name</label>
+                <input type="text" class="custom-input" placeholder="e.g. Patricia Ramos" id="res-guest-name" oninput="updateReserveSummary()">
+              </div>
+              <div>
+                <label class="form-label">Mobile Number (for SMS confirmation)</label>
+                <input type="tel" class="custom-input" placeholder="e.g. 0917 888 9900" id="res-guest-phone">
+              </div>
+            </div>
+          </div>
+
+          <!-- Reservation Preview Box -->
+          <div class="reserve-preview-box">
+            <div>
+              <span class="section-pill" style="margin-bottom: 0.5rem;">Booking Summary</span>
+              <h3 style="font-family: var(--font-serif); font-size: 1.4rem; color: #ffffff; margin-bottom: 0.8rem;">
+                Table Allocation Preview
+              </h3>
+
+              <ul class="preview-summary-list">
+                <li class="preview-summary-item">
+                  <span>Party Size:</span>
+                  <strong id="prev-party">2 Guests</strong>
+                </li>
+                <li class="preview-summary-item">
+                  <span>Selected Date:</span>
+                  <strong id="prev-date">Nov 20, 2026</strong>
+                </li>
+                <li class="preview-summary-item">
+                  <span>Service Time:</span>
+                  <strong id="prev-time">06:00 PM (Dinner Peak)</strong>
+                </li>
+                <li class="preview-summary-item">
+                  <span>Dining Section:</span>
+                  <strong id="prev-area">Main Dining Hall</strong>
+                </li>
+                <li class="preview-summary-item">
+                  <span>Table Hold Policy:</span>
+                  <strong style="color: var(--fuego-gold);">15 Minutes Grace Period</strong>
+                </li>
+              </ul>
+
+              <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 8px; padding: 0.85rem; font-size: 0.8rem; color: #34d399;">
+                ✓ <strong>No upfront reservation fee required</strong> for regular dining parties under 8 guests.
+              </div>
+            </div>
+
+            <button class="btn-primary" style="margin-top: 1.5rem; justify-content: center;" onclick="confirmTableBooking()">
+              Confirm Table Reservation
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       TIER 3 EXCLUSIVE: PRIVATE BANQUETS & VIP FUNCTIONS
+       ==================================================== -->
+  <section class="tier3-section-wrapper" id="banquets">
+    <div class="container">
+      <div class="tier3-section" id="tier3-box">
+
+        <!-- TIER 1 & 2 LOCK OVERLAY FOR BANQUETS -->
+        <div class="tier-lock-overlay" id="tier3-lock">
+          <div class="lock-icon-circle" style="border-color: #8b5cf6; color: #c4b5fd;">🍾</div>
+          <h3 class="lock-title">Private Banquets & VIP Functions is a Tier 3 Feature</h3>
+          <p class="lock-desc">
+            You are currently previewing <strong>Tier 1 or Tier 2</strong>. The <strong>Tier 3 Full Platform Plan (₱2,499/mo)</strong> unlocks the Corporate Event & Wedding Reception Planner, Custom Banquet Packages, and POS/Kitchen Dispatch Integration.
+          </p>
+          <button class="btn-primary" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: #fff;" onclick="switchTier(3)">
+            🔵 Switch to Tier 3 Preview to Unlock
+          </button>
+        </div>
+
+        <div class="tier3-grid">
+          <div>
+            <div class="section-pill" style="background: rgba(139, 92, 246, 0.15); border-color: rgba(139, 92, 246, 0.3); color: #c4b5fd;">
+              VIP Events & Functions
+            </div>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; margin-bottom: 0.8rem;">
+              Private Buyouts & Celebrations (30 to 120 Guests)
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+              Host intimate wedding receptions, milestone birthdays, corporate product launches, and Christmas dinners with our bespoke smokehouse menus.
+            </p>
+
+            <div class="banquet-pkg-box">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.3rem;">
+                <strong style="color: #ffffff; font-size: 1rem;">Silver Smokehouse Buffet</strong>
+                <span style="color: var(--fuego-amber); font-weight: 700;">₱980 / pax</span>
+              </div>
+              <p style="font-size: 0.8rem; color: var(--text-dim);">
+                Crispy Lechon Belly roll, herb-roasted chicken, pasta al pesto, garlic rice, seasonal greens, and signature iced teas.
+              </p>
+            </div>
+
+            <div class="banquet-pkg-box">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.3rem;">
+                <strong style="color: #ffffff; font-size: 1rem;">Black Angus VIP Carvery</strong>
+                <span style="color: #c4b5fd; font-weight: 700;">₱1,650 / pax</span>
+              </div>
+              <p style="font-size: 0.8rem; color: var(--text-dim);">
+                14-hour Angus Brisket carving station, brick-oven pizzas, truffle pasta, charcuterie boards, craft beer keg, and open cocktail bar.
+              </p>
+            </div>
+          </div>
+
+          <!-- Event Scoping Form -->
+          <div style="background: rgba(8, 12, 20, 0.7); border: 1px solid var(--border-color); border-radius: 14px; padding: 1.6rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="section-pill" style="background: rgba(139, 92, 246, 0.12); color: #c4b5fd; border-color: rgba(139, 92, 246, 0.25);">Event Planner</span>
+              <h3 style="font-family: var(--font-serif); font-size: 1.3rem; margin-bottom: 1rem; color: #ffffff;">
+                Request Private Function Proposal
+              </h3>
+
+              <div class="form-row" style="margin-bottom: 0.8rem;">
+                <div>
+                  <label class="form-label">Event Type</label>
+                  <select class="custom-input" id="evt-type">
+                    <option>Wedding Reception</option>
+                    <option>Corporate Dinner</option>
+                    <option>Milestone Birthday</option>
+                    <option>Full Venue Buyout</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">Estimated Guests</label>
+                  <input type="number" class="custom-input" placeholder="e.g. 50 pax" id="evt-pax">
+                </div>
+              </div>
+
+              <div style="margin-bottom: 0.8rem;">
+                <label class="form-label">Target Event Date</label>
+                <input type="date" class="custom-input" id="evt-date">
+              </div>
+
+              <div>
+                <label class="form-label">Special Inclusions / Notes</label>
+                <textarea class="custom-input" style="height: 70px; resize: none;" placeholder="Audio-visual setup, acoustic band stage, corkage requirements..."></textarea>
+              </div>
+            </div>
+
+            <button class="btn-primary" style="margin-top: 1.25rem; background: #8b5cf6; justify-content: center;" onclick="submitEventInquiry()">
+              Request Event Packet & Tasting
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       LOCATION & OPERATING HOURS SECTION
+       ==================================================== -->
+  <section class="location-section" id="location">
+    <div class="container">
+      <div class="loc-grid">
+        <div>
+          <div class="section-pill">Visit Us</div>
+          <h2 style="font-family: var(--font-serif); font-size: 2.2rem; margin-bottom: 1rem;">
+            Location & Operating Hours
+          </h2>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+            Centrally located with dedicated complimentary valet parking and street security.
+          </p>
+
+          <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+            <div style="display: flex; gap: 0.8rem;">
+              <span style="font-size: 1.3rem;">📍</span>
+              <div>
+                <strong style="color: #ffffff; display: block;">Restaurant Address</strong>
+                <span style="color: var(--text-muted); font-size: 0.88rem;">24 Emerald Avenue, Ortigas Center, Pasig City, Metro Manila</span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.8rem;">
+              <span style="font-size: 1.3rem;">⏰</span>
+              <div>
+                <strong style="color: #ffffff; display: block;">Service Hours</strong>
+                <span style="color: var(--text-muted); font-size: 0.88rem;">
+                  Tuesday – Sunday: 11:30 AM – 11:00 PM<br>
+                  <span style="color: var(--fuego-amber); font-weight: 600;">Mondays Closed (Kitchen Prep & Deep Clean)</span>
+                </span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.8rem;">
+              <span style="font-size: 1.3rem;">📞</span>
+              <div>
+                <strong style="color: #ffffff; display: block;">Direct Concierge & Viber</strong>
+                <span style="color: var(--text-muted); font-size: 0.88rem;">+63 949 166 1887 • reservations@kusinafuego.ph</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+            <a href="https://maps.google.com" target="_blank" class="btn-secondary" style="font-size: 0.85rem;">
+              Open in Google Maps
+            </a>
+            <a href="https://waze.com" target="_blank" class="btn-secondary" style="font-size: 0.85rem;">
+              Open in Waze
+            </a>
+          </div>
+        </div>
+
+        <!-- Simulated Map Box -->
+        <div class="map-box">
+          <div class="map-card-content">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔥</div>
+            <h3 style="font-family: var(--font-serif); font-size: 1.3rem; color: #ffffff; margin-bottom: 0.2rem;">
+              Kusina Fuego Ortigas
+            </h3>
+            <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 1rem;">
+              Emerald Ave, Pasig City
+            </p>
+            <span style="background: rgba(249, 115, 22, 0.2); border: 1px solid var(--fuego-amber); color: var(--fuego-gold); font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 999px;">
+              Valet Parking Available
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       INTERACTIVE CART SLIDE-OVER DRAWER (TIER 2+ FEATURE)
+       ==================================================== -->
+  <div class="cart-drawer-backdrop" id="cart-backdrop" onclick="toggleCartDrawer(false)"></div>
+  <aside class="cart-drawer" id="cart-drawer-elem">
+    <div class="cart-header">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span style="font-size: 1.2rem;">🛒</span>
+        <h3 style="font-family: var(--font-serif); font-size: 1.2rem; color: #ffffff;">Your Takeout Order</h3>
+      </div>
+      <button style="background: none; border: none; color: #ffffff; font-size: 1.3rem; cursor: pointer;" onclick="toggleCartDrawer(false)">&times;</button>
+    </div>
+
+    <!-- Cart items container -->
+    <div class="cart-items-body" id="cart-items-list">
+      <!-- Injected via JavaScript -->
+    </div>
+
+    <!-- Cart Footer with Pricing & Checkout -->
+    <div class="cart-footer">
+      <div class="cart-calc-row">
+        <span>Items Subtotal:</span>
+        <span id="cart-subtotal">₱1,540</span>
+      </div>
+
+      <div class="cart-calc-row" style="align-items: center;">
+        <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; color: var(--fuego-gold);">
+          <input type="checkbox" id="senior-discount-toggle" onchange="renderCart()">
+          <span>Senior / PWD Discount (20%)</span>
+        </label>
+        <span id="cart-discount-val" style="color: #34d399;">-₱0</span>
+      </div>
+
+      <div class="cart-calc-row">
+        <span>Packaging & Takeout Kit:</span>
+        <span>₱40</span>
+      </div>
+
+      <div class="cart-calc-total">
+        <span>Total Payable:</span>
+        <span id="cart-grand-total" style="color: var(--fuego-amber);">₱1,580</span>
+      </div>
+
+      <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="dispatchOrder()">
+        Dispatch Order via WhatsApp / Viber
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ====================================================
+       FOOTER
+       ==================================================== -->
+  <footer class="site-footer">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: gap: 1rem;">
+      <div>&copy; 2026 Kusina Fuego Craft Kitchen. All Rights Reserved.</div>
+      <div style="color: var(--fuego-gold);">Demo Designed & Powered by Micz Corner Web Solutions</div>
+    </div>
+  </footer>
+
+  <!-- ====================================================
+       MODAL: TIER COMPARISON MATRIX
+       ==================================================== -->
+  <div class="modal-backdrop" id="tier-modal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="closeTierModal()">&times;</button>
+      
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem;">
+        <span class="tier-brand-tag">Restaurant Matrix</span>
+        <h2 style="font-family: var(--font-serif); font-size: 1.5rem; color: #ffffff;">Compare All 3 Website Tiers</h2>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+        Choose the exact setup that matches your restaurant or cafe operations.
+      </p>
+
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>Website Feature / Capability</th>
+            <th>🟢 Starter<br><small style="color: var(--text-dim);">₱899 / mo</small></th>
+            <th>🟡 Interactive<br><small style="color: var(--fuego-amber);">₱1,499 / mo</small></th>
+            <th>🔵 Full Platform<br><small style="color: #c4b5fd;">₱2,499 / mo</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>High-Res Digital Menu & Category Filter</strong></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+          </tr>
+          <tr>
+            <td><strong>Hours, Location, Google Maps & Waze Links</strong></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+          </tr>
+          <tr>
+            <td><strong>One-Click Call & Social Links (Messenger/Viber)</strong></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+          </tr>
+          <tr>
+            <td><strong>Interactive Online Takeout / Pick-Up Cart</strong><br><small style="color: var(--text-dim);">Item additions, modifiers, Senior/PWD discount</small></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Instant Table Reservation Engine</strong><br><small style="color: var(--text-dim);">Party size, date/time slot, dining area selection</small></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Automated Order Dispatch Receipt</strong><br><small style="color: var(--text-dim);">Formats order directly to kitchen WhatsApp/Viber</small></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+          </tr>
+          <tr>
+            <td><strong>Private Banquets & VIP Functions Planner</strong><br><small style="color: var(--text-dim);">Weddings, corporate buyouts 30–120 pax</small></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>POS / Kitchen Order Printer Dispatch Simulation</strong></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top: 1.8rem; display: flex; justify-content: flex-end; gap: 0.8rem;">
+        <button class="btn-secondary" onclick="closeTierModal()">Close Preview</button>
+        <button class="btn-primary" onclick="switchTier(2); closeTierModal();">Select Tier 2 (₱1,499/mo)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast-notification">
+    <span id="toast-icon">🔥</span>
+    <span id="toast-message">Plan switched successfully.</span>
+  </div>
+
+  <!-- ====================================================
+       INTERACTIVE JAVASCRIPT ENGINE
+       ==================================================== -->
+  <script>
+    let currentTier = 2; // Default to Tier 2 Interactive
+    let selectedParty = 2;
+
+    // In-memory cart items
+    let cart = [
+      { name: "14-Hour Smoked Angus Brisket", price: 980, qty: 1 },
+      { name: "Truffle Prosciutto Pizza", price: 680, qty: 1 }
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderCart();
+      switchTier(2); // Set default to Tier 2 Interactive
+    });
+
+    // Tier Switcher Engine
+    function switchTier(tierNum) {
+      currentTier = tierNum;
+
+      document.querySelectorAll('.tier-btn').forEach(btn => btn.classList.remove('active', 'tier-1', 'tier-3'));
+      const activeBtn = document.getElementById(`btn-tier-${tierNum}`);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        if (tierNum === 1) activeBtn.classList.add('tier-1');
+        if (tierNum === 3) activeBtn.classList.add('tier-3');
+      }
+
+      const statusBar = document.getElementById('tier-status-bar');
+      const statusText = document.getElementById('tier-status-text');
+      statusBar.classList.remove('t1', 't3');
+
+      const reserveLock = document.getElementById('reserve-tier-lock');
+      const tier3Lock = document.getElementById('tier3-lock');
+      const cartBtn = document.getElementById('cart-nav-btn');
+
+      if (tierNum === 1) {
+        // TIER 1: Starter (₱899/mo)
+        statusBar.classList.add('t1');
+        statusText.innerHTML = `<strong>Viewing: Tier 1 (₱899/mo Starter Plan)</strong> — Clean digital menu & contact. Online Table Reservation and Cart are locked.`;
+        reserveLock.classList.add('active');
+        tier3Lock.classList.add('active');
+        cartBtn.style.opacity = '0.5';
+        showToast("Switched to Tier 1 (₱899/mo). Ordering & Reservations locked.");
+      } else if (tierNum === 2) {
+        // TIER 2: Interactive (₱1,499/mo)
+        statusText.innerHTML = `<strong>Viewing: Tier 2 (₱1,499/mo Interactive Plan)</strong> — Unlocks Online Takeout Ordering Cart + Table Reservation Engine.`;
+        reserveLock.classList.remove('active');
+        tier3Lock.classList.add('active');
+        cartBtn.style.opacity = '1';
+        showToast("Switched to Tier 2 (₱1,499/mo). Table reservations & cart active!");
+      } else if (tierNum === 3) {
+        // TIER 3: Full Platform (₱2,499/mo)
+        statusBar.classList.add('t3');
+        statusText.innerHTML = `<strong>Viewing: Tier 3 (₱2,499/mo Full Platform Plan)</strong> — All features unlocked including Private Banquets & VIP Functions.`;
+        reserveLock.classList.remove('active');
+        tier3Lock.classList.remove('active');
+        cartBtn.style.opacity = '1';
+        showToast("Switched to Tier 3 (₱2,499/mo). Everything fully unlocked!");
+      }
+    }
+
+    // Menu category filter
+    function filterMenu(category) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const items = document.querySelectorAll('.dish-card');
+      items.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Cart Management
+    function addToCart(dishName, price) {
+      if (currentTier === 1) {
+        showToast("Online ordering is locked on Tier 1. Upgrade to Tier 2!");
+        switchTier(2);
+        return;
+      }
+
+      const existing = cart.find(item => item.name === dishName);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ name: dishName, price: price, qty: 1 });
+      }
+      renderCart();
+      toggleCartDrawer(true);
+      showToast(`Added ${dishName} to order!`);
+    }
+
+    function changeQty(index, delta) {
+      cart[index].qty += delta;
+      if (cart[index].qty <= 0) {
+        cart.splice(index, 1);
+      }
+      renderCart();
+    }
+
+    function renderCart() {
+      const container = document.getElementById('cart-items-list');
+      const countBadge = document.getElementById('cart-count');
+      const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+      countBadge.innerText = totalCount;
+
+      if (cart.length === 0) {
+        container.innerHTML = `<div style="text-align: center; color: var(--text-dim); padding: 3rem 0;">Your takeout cart is empty.</div>`;
+        document.getElementById('cart-subtotal').innerText = "₱0";
+        document.getElementById('cart-grand-total').innerText = "₱0";
+        return;
+      }
+
+      let subtotal = 0;
+      container.innerHTML = '';
+      cart.forEach((item, idx) => {
+        subtotal += item.price * item.qty;
+        container.innerHTML += `
+          <div class="cart-item-row">
+            <div class="cart-item-info">
+              <span class="cart-item-title">${item.name}</span>
+              <span class="cart-item-price">₱${item.price.toLocaleString()} each</span>
+            </div>
+            <div class="cart-item-controls">
+              <button class="qty-btn" onclick="changeQty(${idx}, -1)">-</button>
+              <span style="font-weight: 700; font-size: 0.9rem; min-width: 18px; text-align: center;">${item.qty}</span>
+              <button class="qty-btn" onclick="changeQty(${idx}, 1)">+</button>
+            </div>
+          </div>
+        `;
+      });
+
+      const isSenior = document.getElementById('senior-discount-toggle').checked;
+      let discount = isSenior ? Math.round(subtotal * 0.20) : 0;
+      const packaging = 40;
+      const grandTotal = Math.max(0, subtotal - discount + packaging);
+
+      document.getElementById('cart-subtotal').innerText = '₱' + subtotal.toLocaleString();
+      document.getElementById('cart-discount-val').innerText = isSenior ? '-₱' + discount.toLocaleString() : '-₱0';
+      document.getElementById('cart-grand-total').innerText = '₱' + grandTotal.toLocaleString();
+    }
+
+    function toggleCartDrawer(open) {
+      const drawer = document.getElementById('cart-drawer-elem');
+      const backdrop = document.getElementById('cart-backdrop');
+      if (open) {
+        drawer.classList.add('open');
+        backdrop.classList.add('open');
+      } else {
+        drawer.classList.remove('open');
+        backdrop.classList.remove('open');
+      }
+    }
+
+    function dispatchOrder() {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+      const total = document.getElementById('cart-grand-total').innerText;
+      let text = `🔥 *Kusina Fuego - Takeout Order*%0A`;
+      cart.forEach(item => {
+        text += `• ${item.qty}x ${item.name} (₱${(item.price * item.qty).toLocaleString()})%0A`;
+      });
+      text += `%0ATotal: ${total}%0A%0APlease confirm kitchen prep!`;
+      
+      toggleCartDrawer(false);
+      showToast("Order dispatched! Opening Viber / WhatsApp message...");
+      // In production: window.open(`https://wa.me/639491661887?text=${text}`, '_blank');
+    }
+
+    // Reservation Management
+    function setPartySize(size) {
+      selectedParty = size;
+      document.querySelectorAll('.party-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      updateReserveSummary();
+    }
+
+    function updateReserveSummary() {
+      const dateVal = document.getElementById('res-date').value;
+      const timeVal = document.getElementById('res-time-slot').value;
+      const areaVal = document.getElementById('res-area').value;
+
+      document.getElementById('prev-party').innerText = `${selectedParty} Guests`;
+      document.getElementById('prev-date').innerText = dateVal;
+      document.getElementById('prev-time').innerText = timeVal;
+      document.getElementById('prev-area').innerText = areaVal.split('(')[0].trim();
+    }
+
+    function confirmTableBooking() {
+      const name = document.getElementById('res-guest-name').value.trim();
+      const phone = document.getElementById('res-guest-phone').value.trim();
+      if (!name || !phone) {
+        alert("Please enter your name and phone number for table confirmation.");
+        return;
+      }
+      showToast(`Table confirmed for ${name}! SMS confirmation sent to ${phone}.`);
+      document.getElementById('res-guest-name').value = '';
+      document.getElementById('res-guest-phone').value = '';
+    }
+
+    function submitEventInquiry() {
+      showToast("Banquets inquiry submitted! Our Event Director will call you.");
+    }
+
+    // Modal controls
+    function openTierModal() {
+      document.getElementById('tier-modal').classList.add('open');
+    }
+
+    function closeTierModal() {
+      document.getElementById('tier-modal').classList.remove('open');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notification');
+      document.getElementById('toast-message').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
