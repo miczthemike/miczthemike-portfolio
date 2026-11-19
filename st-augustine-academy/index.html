@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>St. Augustine International Academy | Excellence in Faith, Character, & Leadership</title>
+  <meta name="description" content="DepEd Accredited K-12 Private Preparatory School. Calculate tuition installments, schedule a private campus tour, and apply online for School Year 2026-2027.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #080d1a;
+      --bg-card: #0f172a;
+      --bg-card-hover: #16223d;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --acad-navy: #1e3a8a;
+      --acad-gold: #f59e0b;
+      --acad-gold-light: #fbbf24;
+      --acad-gold-glow: rgba(245, 158, 11, 0.25);
+      --acad-emerald: #10b981;
+      --acad-blue: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Cinzel', Georgia, serif;
+      --font-heading: 'Space Grotesk', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    /* Ambient background mesh */
+    .bg-mesh {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      background: 
+        radial-gradient(circle at 10% 15%, rgba(245, 158, 11, 0.07) 0%, transparent 40%),
+        radial-gradient(circle at 90% 30%, rgba(56, 189, 248, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 50% 85%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
+        #080d1a;
+      pointer-events: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    /* ====================================================
+       DEMO TIER SWITCHER (STICKY FLOATING CONTROLLER)
+       ==================================================== */
+    .tier-bar-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8, 13, 26, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .tier-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.6rem 0;
+      flex-wrap: wrap;
+    }
+
+    .tier-branding {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tier-brand-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--acad-gold-light);
+      background: rgba(245, 158, 11, 0.12);
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+
+    .tier-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.25rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+    }
+
+    .tier-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tier-btn:hover {
+      color: var(--text-main);
+    }
+
+    .tier-btn.active {
+      background: var(--acad-gold);
+      color: #080d1a;
+      box-shadow: 0 2px 12px var(--acad-gold-glow);
+      font-weight: 700;
+    }
+
+    .tier-btn.active.tier-1 {
+      background: #10b981;
+      color: #ffffff;
+      box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+    }
+
+    .tier-btn.active.tier-3 {
+      background: #0284c7;
+      color: #ffffff;
+      box-shadow: 0 2px 12px rgba(2, 132, 199, 0.4);
+    }
+
+    .tier-info-modal-trigger {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--acad-gold-light);
+      cursor: pointer;
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .tier-info-modal-trigger:hover {
+      background: rgba(245, 158, 11, 0.16);
+    }
+
+    /* Active Plan Status Banner */
+    .tier-status-banner {
+      background: rgba(245, 158, 11, 0.1);
+      border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+      padding: 0.4rem 1.25rem;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--acad-gold-light);
+    }
+
+    .tier-status-banner.t1 {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+    }
+
+    .tier-status-banner.t3 {
+      background: rgba(2, 132, 199, 0.1);
+      border-color: rgba(2, 132, 199, 0.2);
+      color: #38bdf8;
+    }
+
+    /* ====================================================
+       SITE NAVIGATION HEADER
+       ==================================================== */
+    .site-nav {
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .logo-crest {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, #1e3a8a, #0f172a);
+      border: 2px solid var(--acad-gold);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      box-shadow: 0 4px 16px var(--acad-gold-glow);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-title {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .logo-title span {
+      color: var(--acad-gold);
+    }
+
+    .logo-sub {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--acad-gold);
+    }
+
+    .nav-cta {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #080d1a;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.55rem 1.15rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 14px var(--acad-gold-glow);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .nav-cta:hover {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      transform: translateY(-1px);
+    }
+
+    /* ====================================================
+       HERO SECTION
+       ==================================================== */
+    .hero {
+      position: relative;
+      padding: 5rem 0 4rem;
+      background: linear-gradient(180deg, rgba(8, 13, 26, 0.6) 0%, rgba(8, 13, 26, 0.96) 100%),
+                  url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    }
+
+    .hero-content {
+      max-width: 680px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--acad-gold-light);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: 3.3rem;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.25rem;
+      color: #ffffff;
+    }
+
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, #fbbf24 20%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: #cbd5e1;
+      margin-bottom: 2rem;
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #080d1a;
+      padding: 0.85rem 1.6rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 6px 20px var(--acad-gold-glow);
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-color);
+      color: #ffffff;
+      padding: 0.85rem 1.4rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .hero-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      max-width: 540px;
+    }
+
+    .hero-stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-stat-val {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .hero-stat-lbl {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    /* ====================================================
+       SECTION COMMON STYLES
+       ==================================================== */
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .section-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: var(--acad-gold-light);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 2.3rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+    }
+
+    /* ====================================================
+       INTERACTIVE TUITION & INSTALLMENT CALCULATOR (TIER 2+ FEATURE)
+       ==================================================== */
+    .calculator-section {
+      padding: 4.5rem 0 3rem;
+    }
+
+    .calc-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2.2rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .calc-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .calc-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .grade-selector-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+    }
+
+    .grade-btn {
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-muted);
+      padding: 0.6rem 0.4rem;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .grade-btn:hover {
+      border-color: var(--acad-gold);
+      color: #ffffff;
+    }
+
+    .grade-btn.active {
+      background: var(--acad-gold);
+      border-color: var(--acad-gold);
+      color: #080d1a;
+      font-weight: 700;
+      box-shadow: 0 2px 10px var(--acad-gold-glow);
+    }
+
+    .plan-selector-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+
+    .plan-btn {
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-muted);
+      padding: 0.75rem 0.5rem;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .plan-btn.active {
+      border-color: var(--acad-blue);
+      background: rgba(56, 189, 248, 0.12);
+      color: #ffffff;
+    }
+
+    /* Tuition Breakdown Card */
+    .tuition-summary-card {
+      background: linear-gradient(145deg, #0d1728, #09101d);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 16px;
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      margin-bottom: 0.6rem;
+      color: var(--text-muted);
+    }
+
+    .breakdown-total-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      padding-top: 0.8rem;
+      margin-top: 0.8rem;
+      border-top: 1px dashed rgba(255, 255, 255, 0.12);
+    }
+
+    /* Lock Overlay for Tier Limitations */
+    .tier-lock-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(8, 13, 26, 0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 20px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      z-index: 20;
+    }
+
+    .tier-lock-overlay.active {
+      display: flex;
+    }
+
+    .lock-icon-circle {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--acad-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--acad-gold-light);
+      font-size: 1.7rem;
+      margin-bottom: 1rem;
+    }
+
+    .lock-title {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    .lock-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ====================================================
+       ONLINE ENROLLMENT & DOCUMENT UPLOAD (TIER 2+ FEATURE)
+       ==================================================== */
+    .enrollment-section {
+      padding: 2rem 0 4rem;
+    }
+
+    .enroll-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2.4rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .enroll-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .dropzone-box {
+      border: 2px dashed rgba(245, 158, 11, 0.35);
+      background: rgba(245, 158, 11, 0.03);
+      border-radius: 14px;
+      padding: 2.2rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dropzone-box:hover {
+      border-color: var(--acad-gold-light);
+      background: rgba(245, 158, 11, 0.06);
+    }
+
+    .drop-icon {
+      font-size: 2.4rem;
+      color: var(--acad-gold-light);
+      margin-bottom: 0.6rem;
+    }
+
+    .drop-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.3rem;
+    }
+
+    .drop-sub {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .file-preview-pill {
+      display: none;
+      margin-top: 1rem;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: #34d399;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-inputs-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+    }
+
+    .form-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+      display: block;
+      font-weight: 600;
+    }
+
+    .custom-input {
+      width: 100%;
+      background: rgba(8, 13, 26, 0.8);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .custom-input:focus {
+      border-color: var(--acad-gold-light);
+    }
+
+    /* ====================================================
+       TIER 3 EXCLUSIVE: PARENT PORTAL SIMULATOR & ADMISSIONS CRM
+       ==================================================== */
+    .tier3-section {
+      background: linear-gradient(180deg, rgba(2, 132, 199, 0.08) 0%, transparent 100%);
+      border: 1px solid rgba(2, 132, 199, 0.25);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin: 3.5rem 0;
+      position: relative;
+    }
+
+    .tier3-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .portal-preview-card {
+      background: rgba(8, 13, 26, 0.75);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.5rem;
+    }
+
+    /* ====================================================
+       ACADEMIC OFFERINGS (GRADE LEVELS)
+       ==================================================== */
+    .curriculum-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    .curric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.5rem;
+      transition: all 0.2s;
+    }
+
+    .curric-card:hover {
+      border-color: var(--acad-gold);
+      transform: translateY(-3px);
+    }
+
+    .curric-icon {
+      font-size: 2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .curric-title {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.3rem;
+    }
+
+    .curric-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ====================================================
+       LOCATION & CAMPUS TOUR
+       ==================================================== */
+    .location-section {
+      padding: 4rem 0 2rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .loc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .map-box {
+      width: 100%;
+      height: 320px;
+      background: #0b1522;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80') center/cover;
+      opacity: 0.22;
+    }
+
+    .map-card-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--border-color);
+      padding: 2.5rem 0;
+      background: #04070d;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    /* ====================================================
+       MODAL: TIER COMPARISON MATRIX
+       ==================================================== */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-dialog {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: #ffffff;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      font-size: 0.88rem;
+    }
+
+    .matrix-table th, .matrix-table td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .matrix-table th {
+      background: rgba(255, 255, 255, 0.04);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .matrix-check {
+      color: #10b981;
+      font-weight: bold;
+    }
+
+    .matrix-cross {
+      color: #64748b;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f172a;
+      border: 1px solid var(--acad-gold);
+      color: #ffffff;
+      padding: 0.9rem 1.4rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+      transform: translateY(120%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 400;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .hero-title { font-size: 2.6rem; }
+      .calc-grid { grid-template-columns: 1fr; }
+      .enroll-grid { grid-template-columns: 1fr; }
+      .tier3-grid { grid-template-columns: 1fr; }
+      .loc-grid { grid-template-columns: 1fr; }
+      .curriculum-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-title { font-size: 2.1rem; }
+      .tier-bar { justify-content: center; }
+      .tier-controls { width: 100%; justify-content: center; }
+      .grade-selector-grid { grid-template-columns: repeat(2, 1fr); }
+      .plan-selector-grid { grid-template-columns: 1fr; }
+      .curriculum-grid { grid-template-columns: 1fr; }
+      .calc-container { padding: 1.4rem; }
+      .enroll-card { padding: 1.4rem; }
+      .tier3-section { padding: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient background mesh -->
+  <div class="bg-mesh"></div>
+
+  <!-- ====================================================
+       INTERACTIVE TIER SWITCHER DOCK (FLOATING DEMO CONTROL)
+       ==================================================== -->
+  <aside class="tier-bar-wrapper" aria-label="Interactive Demo Controls">
+    <div class="container">
+      <div class="tier-bar">
+        <div class="tier-branding">
+          <span class="tier-brand-tag">🎓 Live Demo Mode</span>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Preview Plan:</span>
+        </div>
+
+        <div class="tier-controls" role="tablist">
+          <button class="tier-btn" id="btn-tier-1" onclick="switchTier(1)">
+            <span>🟢 Starter</span>
+            <small style="opacity: 0.8;">₱899/mo</small>
+          </button>
+          <button class="tier-btn active" id="btn-tier-2" onclick="switchTier(2)">
+            <span>🟡 Interactive</span>
+            <small style="opacity: 0.8;">₱1,499/mo</small>
+          </button>
+          <button class="tier-btn" id="btn-tier-3" onclick="switchTier(3)">
+            <span>🔵 Full Platform</span>
+            <small style="opacity: 0.8;">₱2,499/mo</small>
+          </button>
+        </div>
+
+        <button class="tier-info-modal-trigger" onclick="openTierModal()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          Compare All 3 Tiers
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Dynamic Active Tier Status Banner -->
+  <div class="tier-status-banner" id="tier-status-bar">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+      <span id="tier-status-text">
+        <strong>Currently Viewing: Tier 2 (₱1,499/mo Interactive Plan)</strong> — Unlocks Tuition Fee & Installment Calculator + Online Admission & Document Upload.
+      </span>
+      <span style="font-size: 0.75rem; text-decoration: underline; cursor: pointer;" onclick="openTierModal()">View Limitations & Features</span>
+    </div>
+  </div>
+
+  <!-- ====================================================
+       SITE NAVIGATION HEADER
+       ==================================================== -->
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="#" class="logo-wrapper">
+        <div class="logo-crest">🏛️</div>
+        <div class="logo-text">
+          <span class="logo-title">St. Augustine<span>Academy</span></span>
+          <span class="logo-sub">DepEd Certified • K-12 Preparatory</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#academics">Curriculum</a></li>
+        <li><a href="#tuition-calc">Tuition Calculator</a></li>
+        <li><a href="#enroll">Online Admission</a></li>
+        <li><a href="#portal" id="nav-link-portal">Parent Portal</a></li>
+        <li><a href="#location">Campus & Contact</a></li>
+      </ul>
+
+      <a href="#enroll" class="nav-cta">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7.5" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+        Enroll for S.Y. 2026-2027
+      </a>
+    </div>
+  </header>
+
+  <!-- ====================================================
+       HERO SECTION
+       ==================================================== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span>🏛️</span>
+          Admissions Now Open for S.Y. 2026–2027 • ESC & SHS Voucher Participating
+        </div>
+
+        <h1 class="hero-title">
+          Inspiring Faith. <br>Cultivating <span class="gradient-text">World-Class Leaders.</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          St. Augustine International Academy prepares students from Pre-School through Senior High School with rigorous STEM and Humanities curricula, modern science laboratories, and values-centered education.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#enroll" class="btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            Apply Online for Admission
+          </a>
+
+          <a href="#tuition-calc" class="btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
+            Estimate Tuition & Plans
+          </a>
+        </div>
+
+        <div class="hero-stats-row">
+          <div class="hero-stat-item">
+            <div class="hero-stat-val">100%</div>
+            <div class="hero-stat-lbl">College Passing Rate</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-val">1:20</div>
+            <div class="hero-stat-lbl">Teacher-to-Student Ratio</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-val">₱18,000</div>
+            <div class="hero-stat-lbl">DepEd ESC Subsidy Available</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       ACADEMIC OFFERINGS
+       ==================================================== -->
+  <section class="academics-section" id="academics" style="padding: 4rem 0 2rem;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pill">Academic Pathways</div>
+        <h2 class="section-title">Complete K-12 Preparatory Curriculum</h2>
+        <p class="section-desc">
+          Rooted in Christian values and modern inquiry-based instruction from early childhood to university entrance preparation.
+        </p>
+      </div>
+
+      <div class="curriculum-grid">
+        <div class="curric-card">
+          <div class="curric-icon">🧸</div>
+          <h3 class="curric-title">Early Childhood</h3>
+          <p class="curric-desc">Nursery, Pre-Kinder, & Kindergarten. Play-based sensory learning, early phonics, and socialization.</p>
+        </div>
+
+        <div class="curric-card">
+          <div class="curric-icon">📚</div>
+          <h3 class="curric-title">Grade School (1-6)</h3>
+          <p class="curric-desc">Foundational literacy, Singapore Math, basic robotics, conversational Mandarin/English, and character arts.</p>
+        </div>
+
+        <div class="curric-card">
+          <div class="curric-icon">🔬</div>
+          <h3 class="curric-title">Junior High (7-10)</h3>
+          <p class="curric-desc">STEM-focused, exploratory sciences, leadership clubs, debate, and DepEd ESC tuition subsidy granted.</p>
+        </div>
+
+        <div class="curric-card">
+          <div class="curric-icon">🎓</div>
+          <h3 class="curric-title">Senior High (11-12)</h3>
+          <p class="curric-desc">STEM, ABM, and HUMSS academic strands with university entrance examination review and career mentorship.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       INTERACTIVE TUITION & INSTALLMENT CALCULATOR (TIER 2+ FEATURE)
+       ==================================================== -->
+  <section class="calculator-section" id="tuition-calc">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pill">Financial Transparency</div>
+        <h2 class="section-title">Tuition Fee & Installment Calculator</h2>
+        <p class="section-desc">
+          Select your child's grade level and payment frequency to view the exact breakdown of tuition, lab fees, and DepEd voucher deductions.
+        </p>
+      </div>
+
+      <div class="calc-container" id="calc-container-box">
+
+        <!-- TIER 1 LOCK OVERLAY (Locked in Tier 1) -->
+        <div class="tier-lock-overlay" id="calc-tier-lock">
+          <div class="lock-icon-circle">🔒</div>
+          <h3 class="lock-title">Interactive Tuition Calculator is a Tier 2+ Feature</h3>
+          <p class="lock-desc">
+            You are currently previewing the <strong>Tier 1 Starter Plan (₱899/mo)</strong>, which displays a static fee sheet. 
+            Upgrade to <strong>Tier 2 Interactive (₱1,499/mo)</strong> to unlock dynamic installment calculators and ESC voucher deductions for parents!
+          </p>
+          <button class="btn-primary" onclick="switchTier(2)">
+            🎓 Switch to Tier 2 Preview to Test
+          </button>
+        </div>
+
+        <div class="calc-grid">
+          <!-- Inputs Column -->
+          <div>
+            <!-- Grade Level Selector -->
+            <div class="calc-group">
+              <label class="calc-label">Select Grade Level</label>
+              <div class="grade-selector-grid">
+                <div class="grade-btn" onclick="selectGrade('preschool', 38000)">Pre-School</div>
+                <div class="grade-btn" onclick="selectGrade('elem', 44000)">Grade 1 - 3</div>
+                <div class="grade-btn" onclick="selectGrade('elem_upper', 48000)">Grade 4 - 6</div>
+                <div class="grade-btn active" onclick="selectGrade('jhs', 54000)">Grade 7 - 10 (JHS)</div>
+                <div class="grade-btn" onclick="selectGrade('shs_stem', 58000)">Grade 11 (STEM)</div>
+                <div class="grade-btn" onclick="selectGrade('shs_abm', 55000)">Grade 11 (ABM/HUMSS)</div>
+                <div class="grade-btn" onclick="selectGrade('shs_12', 59000)">Grade 12 (Graduating)</div>
+              </div>
+            </div>
+
+            <!-- Payment Schedule -->
+            <div class="calc-group">
+              <label class="calc-label">Select Payment Schedule</label>
+              <div class="plan-selector-grid">
+                <div class="plan-btn" onclick="selectPlan('cash', 0.08)">
+                  <strong style="display: block;">Annual Cash</strong>
+                  <small style="color: var(--acad-emerald);">8% Early Bird Disc.</small>
+                </div>
+                <div class="plan-btn" onclick="selectPlan('semi', 0.03)">
+                  <strong style="display: block;">Semi-Annual</strong>
+                  <small>2 Payments / Year</small>
+                </div>
+                <div class="plan-btn active" onclick="selectPlan('monthly', 0)">
+                  <strong style="display: block;">10-Month Plan</strong>
+                  <small>Monthly Installments</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- Government Subsidy / Voucher Checkbox -->
+            <div class="calc-group" style="margin-bottom: 0;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--acad-gold-light); cursor: pointer; font-size: 0.9rem; font-weight: 700;">
+                <input type="checkbox" id="esc-voucher-check" onchange="calculateTuition()" checked>
+                <span>Apply DepEd ESC Voucher Subsidy (Save ₱9,000 - ₱17,500)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Tuition Summary Box -->
+          <div class="tuition-summary-card">
+            <div>
+              <div style="font-size: 0.78rem; text-transform: uppercase; color: var(--acad-gold-light); font-weight: 700; letter-spacing: 0.05em; margin-bottom: 0.3rem;">
+                Estimated Fee Schedule
+              </div>
+              <h3 style="font-family: var(--font-serif); font-size: 1.4rem; color: #ffffff; margin-bottom: 1.25rem;" id="sum-grade-title">
+                Grade 7 - 10 (Junior High School)
+              </h3>
+
+              <div class="breakdown-row">
+                <span>Annual Base Tuition:</span>
+                <span id="sum-base">₱54,000.00</span>
+              </div>
+              <div class="breakdown-row">
+                <span>Miscellaneous & Lab Fees:</span>
+                <span id="sum-misc">₱6,500.00</span>
+              </div>
+              <div class="breakdown-row" style="color: #34d399;">
+                <span>DepEd ESC Voucher Grant:</span>
+                <span id="sum-voucher">-₱9,000.00</span>
+              </div>
+
+              <div class="breakdown-total-row">
+                <div>
+                  <div style="font-size: 0.8rem; color: var(--text-dim); font-weight: normal;">Monthly Installment (10 Months):</div>
+                  <div style="color: var(--acad-gold);" id="sum-installment">₱5,150.00 / mo</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 0.8rem; color: var(--text-dim); font-weight: normal;">Net Annual School Fee:</div>
+                  <div style="color: #ffffff;" id="sum-net-annual">₱51,500.00</div>
+                </div>
+              </div>
+            </div>
+
+            <a href="#enroll" class="btn-primary" style="margin-top: 1.5rem; justify-content: center;">
+              Lock In This Payment Plan & Apply
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       ONLINE ENROLLMENT & DOCUMENT UPLOAD (TIER 2+ FEATURE)
+       ==================================================== -->
+  <section class="enrollment-section" id="enroll">
+    <div class="container">
+      <div class="enroll-card" id="enroll-card-box">
+
+        <!-- TIER 1 LOCK OVERLAY (Locked in Tier 1) -->
+        <div class="tier-lock-overlay" id="enroll-tier-lock">
+          <div class="lock-icon-circle">🔒</div>
+          <h3 class="lock-title">Online Admission & Document Upload is a Tier 2+ Feature</h3>
+          <p class="lock-desc">
+            Direct paperless admissions, Form 138 report card uploads, and entrance exam scheduling are unlocked on the <strong>Tier 2 Interactive Plan (₱1,499/mo)</strong>. In Tier 1, parents visit the physical Registrar's office with paper photocopies.
+          </p>
+          <button class="btn-primary" onclick="switchTier(2)">
+            🎓 Switch to Tier 2 Preview to Test
+          </button>
+        </div>
+
+        <div class="enroll-grid">
+          <!-- Document Dropzone -->
+          <div>
+            <div class="section-pill">Paperless Admissions</div>
+            <h2 style="font-family: var(--font-serif); font-size: 1.85rem; margin-bottom: 0.6rem;">
+              Online Student Application Form
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+              Upload your child's latest Report Card (Form 138) and PSA Birth Certificate to secure an entrance assessment date and reserve an enrollment slot.
+            </p>
+
+            <div class="dropzone-box" onclick="document.getElementById('student-doc-input').click()">
+              <input type="file" id="student-doc-input" style="display: none;" accept="image/*,.pdf" onchange="handleDocUpload(event)">
+              <div class="drop-icon">📑</div>
+              <div class="drop-title" id="drop-doc-title">Click to upload Form 138 or Birth Certificate</div>
+              <div class="drop-sub">Accepts scanned PDF, JPG, or PNG (Max 15MB)</div>
+              <div class="file-preview-pill" id="doc-preview-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span id="doc-file-name">Form138_Grade6_ReportCard.pdf</span>
+              </div>
+            </div>
+
+            <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 12px; padding: 1rem; margin-top: 1.25rem; font-size: 0.8rem; color: #94a3b8;">
+              <strong style="color: #38bdf8; display: block; margin-bottom: 0.2rem;">Entrance Examination Schedule:</strong>
+              Exams are administered every Wednesday and Saturday at 9:00 AM in the Main Campus Testing Center.
+            </div>
+          </div>
+
+          <!-- Student & Parent Information Form -->
+          <div class="form-inputs-group">
+            <div class="form-row">
+              <div>
+                <label class="form-label">Student Full Name</label>
+                <input type="text" class="custom-input" placeholder="e.g. Gabriel Santos" id="app-student-name">
+              </div>
+              <div>
+                <label class="form-label">Applying for Grade Level</label>
+                <select class="custom-input" id="app-grade-level">
+                  <option>Grade 7 (Junior High)</option>
+                  <option>Grade 8</option>
+                  <option>Grade 9</option>
+                  <option>Grade 10</option>
+                  <option>Grade 11 (STEM Strand)</option>
+                  <option>Grade 11 (ABM Strand)</option>
+                  <option>Elementary (Grades 1-6)</option>
+                  <option>Pre-School</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div>
+                <label class="form-label">Parent / Guardian Name</label>
+                <input type="text" class="custom-input" placeholder="e.g. Maria Santos" id="app-parent-name">
+              </div>
+              <div>
+                <label class="form-label">Mobile Number (SMS updates)</label>
+                <input type="tel" class="custom-input" placeholder="e.g. 0917 123 4567" id="app-parent-phone">
+              </div>
+            </div>
+
+            <div>
+              <label class="form-label">Preferred Campus Tour / Testing Date</label>
+              <input type="date" class="custom-input" id="app-tour-date" value="2026-11-28">
+            </div>
+
+            <button class="btn-primary" style="margin-top: 0.5rem; justify-content: center;" onclick="submitApplication()">
+              Submit Admission Application
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       TIER 3 EXCLUSIVE: PARENT PORTAL & REGISTRAR CRM
+       ==================================================== -->
+  <section class="tier3-section-wrapper" id="portal">
+    <div class="container">
+      <div class="tier3-section" id="tier3-box">
+
+        <!-- TIER 1 & 2 LOCK OVERLAY -->
+        <div class="tier-lock-overlay" id="tier3-lock">
+          <div class="lock-icon-circle" style="border-color: #0284c7; color: #38bdf8;">💻</div>
+          <h3 class="lock-title">Parent Portal & Digital Grade Viewer is a Tier 3 Feature</h3>
+          <p class="lock-desc">
+            You are currently previewing <strong>Tier 1 or Tier 2</strong>. The <strong>Tier 3 Full Platform Plan (₱2,499/mo)</strong> unlocks the Live Parent Portal (grades & attendance tracking), Automated Registrar CRM, and Alumni Network.
+          </p>
+          <button class="btn-primary" style="background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff;" onclick="switchTier(3)">
+            🔵 Switch to Tier 3 Preview to Unlock
+          </button>
+        </div>
+
+        <div class="tier3-grid">
+          <div>
+            <div class="section-pill" style="background: rgba(2, 132, 199, 0.15); border-color: rgba(2, 132, 199, 0.3); color: #38bdf8;">
+              School Management Suite
+            </div>
+            <h2 style="font-family: var(--font-serif); font-size: 1.85rem; margin-bottom: 0.8rem;">
+              Parent Portal & Digital Grade Viewer
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+              Parents can check quarterly grades, daily RFID gate tap attendance logs, homework deadlines, and tuition balances directly from any smartphone.
+            </p>
+
+            <div class="portal-preview-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                <span style="font-weight: 700; color: #ffffff;">Sample Student: Gabriel Santos (Grade 8)</span>
+                <span style="font-size: 0.72rem; background: rgba(16, 185, 129, 0.15); color: #34d399; padding: 0.2rem 0.5rem; border-radius: 4px;">With Honors (92.4% GPA)</span>
+              </div>
+              <div style="font-size: 0.8rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.3rem;">
+                <div>• Science & Robotics: <strong style="color: #ffffff;">94%</strong></div>
+                <div>• Advanced Mathematics: <strong style="color: #ffffff;">93%</strong></div>
+                <div>• English Literature: <strong style="color: #ffffff;">91%</strong></div>
+                <div>• RFID Attendance: <strong style="color: #34d399;">Present (Tapped In 7:18 AM)</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Registrar SMS / Email Blast Simulator -->
+          <div style="background: rgba(8, 13, 26, 0.7); border: 1px solid var(--border-color); border-radius: 14px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span style="font-weight: 700; color: #ffffff; font-size: 1.05rem; display: block; margin-bottom: 0.3rem;">
+                Registrar Automated Broadcasts
+              </span>
+              <p style="font-size: 0.78rem; color: var(--text-dim); margin-bottom: 1rem;">
+                Send automatic suspension alerts during typhoons, quarterly exam schedules, and tuition reminders to all parents in one click.
+              </p>
+
+              <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.8rem; font-size: 0.82rem; color: var(--text-muted);">
+                <strong style="color: #38bdf8; display: block;">Simulated SMS Dispatch:</strong>
+                "St. Augustine Notice: Classes are suspended tomorrow due to Signal No. 2. Online modules will be accessible via Parent Portal."
+              </div>
+            </div>
+
+            <button class="btn-primary" style="margin-top: 1.5rem; justify-content: center; background: #0284c7; color: #ffffff;" onclick="alert('Registrar broadcast simulation triggered!')">
+              Test Broadcast Notification
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       LOCATION & CAMPUS CONTACT
+       ==================================================== -->
+  <section class="location-section" id="location">
+    <div class="container">
+      <div class="loc-grid">
+        <div>
+          <div class="section-pill">Campus Visit</div>
+          <h2 style="font-family: var(--font-serif); font-size: 2.2rem; margin-bottom: 1rem;">
+            Visit Our Main Campus
+          </h2>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+            Experience our 2-hectare green campus featuring full-size soccer field, air-conditioned smart classrooms, and 24/7 CCTV security.
+          </p>
+
+          <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+            <div style="display: flex; gap: 0.8rem;">
+              <span style="font-size: 1.3rem;">📍</span>
+              <div>
+                <strong style="color: #ffffff; display: block;">Campus Address</strong>
+                <span style="color: var(--text-muted); font-size: 0.88rem;">St. Augustine Drive, San Fernando City, Pampanga (Near NLEX San Fernando Exit)</span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.8rem;">
+              <span style="font-size: 1.3rem;">⏰</span>
+              <div>
+                <strong style="color: #ffffff; display: block;">Registrar & Admissions Hours</strong>
+                <span style="color: var(--text-muted); font-size: 0.88rem;">
+                  Monday – Friday: 7:30 AM – 5:00 PM<br>
+                  Saturday: 8:00 AM – 12:00 PM (Testing & Campus Tours)
+                </span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.8rem;">
+              <span style="font-size: 1.3rem;">📞</span>
+              <div>
+                <strong style="color: #ffffff; display: block;">Admissions Hotline & Viber</strong>
+                <span style="color: var(--text-muted); font-size: 0.88rem;">+63 949 166 1887 • admissions@staugustine.edu.ph</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+            <a href="https://maps.google.com" target="_blank" class="btn-secondary" style="font-size: 0.85rem;">
+              Open in Google Maps
+            </a>
+            <a href="https://waze.com" target="_blank" class="btn-secondary" style="font-size: 0.85rem;">
+              Open in Waze
+            </a>
+          </div>
+        </div>
+
+        <!-- Simulated Map Box -->
+        <div class="map-box">
+          <div class="map-card-content">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏛️</div>
+            <h3 style="font-family: var(--font-serif); font-size: 1.35rem; color: #ffffff; margin-bottom: 0.2rem;">
+              St. Augustine Academy
+            </h3>
+            <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 1rem;">
+              San Fernando Campus • 2-Hectare Learning Grounds
+            </p>
+            <span style="background: rgba(245, 158, 11, 0.2); border: 1px solid var(--acad-gold); color: var(--acad-gold-light); font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 999px;">
+              Admissions Desk Open
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       FOOTER
+       ==================================================== -->
+  <footer class="site-footer">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: gap: 1rem;">
+      <div>&copy; 2026 St. Augustine International Academy. DepEd Recognized.</div>
+      <div style="color: var(--acad-gold);">Demo Designed & Powered by Micz Corner Web Solutions</div>
+    </div>
+  </footer>
+
+  <!-- ====================================================
+       MODAL: TIER COMPARISON MATRIX
+       ==================================================== -->
+  <div class="modal-backdrop" id="tier-modal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="closeTierModal()">&times;</button>
+      
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem;">
+        <span class="tier-brand-tag">School Matrix</span>
+        <h2 style="font-family: var(--font-serif); font-size: 1.5rem; color: #ffffff;">Compare All 3 Website Tiers</h2>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+        Choose the exact configuration that streamlines student enrollment and campus communication.
+      </p>
+
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>School Feature / Capability</th>
+            <th>🟢 Starter<br><small style="color: var(--text-dim);">₱899 / mo</small></th>
+            <th>🟡 Interactive<br><small style="color: var(--acad-gold-light);">₱1,499 / mo</small></th>
+            <th>🔵 Full Platform<br><small style="color: #38bdf8;">₱2,499 / mo</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>School Prospectus, Curriculum & DepEd Accreditation</strong></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+          </tr>
+          <tr>
+            <td><strong>Academic Calendar, Announcements & Location Map</strong></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+          </tr>
+          <tr>
+            <td><strong>One-Click Call & Messenger Admissions Chat</strong></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+          </tr>
+          <tr>
+            <td><strong>Interactive Tuition Fee & Installment Calculator</strong><br><small style="color: var(--text-dim);">Grade selector, payment terms, DepEd ESC deduction</small></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Online Student Admission & Form 138 Document Upload</strong><br><small style="color: var(--text-dim);">Paperless entrance exam slot booking</small></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Campus Tour & Entrance Assessment Scheduler</strong></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Parent Portal & Student Grade Viewer Simulator</strong></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Registrar Broadcast & SMS/Email Notification Engine</strong></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top: 1.8rem; display: flex; justify-content: flex-end; gap: 0.8rem;">
+        <button class="btn-secondary" onclick="closeTierModal()">Close Preview</button>
+        <button class="btn-primary" onclick="switchTier(2); closeTierModal();">Select Tier 2 (₱1,499/mo)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast-notification">
+    <span id="toast-icon">🎓</span>
+    <span id="toast-message">Plan switched successfully.</span>
+  </div>
+
+  <!-- ====================================================
+       INTERACTIVE JAVASCRIPT ENGINE
+       ==================================================== -->
+  <script>
+    let currentTier = 2; // Default to Tier 2 Interactive
+    let baseTuition = 54000;
+    let miscLabFee = 6500;
+    let paymentFrequency = 'monthly';
+    let discountPct = 0;
+    let currentGradeTitle = "Grade 7 - 10 (Junior High School)";
+
+    window.addEventListener('DOMContentLoaded', () => {
+      calculateTuition();
+      switchTier(2);
+    });
+
+    // Tier Switcher Engine
+    function switchTier(tierNum) {
+      currentTier = tierNum;
+
+      document.querySelectorAll('.tier-btn').forEach(btn => btn.classList.remove('active', 'tier-1', 'tier-3'));
+      const activeBtn = document.getElementById(`btn-tier-${tierNum}`);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        if (tierNum === 1) activeBtn.classList.add('tier-1');
+        if (tierNum === 3) activeBtn.classList.add('tier-3');
+      }
+
+      const statusBar = document.getElementById('tier-status-bar');
+      const statusText = document.getElementById('tier-status-text');
+      statusBar.classList.remove('t1', 't3');
+
+      const calcLock = document.getElementById('calc-tier-lock');
+      const enrollLock = document.getElementById('enroll-tier-lock');
+      const tier3Lock = document.getElementById('tier3-lock');
+
+      if (tierNum === 1) {
+        // TIER 1: Starter (₱899/mo)
+        statusBar.classList.add('t1');
+        statusText.innerHTML = `<strong>Viewing: Tier 1 (₱899/mo Starter Plan)</strong> — Static prospectus & fee table. Tuition Calculator & Online Admission are locked.`;
+        calcLock.classList.add('active');
+        enrollLock.classList.add('active');
+        tier3Lock.classList.add('active');
+        showToast("Switched to Tier 1 (₱899/mo). Calculator & Online Admission locked.");
+      } else if (tierNum === 2) {
+        // TIER 2: Interactive (₱1,499/mo)
+        statusText.innerHTML = `<strong>Viewing: Tier 2 (₱1,499/mo Interactive Plan)</strong> — Unlocks Tuition Installment Calculator + Online Application & Document Upload.`;
+        calcLock.classList.remove('active');
+        enrollLock.classList.remove('active');
+        tier3Lock.classList.add('active');
+        showToast("Switched to Tier 2 (₱1,499/mo). Calculator & document upload active!");
+      } else if (tierNum === 3) {
+        // TIER 3: Full Platform (₱2,499/mo)
+        statusBar.classList.add('t3');
+        statusText.innerHTML = `<strong>Viewing: Tier 3 (₱2,499/mo Full Platform Plan)</strong> — All features unlocked including Parent Portal & Registrar SMS broadcasts.`;
+        calcLock.classList.remove('active');
+        enrollLock.classList.remove('active');
+        tier3Lock.classList.remove('active');
+        showToast("Switched to Tier 3 (₱2,499/mo). Full school platform unlocked!");
+      }
+    }
+
+    // Tuition Calculator Logic
+    function selectGrade(level, fee) {
+      baseTuition = fee;
+      document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      currentGradeTitle = event.target.innerText;
+      calculateTuition();
+    }
+
+    function selectPlan(plan, disc) {
+      paymentFrequency = plan;
+      discountPct = disc;
+      document.querySelectorAll('.plan-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      calculateTuition();
+    }
+
+    function calculateTuition() {
+      const hasEsc = document.getElementById('esc-voucher-check').checked;
+      let voucherDeduction = 0;
+      if (hasEsc) {
+        voucherDeduction = baseTuition >= 54000 ? 9000 : 4500;
+      }
+
+      let grossTuition = baseTuition - (baseTuition * discountPct);
+      let netAnnual = grossTuition + miscLabFee - voucherDeduction;
+
+      let installmentText = "";
+      if (paymentFrequency === 'cash') {
+        installmentText = "₱" + netAnnual.toLocaleString() + " (Single Payment)";
+      } else if (paymentFrequency === 'semi') {
+        installmentText = "₱" + Math.round(netAnnual / 2).toLocaleString() + " / semester";
+      } else {
+        installmentText = "₱" + Math.round(netAnnual / 10).toLocaleString() + " / mo";
+      }
+
+      document.getElementById('sum-grade-title').innerText = currentGradeTitle;
+      document.getElementById('sum-base').innerText = "₱" + baseTuition.toLocaleString() + ".00";
+      document.getElementById('sum-misc').innerText = "₱" + miscLabFee.toLocaleString() + ".00";
+      document.getElementById('sum-voucher').innerText = hasEsc ? "-₱" + voucherDeduction.toLocaleString() + ".00" : "₱0.00";
+      document.getElementById('sum-installment').innerText = installmentText;
+      document.getElementById('sum-net-annual').innerText = "₱" + netAnnual.toLocaleString() + ".00";
+    }
+
+    // Document Upload Simulation
+    function handleDocUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        document.getElementById('drop-doc-title').innerText = "Document Attached:";
+        document.getElementById('doc-preview-badge').style.display = 'inline-flex';
+        document.getElementById('doc-file-name').innerText = `${file.name} (${(file.size / 1024).toFixed(0)} KB)`;
+        showToast("Form 138 attached! Complete details to apply.");
+      }
+    }
+
+    function submitApplication() {
+      const student = document.getElementById('app-student-name').value.trim();
+      const parent = document.getElementById('app-parent-name').value.trim();
+      const phone = document.getElementById('app-parent-phone').value.trim();
+
+      if (!student || !parent || !phone) {
+        alert("Please provide the Student Name, Parent/Guardian Name, and Contact Number.");
+        return;
+      }
+
+      showToast(`Application received for ${student}! Testing schedule sent to ${phone}.`);
+      document.getElementById('app-student-name').value = '';
+      document.getElementById('app-parent-name').value = '';
+      document.getElementById('app-parent-phone').value = '';
+    }
+
+    // Modal controls
+    function openTierModal() {
+      document.getElementById('tier-modal').classList.add('open');
+    }
+
+    function closeTierModal() {
+      document.getElementById('tier-modal').classList.remove('open');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notification');
+      document.getElementById('toast-message').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+  </script>
+</body>
+</html>

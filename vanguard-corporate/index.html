@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Vanguard Solutions Group | Enterprise Technology & Advisory</title>
+  <meta name="description" content="Driving enterprise transformation through cloud architecture, cybersecurity compliance, AI integrations, and digital transformation. Calculate your project scope and schedule an executive consultation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #070d17;
+      --bg-card: #0e1828;
+      --bg-card-hover: #15243b;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --corp-blue: #2563eb;
+      --corp-cyan: #06b6d4;
+      --corp-glow: rgba(37, 99, 235, 0.25);
+      --corp-emerald: #10b981;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-heading: 'Space Grotesk', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    /* Ambient background mesh */
+    .bg-mesh {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 35%, rgba(6, 182, 212, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
+        #070d17;
+      pointer-events: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    /* ====================================================
+       DEMO TIER SWITCHER (STICKY FLOATING CONTROLLER)
+       ==================================================== */
+    .tier-bar-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 13, 23, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .tier-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.6rem 0;
+      flex-wrap: wrap;
+    }
+
+    .tier-branding {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tier-brand-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--corp-cyan);
+      background: rgba(6, 182, 212, 0.12);
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      border: 1px solid rgba(6, 182, 212, 0.25);
+    }
+
+    .tier-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.25rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+    }
+
+    .tier-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tier-btn:hover { color: var(--text-main); }
+
+    .tier-btn.active {
+      background: var(--corp-blue);
+      color: #ffffff;
+      box-shadow: 0 2px 12px var(--corp-glow);
+      font-weight: 700;
+    }
+
+    .tier-btn.active.tier-1 {
+      background: #10b981;
+      color: #ffffff;
+      box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+    }
+
+    .tier-btn.active.tier-3 {
+      background: #8b5cf6;
+      color: #ffffff;
+      box-shadow: 0 2px 12px rgba(139, 92, 246, 0.4);
+    }
+
+    .tier-info-modal-trigger {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--corp-cyan);
+      cursor: pointer;
+      background: rgba(6, 182, 212, 0.08);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .tier-info-modal-trigger:hover { background: rgba(6, 182, 212, 0.16); }
+
+    /* Active Plan Status Banner */
+    .tier-status-banner {
+      background: rgba(37, 99, 235, 0.1);
+      border-bottom: 1px solid rgba(37, 99, 235, 0.2);
+      padding: 0.4rem 1.25rem;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #60a5fa;
+    }
+
+    .tier-status-banner.t1 {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+    }
+
+    .tier-status-banner.t3 {
+      background: rgba(139, 92, 246, 0.1);
+      border-color: rgba(139, 92, 246, 0.2);
+      color: #c4b5fd;
+    }
+
+    /* ====================================================
+       SITE NAVIGATION HEADER
+       ==================================================== */
+    .site-nav {
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #2563eb, #06b6d4);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: #ffffff;
+      box-shadow: 0 4px 16px var(--corp-glow);
+    }
+
+    .logo-text { display: flex; flex-direction: column; }
+
+    .logo-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .logo-title span { color: #60a5fa; }
+
+    .logo-sub {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: #60a5fa; }
+
+    .nav-cta {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.55rem 1.15rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 14px var(--corp-glow);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .nav-cta:hover {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      transform: translateY(-1px);
+    }
+
+    /* ====================================================
+       HERO SECTION
+       ==================================================== */
+    .hero {
+      position: relative;
+      padding: 5.5rem 0 4.5rem;
+      background: linear-gradient(180deg, rgba(7, 13, 23, 0.65) 0%, rgba(7, 13, 23, 0.96) 100%),
+                  url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    }
+
+    .hero-content { max-width: 680px; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(37, 99, 235, 0.15);
+      border: 1px solid rgba(37, 99, 235, 0.35);
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #93c5fd;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: 3.4rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+      color: #ffffff;
+    }
+
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, #60a5fa 20%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: #cbd5e1;
+      margin-bottom: 2rem;
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #ffffff;
+      padding: 0.85rem 1.6rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 6px 20px var(--corp-glow);
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-color);
+      color: #ffffff;
+      padding: 0.85rem 1.4rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .hero-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      max-width: 540px;
+    }
+
+    .hero-stat-item { display: flex; flex-direction: column; }
+    .hero-stat-val { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; color: #ffffff; }
+    .hero-stat-lbl { font-size: 0.75rem; color: var(--text-dim); }
+
+    /* ====================================================
+       SECTION COMMON STYLES
+       ==================================================== */
+    .section-header { text-align: center; max-width: 680px; margin: 0 auto 2.5rem; }
+    .section-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px solid rgba(37, 99, 235, 0.25);
+      color: #60a5fa;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+    .section-title { font-family: var(--font-heading); font-size: 2.3rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 0.8rem; }
+    .section-desc { color: var(--text-muted); font-size: 0.98rem; }
+
+    /* ====================================================
+       PRACTICE AREAS & SERVICES
+       ==================================================== */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.8rem;
+      transition: all 0.2s;
+    }
+
+    .service-card:hover {
+      border-color: rgba(37, 99, 235, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .service-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+    .service-title { font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-bottom: 0.4rem; }
+    .service-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ====================================================
+       INTERACTIVE PROJECT BUDGET & SCOPING ESTIMATOR (TIER 2+ FEATURE)
+       ==================================================== */
+    .calculator-section { padding: 4.5rem 0 3rem; }
+
+    .calc-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2.2rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .calc-group { margin-bottom: 1.5rem; }
+    .calc-label { font-size: 0.85rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem; display: block; }
+
+    .service-select-pills {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+
+    .svc-pill {
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-muted);
+      padding: 0.75rem 0.5rem;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .svc-pill.active {
+      border-color: var(--corp-blue);
+      background: rgba(37, 99, 235, 0.15);
+      color: #ffffff;
+      box-shadow: 0 0 12px var(--corp-glow);
+    }
+
+    .range-slider {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: #1e293b;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    .range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--corp-blue);
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--corp-blue);
+      border: 2px solid #070d17;
+    }
+
+    /* Summary Card */
+    .quote-summary-card {
+      background: linear-gradient(145deg, #091526, #050b15);
+      border: 1px solid rgba(37, 99, 235, 0.3);
+      border-radius: 16px;
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .quote-row { display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 0.6rem; color: var(--text-muted); }
+    .quote-total-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      padding-top: 0.8rem;
+      margin-top: 0.8rem;
+      border-top: 1px dashed rgba(255, 255, 255, 0.12);
+    }
+
+    /* Lock Overlay */
+    .tier-lock-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(7, 13, 23, 0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 20px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      z-index: 20;
+    }
+
+    .tier-lock-overlay.active { display: flex; }
+
+    .lock-icon-circle {
+      width: 62px; height: 62px;
+      border-radius: 50%;
+      background: rgba(37, 99, 235, 0.15);
+      border: 1px solid var(--corp-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #60a5fa;
+      font-size: 1.7rem;
+      margin-bottom: 1rem;
+    }
+
+    .lock-title { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem; }
+    .lock-desc { font-size: 0.9rem; color: var(--text-muted); max-width: 480px; margin-bottom: 1.5rem; }
+
+    /* ====================================================
+       RFP BRIEF UPLOAD & CONSULTATION SCHEDULER (TIER 2+ FEATURE)
+       ==================================================== */
+    .rfp-section { padding: 2rem 0 4rem; }
+
+    .rfp-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2.4rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .rfp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+
+    .dropzone-box {
+      border: 2px dashed rgba(37, 99, 235, 0.35);
+      background: rgba(37, 99, 235, 0.03);
+      border-radius: 14px;
+      padding: 2.2rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dropzone-box:hover { border-color: #60a5fa; background: rgba(37, 99, 235, 0.06); }
+    .drop-icon { font-size: 2.4rem; color: #60a5fa; margin-bottom: 0.6rem; }
+    .drop-title { font-size: 0.95rem; font-weight: 700; color: #ffffff; margin-bottom: 0.3rem; }
+    .drop-sub { font-size: 0.75rem; color: var(--text-dim); }
+
+    .file-preview-pill {
+      display: none;
+      margin-top: 1rem;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: #34d399;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-inputs-group { display: flex; flex-direction: column; gap: 1.1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+    .form-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.35rem; display: block; font-weight: 600; }
+
+    .custom-input {
+      width: 100%;
+      background: rgba(7, 13, 23, 0.8);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .custom-input:focus { border-color: #60a5fa; }
+
+    /* ====================================================
+       TIER 3 EXCLUSIVE: INVESTOR & SLA UPTIME PORTAL
+       ==================================================== */
+    .tier3-section {
+      background: linear-gradient(180deg, rgba(139, 92, 246, 0.08) 0%, transparent 100%);
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin: 3.5rem 0;
+      position: relative;
+    }
+
+    .tier3-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+
+    .portal-box {
+      background: rgba(7, 13, 23, 0.75);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.5rem;
+    }
+
+    /* Location & Map */
+    .location-section { padding: 4rem 0 2rem; border-top: 1px solid var(--border-color); }
+    .loc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: center; }
+
+    .map-box {
+      width: 100%;
+      height: 320px;
+      background: #091322;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80') center/cover;
+      opacity: 0.2;
+    }
+
+    .map-card-content { position: relative; z-index: 2; }
+
+    .site-footer {
+      border-top: 1px solid var(--border-color);
+      padding: 2.5rem 0;
+      background: #04080e;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    /* ====================================================
+       MODAL: TIER COMPARISON MATRIX
+       ==================================================== */
+    .modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal-dialog {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem; right: 1.25rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: #ffffff;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      font-size: 0.88rem;
+    }
+
+    .matrix-table th, .matrix-table td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .matrix-table th { background: rgba(255, 255, 255, 0.04); color: #ffffff; font-weight: 700; }
+    .matrix-check { color: #10b981; font-weight: bold; }
+    .matrix-cross { color: #64748b; }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      background: #0e1828;
+      border: 1px solid #60a5fa;
+      color: #ffffff;
+      padding: 0.9rem 1.4rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+      transform: translateY(120%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 400;
+    }
+
+    .toast.show { transform: translateY(0); }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .hero-title { font-size: 2.6rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .calc-grid { grid-template-columns: 1fr; }
+      .rfp-grid { grid-template-columns: 1fr; }
+      .tier3-grid { grid-template-columns: 1fr; }
+      .loc-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-title { font-size: 2.1rem; }
+      .tier-bar { justify-content: center; }
+      .tier-controls { width: 100%; justify-content: center; }
+      .service-select-pills { grid-template-columns: 1fr; }
+      .calc-container { padding: 1.4rem; }
+      .rfp-card { padding: 1.4rem; }
+      .tier3-section { padding: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient background mesh -->
+  <div class="bg-mesh"></div>
+
+  <!-- ====================================================
+       INTERACTIVE TIER SWITCHER DOCK (FLOATING DEMO CONTROL)
+       ==================================================== -->
+  <aside class="tier-bar-wrapper" aria-label="Interactive Demo Controls">
+    <div class="container">
+      <div class="tier-bar">
+        <div class="tier-branding">
+          <span class="tier-brand-tag">💼 Live Demo Mode</span>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Preview Plan:</span>
+        </div>
+
+        <div class="tier-controls" role="tablist">
+          <button class="tier-btn" id="btn-tier-1" onclick="switchTier(1)">
+            <span>🟢 Starter</span>
+            <small style="opacity: 0.8;">₱899/mo</small>
+          </button>
+          <button class="tier-btn active" id="btn-tier-2" onclick="switchTier(2)">
+            <span>🟡 Interactive</span>
+            <small style="opacity: 0.8;">₱1,499/mo</small>
+          </button>
+          <button class="tier-btn" id="btn-tier-3" onclick="switchTier(3)">
+            <span>🔵 Full Platform</span>
+            <small style="opacity: 0.8;">₱2,499/mo</small>
+          </button>
+        </div>
+
+        <button class="tier-info-modal-trigger" onclick="openTierModal()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          Compare All 3 Tiers
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Dynamic Active Tier Status Banner -->
+  <div class="tier-status-banner" id="tier-status-bar">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+      <span id="tier-status-text">
+        <strong>Currently Viewing: Tier 2 (₱1,499/mo Interactive Plan)</strong> — Unlocks Project Budget Estimator + RFP Brief Upload & Strategy Consultation Scheduler.
+      </span>
+      <span style="font-size: 0.75rem; text-decoration: underline; cursor: pointer;" onclick="openTierModal()">View Limitations & Features</span>
+    </div>
+  </div>
+
+  <!-- ====================================================
+       SITE NAVIGATION HEADER
+       ==================================================== -->
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="#" class="logo-wrapper">
+        <div class="logo-icon">🏢</div>
+        <div class="logo-text">
+          <span class="logo-title">Vanguard<span>Solutions</span></span>
+          <span class="logo-sub">Enterprise Technology & Advisory</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#services">Practice Areas</a></li>
+        <li><a href="#scoping">Project Estimator</a></li>
+        <li><a href="#rfp">Request for Proposal (RFP)</a></li>
+        <li><a href="#portal" id="nav-link-portal">Client SLA Portal</a></li>
+        <li><a href="#location">Offices</a></li>
+      </ul>
+
+      <a href="#rfp" class="nav-cta">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+        Submit RFP Brief
+      </a>
+    </div>
+  </header>
+
+  <!-- ====================================================
+       HERO SECTION
+       ==================================================== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span>🛡️</span>
+          SOC 2 & ISO 27001 Certified Enterprise Technology Partner
+        </div>
+
+        <h1 class="hero-title">
+          Strategic Precision. <br>Enterprise <span class="gradient-text">Scalability.</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Vanguard Solutions Group empowers conglomerates and high-growth enterprises across Southeast Asia with cloud infrastructure, AI automation, cybersecurity governance, and digital product architecture.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#scoping" class="btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
+            Scope Project & Budget
+          </a>
+
+          <a href="#services" class="btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            Our Practice Areas
+          </a>
+        </div>
+
+        <div class="hero-stats-row">
+          <div class="hero-stat-item">
+            <div class="hero-stat-val">99.99%</div>
+            <div class="hero-stat-lbl">Enterprise SLA Uptime</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-val">120+</div>
+            <div class="hero-stat-lbl">Enterprise Clients Deployed</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-val">₱450M+</div>
+            <div class="hero-stat-lbl">Client OpEx Reductions</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       PRACTICE AREAS & SERVICES
+       ==================================================== -->
+  <section class="services-section" id="services" style="padding: 4rem 0 2rem;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pill">Core Capabilities</div>
+        <h2 class="section-title">Enterprise Advisory & Engineering</h2>
+        <p class="section-desc">
+          Engineered to solve mission-critical bottlenecks across financial services, logistics, retail, and manufacturing.
+        </p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">☁️</div>
+          <h3 class="service-title">Cloud Architecture & DevOps</h3>
+          <p class="service-desc">Multi-cloud migration (AWS, Google Cloud, Azure), Kubernetes orchestration, automated CI/CD pipelines, and FinOps cost optimization.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">🛡️</div>
+          <h3 class="service-title">Cybersecurity & Governance</h3>
+          <p class="service-desc">SOC 2, ISO 27001, and NPC Data Privacy compliance audits, zero-trust network design, penetration testing, and 24/7 SOC monitoring.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">🤖</div>
+          <h3 class="service-title">Enterprise AI & Automation</h3>
+          <p class="service-desc">Generative AI workflows, LLM fine-tuning on internal corporate datasets, robotic process automation (RPA), and predictive analytics.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       INTERACTIVE PROJECT BUDGET & SCOPING ESTIMATOR (TIER 2+ FEATURE)
+       ==================================================== -->
+  <section class="calculator-section" id="scoping">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pill">Interactive Scoping Tool</div>
+        <h2 class="section-title">Project Scope & Investment Estimator</h2>
+        <p class="section-desc">
+          Configure your service requirements and team scale to estimate implementation man-months, delivery milestones, and expected investment.
+        </p>
+      </div>
+
+      <div class="calc-container" id="calc-container-box">
+
+        <!-- TIER 1 LOCK OVERLAY -->
+        <div class="tier-lock-overlay" id="calc-tier-lock">
+          <div class="lock-icon-circle">🔒</div>
+          <h3 class="lock-title">Interactive Project Estimator is a Tier 2+ Feature</h3>
+          <p class="lock-desc">
+            You are currently previewing the <strong>Tier 1 Starter Plan (₱899/mo)</strong>, which features a standard corporate capabilities deck. 
+            Upgrade to <strong>Tier 2 Interactive (₱1,499/mo)</strong> to unlock automated project scoping and budget calculation for enterprise leads!
+          </p>
+          <button class="btn-primary" onclick="switchTier(2)">
+            💼 Switch to Tier 2 Preview to Test
+          </button>
+        </div>
+
+        <div class="calc-grid">
+          <!-- Inputs Column -->
+          <div>
+            <div class="calc-group">
+              <label class="calc-label">Select Core Engagement Area</label>
+              <div class="service-select-pills">
+                <div class="svc-pill active" onclick="selectService('cloud', 180000)">☁️ Cloud DevOps</div>
+                <div class="svc-pill" onclick="selectService('cyber', 220000)">🛡️ Cyber Governance</div>
+                <div class="svc-pill" onclick="selectService('ai', 280000)">🤖 Enterprise AI</div>
+              </div>
+            </div>
+
+            <div class="calc-group">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span class="calc-label" style="margin-bottom: 0;">Target Corporate User / Seat Scale</span>
+                <span style="color: #60a5fa; font-weight: 700;" id="scale-display">150 Corporate Seats</span>
+              </div>
+              <input type="range" min="20" max="500" step="10" value="150" class="range-slider" id="scale-slider" oninput="calculateScoping()">
+            </div>
+
+            <div class="calc-group" style="margin-bottom: 0;">
+              <label class="calc-label">Delivery Timeline Preference</label>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                <div class="svc-pill active" id="time-fast" onclick="setTimePref('fast', 1.25)">
+                  ⚡ Fast-Track (45 Days)
+                </div>
+                <div class="svc-pill" id="time-std" onclick="setTimePref('std', 1.0)">
+                  🗓️ Standard (90 Days)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary Column -->
+          <div class="quote-summary-card">
+            <div>
+              <span class="section-pill" style="margin-bottom: 0.5rem;">Engagement Model</span>
+              <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: #ffffff; margin-bottom: 1.25rem;" id="sum-svc-title">
+                Cloud Architecture & DevOps Suite
+              </h3>
+
+              <div class="quote-row">
+                <span>Estimated Engineering Sprints:</span>
+                <strong style="color: #ffffff;" id="sum-sprints">3 Bi-Weekly Sprints</strong>
+              </div>
+              <div class="quote-row">
+                <span>Dedicated Architecture Team:</span>
+                <span style="color: #ffffff;">Lead Solutions Architect + 2 Sr. DevOps</span>
+              </div>
+              <div class="quote-row">
+                <span>Compliance Verification:</span>
+                <span style="color: var(--corp-emerald);">SOC 2 / ISO 27001 Audit Ready</span>
+              </div>
+
+              <div class="quote-total-row">
+                <div>
+                  <div style="font-size: 0.8rem; color: var(--text-dim); font-weight: normal;">Estimated Implementation Range:</div>
+                  <div style="color: #60a5fa;" id="sum-budget">₱380,000 – ₱460,000</div>
+                </div>
+              </div>
+            </div>
+
+            <a href="#rfp" class="btn-primary" style="margin-top: 1.5rem; justify-content: center;">
+              Lock In This Scope & Submit RFP
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       RFP BRIEF UPLOAD & CONSULTATION SCHEDULER (TIER 2+ FEATURE)
+       ==================================================== -->
+  <section class="rfp-section" id="rfp">
+    <div class="container">
+      <div class="rfp-card" id="rfp-card-box">
+
+        <!-- TIER 1 LOCK OVERLAY -->
+        <div class="tier-lock-overlay" id="rfp-tier-lock">
+          <div class="lock-icon-circle">🔒</div>
+          <h3 class="lock-title">RFP Brief Upload & Booking is a Tier 2+ Feature</h3>
+          <p class="lock-desc">
+            Direct RFP document uploads, technical spec attachments, and calendar booking are unlocked on the <strong>Tier 2 Interactive Plan (₱1,499/mo)</strong>. In Tier 1, prospects contact via general email or phone.
+          </p>
+          <button class="btn-primary" onclick="switchTier(2)">
+            💼 Switch to Tier 2 Preview to Test
+          </button>
+        </div>
+
+        <div class="rfp-grid">
+          <div>
+            <div class="section-pill">Request for Proposal (RFP)</div>
+            <h2 style="font-family: var(--font-heading); font-size: 1.85rem; margin-bottom: 0.6rem;">
+              Submit Project Specifications
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+              Upload your tender document, architecture diagram, or project brief. Our Managing Partner will review your requirements under strict mutual NDA within 24 hours.
+            </p>
+
+            <div class="dropzone-box" onclick="document.getElementById('rfp-file-input').click()">
+              <input type="file" id="rfp-file-input" style="display: none;" accept="image/*,.pdf,.docx" onchange="handleRfpUpload(event)">
+              <div class="drop-icon">📁</div>
+              <div class="drop-title" id="rfp-drop-title">Click to upload RFP Document or Project Brief</div>
+              <div class="drop-sub">Accepts PDF, DOCX, or Architecture Image (Max 25MB)</div>
+              <div class="file-preview-pill" id="rfp-preview-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span id="rfp-file-name">Enterprise_Cloud_RFP_2026.pdf</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-inputs-group">
+            <div class="form-row">
+              <div>
+                <label class="form-label">Company / Entity Name</label>
+                <input type="text" class="custom-input" placeholder="e.g. Metro Retail Holdings" id="rfp-corp-name">
+              </div>
+              <div>
+                <label class="form-label">Contact Person & Title</label>
+                <input type="text" class="custom-input" placeholder="e.g. Jason Reyes, CTO" id="rfp-contact-name">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div>
+                <label class="form-label">Corporate Email Address</label>
+                <input type="email" class="custom-input" placeholder="e.g. jason.reyes@company.com" id="rfp-email">
+              </div>
+              <div>
+                <label class="form-label">Direct Mobile / WhatsApp</label>
+                <input type="tel" class="custom-input" placeholder="e.g. 0917 890 1234" id="rfp-phone">
+              </div>
+            </div>
+
+            <div>
+              <label class="form-label">Schedule Executive Discovery Call</label>
+              <input type="date" class="custom-input" value="2026-11-25">
+            </div>
+
+            <button class="btn-primary" style="margin-top: 0.5rem; justify-content: center;" onclick="submitRfp()">
+              Submit RFP & Request Executive Session
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       TIER 3 EXCLUSIVE: INVESTOR & SLA UPTIME PORTAL
+       ==================================================== -->
+  <section class="tier3-section-wrapper" id="portal">
+    <div class="container">
+      <div class="tier3-section" id="tier3-box">
+
+        <!-- TIER 1 & 2 LOCK OVERLAY -->
+        <div class="tier-lock-overlay" id="tier3-lock">
+          <div class="lock-icon-circle" style="border-color: #8b5cf6; color: #c4b5fd;">📊</div>
+          <h3 class="lock-title">Client SLA & Investor Portal is a Tier 3 Feature</h3>
+          <p class="lock-desc">
+            You are currently previewing <strong>Tier 1 or Tier 2</strong>. The <strong>Tier 3 Full Platform Plan (₱2,499/mo)</strong> unlocks the Live Client SLA Uptime Monitor, Investor Relations Hub, and Multi-Branch Resource Directory.
+          </p>
+          <button class="btn-primary" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: #fff;" onclick="switchTier(3)">
+            🔵 Switch to Tier 3 Preview to Unlock
+          </button>
+        </div>
+
+        <div class="tier3-grid">
+          <div>
+            <div class="section-pill" style="background: rgba(139, 92, 246, 0.15); border-color: rgba(139, 92, 246, 0.3); color: #c4b5fd;">
+              Enterprise Telemetry
+            </div>
+            <h2 style="font-family: var(--font-heading); font-size: 1.85rem; margin-bottom: 0.8rem;">
+              Client SLA & Mission-Critical Telemetry
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+              Contracted enterprise clients receive dedicated real-time observability dashboards with contractual 99.99% availability guarantees and instant P1 escalation channels.
+            </p>
+
+            <div class="portal-box">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                <span style="font-weight: 700; color: #ffffff;">Global Infrastructure Telemetry</span>
+                <span style="font-size: 0.72rem; background: rgba(16, 185, 129, 0.15); color: #34d399; padding: 0.2rem 0.5rem; border-radius: 4px;">100% Operational</span>
+              </div>
+              <div style="font-size: 0.8rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.3rem;">
+                <div>• Asia-Pacific Kubernetes Clusters: <strong style="color: #34d399;">99.994% Uptime</strong></div>
+                <div>• Enterprise API Gateway Latency: <strong style="color: #ffffff;">14.2ms avg</strong></div>
+                <div>• Threat Vector Defense (WAF): <strong style="color: #ffffff;">0 Active Anomalies</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: rgba(7, 13, 23, 0.75); border: 1px solid var(--border-color); border-radius: 14px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span style="font-weight: 700; color: #ffffff; font-size: 1.05rem; display: block; margin-bottom: 0.3rem;">
+                Enterprise CRM Webhook & Lead Dispatch
+              </span>
+              <p style="font-size: 0.78rem; color: var(--text-dim); margin-bottom: 1rem;">
+                RFP inquiries automatically route into Salesforce, HubSpot, or private corporate Slack channels for immediate C-level dispatch.
+              </p>
+
+              <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.8rem; font-size: 0.82rem; color: var(--text-muted);">
+                <strong style="color: #38bdf8; display: block;">Simulated Webhook Output:</strong>
+                {"event":"rfp_submitted","company":"Metro Retail","budget":"₱450,000","assigned":"VP Enterprise Sales"}
+              </div>
+            </div>
+
+            <button class="btn-primary" style="margin-top: 1.5rem; justify-content: center; background: #8b5cf6;" onclick="alert('Webhook ping simulation successful!')">
+              Test Webhook Dispatch
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       OFFICES & LOCATION
+       ==================================================== -->
+  <section class="location-section" id="location">
+    <div class="container">
+      <div class="loc-grid">
+        <div>
+          <div class="section-pill">Corporate Presence</div>
+          <h2 style="font-family: var(--font-heading); font-size: 2.2rem; margin-bottom: 1rem;">
+            Headquarters & Innovation Hub
+          </h2>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+            Strategically located at the heart of Bonifacio Global City's prime commercial district.
+          </p>
+
+          <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+            <div style="display: flex; gap: 0.8rem;">
+              <span style="font-size: 1.3rem;">📍</span>
+              <div>
+                <strong style="color: #ffffff; display: block;">Principal Office</strong>
+                <span style="color: var(--text-muted); font-size: 0.88rem;">Level 28, High Street South Corporate Plaza, 26th Street, BGC, Taguig City, Metro Manila</span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.8rem;">
+              <span style="font-size: 1.3rem;">⏰</span>
+              <div>
+                <strong style="color: #ffffff; display: block;">Executive Operating Hours</strong>
+                <span style="color: var(--text-muted); font-size: 0.88rem;">Monday – Friday: 8:30 AM – 6:30 PM (24/7 Global NOC Support)</span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.8rem;">
+              <span style="font-size: 1.3rem;">📞</span>
+              <div>
+                <strong style="color: #ffffff; display: block;">Corporate Direct Lines</strong>
+                <span style="color: var(--text-muted); font-size: 0.88rem;">+63 949 166 1887 • enterprise@vanguardsolutions.ph</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+            <a href="https://maps.google.com" target="_blank" class="btn-secondary" style="font-size: 0.85rem;">
+              Open in Google Maps
+            </a>
+            <a href="https://waze.com" target="_blank" class="btn-secondary" style="font-size: 0.85rem;">
+              Open in Waze
+            </a>
+          </div>
+        </div>
+
+        <div class="map-box">
+          <div class="map-card-content">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏢</div>
+            <h3 style="font-family: var(--font-heading); font-size: 1.35rem; color: #ffffff; margin-bottom: 0.2rem;">
+              Vanguard Solutions BGC
+            </h3>
+            <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 1rem;">
+              High Street South Corporate Plaza
+            </p>
+            <span style="background: rgba(37, 99, 235, 0.2); border: 1px solid var(--corp-blue); color: #93c5fa; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 999px;">
+              Executive Briefing Center Open
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       FOOTER
+       ==================================================== -->
+  <footer class="site-footer">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: gap: 1rem;">
+      <div>&copy; 2026 Vanguard Solutions Group. SEC Registered.</div>
+      <div style="color: #60a5fa;">Demo Designed & Powered by Micz Corner Web Solutions</div>
+    </div>
+  </footer>
+
+  <!-- ====================================================
+       MODAL: TIER COMPARISON MATRIX
+       ==================================================== -->
+  <div class="modal-backdrop" id="tier-modal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="closeTierModal()">&times;</button>
+      
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem;">
+        <span class="tier-brand-tag">Corporate Matrix</span>
+        <h2 style="font-family: var(--font-heading); font-size: 1.5rem; color: #ffffff;">Compare All 3 Website Tiers</h2>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+        Choose the exact setup that qualifies high-value enterprise B2B sales pipelines.
+      </p>
+
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>Corporate Feature / Capability</th>
+            <th>🟢 Starter<br><small style="color: var(--text-dim);">₱899 / mo</small></th>
+            <th>🟡 Interactive<br><small style="color: #60a5fa;">₱1,499 / mo</small></th>
+            <th>🔵 Full Platform<br><small style="color: #c4b5fd;">₱2,499 / mo</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Executive Corporate Profile & Practice Areas</strong></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+          </tr>
+          <tr>
+            <td><strong>Leadership Team, Office Locations & Contact Form</strong></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+          </tr>
+          <tr>
+            <td><strong>One-Click Call & Corporate WhatsApp Chat</strong></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+          </tr>
+          <tr>
+            <td><strong>Interactive Project Scope & Budget Estimator</strong><br><small style="color: var(--text-dim);">Service selection, seat scale, sprint timeline calculation</small></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Direct RFP Project Specification File Upload</strong><br><small style="color: var(--text-dim);">Accepts PDF/DOCX brief for rapid scoping</small></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Executive Discovery Consultation Scheduler</strong></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Client Telemetry & SLA 99.99% Uptime Monitor</strong></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Enterprise CRM Webhook & C-Level Slack Alert</strong></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top: 1.8rem; display: flex; justify-content: flex-end; gap: 0.8rem;">
+        <button class="btn-secondary" onclick="closeTierModal()">Close Preview</button>
+        <button class="btn-primary" onclick="switchTier(2); closeTierModal();">Select Tier 2 (₱1,499/mo)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast-notification">
+    <span id="toast-icon">💼</span>
+    <span id="toast-message">Plan switched successfully.</span>
+  </div>
+
+  <!-- ====================================================
+       INTERACTIVE JAVASCRIPT ENGINE
+       ==================================================== -->
+  <script>
+    let currentTier = 2; // Default to Tier 2 Interactive
+    let baseRate = 180000;
+    let timeMultiplier = 1.25;
+    let currentServiceTitle = "Cloud Architecture & DevOps Suite";
+
+    window.addEventListener('DOMContentLoaded', () => {
+      calculateScoping();
+      switchTier(2);
+    });
+
+    // Tier Switcher Engine
+    function switchTier(tierNum) {
+      currentTier = tierNum;
+
+      document.querySelectorAll('.tier-btn').forEach(btn => btn.classList.remove('active', 'tier-1', 'tier-3'));
+      const activeBtn = document.getElementById(`btn-tier-${tierNum}`);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        if (tierNum === 1) activeBtn.classList.add('tier-1');
+        if (tierNum === 3) activeBtn.classList.add('tier-3');
+      }
+
+      const statusBar = document.getElementById('tier-status-bar');
+      const statusText = document.getElementById('tier-status-text');
+      statusBar.classList.remove('t1', 't3');
+
+      const calcLock = document.getElementById('calc-tier-lock');
+      const rfpLock = document.getElementById('rfp-tier-lock');
+      const tier3Lock = document.getElementById('tier3-lock');
+
+      if (tierNum === 1) {
+        // TIER 1: Starter (₱899/mo)
+        statusBar.classList.add('t1');
+        statusText.innerHTML = `<strong>Viewing: Tier 1 (₱899/mo Starter Plan)</strong> — Corporate profile & services. Scoping Estimator & RFP Upload are locked.`;
+        calcLock.classList.add('active');
+        rfpLock.classList.add('active');
+        tier3Lock.classList.add('active');
+        showToast("Switched to Tier 1 (₱899/mo). Scoping & RFP locked.");
+      } else if (tierNum === 2) {
+        // TIER 2: Interactive (₱1,499/mo)
+        statusText.innerHTML = `<strong>Viewing: Tier 2 (₱1,499/mo Interactive Plan)</strong> — Unlocks Project Budget Estimator + RFP Brief Upload & Discovery Scheduler.`;
+        calcLock.classList.remove('active');
+        rfpLock.classList.remove('active');
+        tier3Lock.classList.add('active');
+        showToast("Switched to Tier 2 (₱1,499/mo). Scoping & RFP upload active!");
+      } else if (tierNum === 3) {
+        // TIER 3: Full Platform (₱2,499/mo)
+        statusBar.classList.add('t3');
+        statusText.innerHTML = `<strong>Viewing: Tier 3 (₱2,499/mo Full Platform Plan)</strong> — All features unlocked including Client SLA Portal & Enterprise Webhooks.`;
+        calcLock.classList.remove('active');
+        rfpLock.classList.remove('active');
+        tier3Lock.classList.remove('active');
+        showToast("Switched to Tier 3 (₱2,499/mo). Full corporate suite active!");
+      }
+    }
+
+    function selectService(type, fee) {
+      baseRate = fee;
+      document.querySelectorAll('.svc-pill').forEach(b => {
+        if (b.id !== 'time-fast' && b.id !== 'time-std') b.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      currentServiceTitle = event.target.innerText.replace(/[^\w\s&]/gi, '').trim();
+      calculateScoping();
+    }
+
+    function setTimePref(pref, mult) {
+      timeMultiplier = mult;
+      document.getElementById('time-fast').classList.remove('active');
+      document.getElementById('time-std').classList.remove('active');
+      document.getElementById(`time-${pref}`).classList.add('active');
+      calculateScoping();
+    }
+
+    function calculateScoping() {
+      const seats = parseInt(document.getElementById('scale-slider').value);
+      document.getElementById('scale-display').innerText = `${seats} Corporate Seats`;
+
+      const seatMultiplier = 1 + (seats / 300);
+      const estBudgetLow = Math.round(baseRate * seatMultiplier * timeMultiplier);
+      const estBudgetHigh = Math.round(estBudgetLow * 1.25);
+
+      const sprints = timeMultiplier > 1 ? 3 : 5;
+
+      document.getElementById('sum-svc-title').innerText = currentServiceTitle;
+      document.getElementById('sum-sprints').innerText = `${sprints} Bi-Weekly Sprints`;
+      document.getElementById('sum-budget').innerText = `₱${estBudgetLow.toLocaleString()} – ₱${estBudgetHigh.toLocaleString()}`;
+    }
+
+    function handleRfpUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        document.getElementById('rfp-drop-title').innerText = "RFP Brief Attached:";
+        document.getElementById('rfp-preview-badge').style.display = 'inline-flex';
+        document.getElementById('rfp-file-name').innerText = `${file.name} (${(file.size / 1024).toFixed(0)} KB)`;
+        showToast("RFP brief loaded! Complete details to submit.");
+      }
+    }
+
+    function submitRfp() {
+      const corp = document.getElementById('rfp-corp-name').value.trim();
+      const person = document.getElementById('rfp-contact-name').value.trim();
+      const email = document.getElementById('rfp-email').value.trim();
+
+      if (!corp || !person || !email) {
+        alert("Please enter the Company Name, Contact Person, and Corporate Email.");
+        return;
+      }
+
+      showToast(`Thank you, ${person}! Your RFP for ${corp} has been logged.`);
+      document.getElementById('rfp-corp-name').value = '';
+      document.getElementById('rfp-contact-name').value = '';
+      document.getElementById('rfp-email').value = '';
+    }
+
+    // Modal controls
+    function openTierModal() { document.getElementById('tier-modal').classList.add('open'); }
+    function closeTierModal() { document.getElementById('tier-modal').classList.remove('open'); }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notification');
+      document.getElementById('toast-message').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => { toast.classList.remove('show'); }, 3500);
+    }
+  </script>
+</body>
+</html>

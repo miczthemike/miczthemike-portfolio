@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Isla Serena Beach Resort & Private Villas | Barefoot Coastal Luxury</title>
+  <meta name="description" content="Pristine white-sand escape with private pool villas, al fresco dining, and sunset ocean views. Book your villa stay or day tour with real-time rate calculations.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #061118;
+      --bg-card: #0b1c28;
+      --bg-card-hover: #12283a;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --resort-cyan: #06b6d4;
+      --resort-teal: #0d9488;
+      --resort-sand: #f59e0b;
+      --resort-sand-light: #fef08a;
+      --resort-cyan-glow: rgba(6, 182, 212, 0.25);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-heading: 'Space Grotesk', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    /* Ambient background mesh */
+    .bg-mesh {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 35%, rgba(245, 158, 11, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 50% 80%, rgba(13, 148, 136, 0.06) 0%, transparent 50%),
+        #061118;
+      pointer-events: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    /* ====================================================
+       DEMO TIER SWITCHER (STICKY FLOATING CONTROLLER)
+       ==================================================== */
+    .tier-bar-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6, 17, 24, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .tier-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.6rem 0;
+      flex-wrap: wrap;
+    }
+
+    .tier-branding {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tier-brand-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--resort-cyan);
+      background: rgba(6, 182, 212, 0.12);
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      border: 1px solid rgba(6, 182, 212, 0.25);
+    }
+
+    .tier-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.25rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+    }
+
+    .tier-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tier-btn:hover {
+      color: var(--text-main);
+    }
+
+    .tier-btn.active {
+      background: var(--resort-cyan);
+      color: #061118;
+      box-shadow: 0 2px 12px var(--resort-cyan-glow);
+      font-weight: 700;
+    }
+
+    .tier-btn.active.tier-1 {
+      background: #10b981;
+      color: #ffffff;
+      box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+    }
+
+    .tier-btn.active.tier-3 {
+      background: #8b5cf6;
+      color: #ffffff;
+      box-shadow: 0 2px 12px rgba(139, 92, 246, 0.4);
+    }
+
+    .tier-info-modal-trigger {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--resort-cyan);
+      cursor: pointer;
+      background: rgba(6, 182, 212, 0.08);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .tier-info-modal-trigger:hover {
+      background: rgba(6, 182, 212, 0.16);
+    }
+
+    /* Active Plan Status Banner */
+    .tier-status-banner {
+      background: rgba(6, 182, 212, 0.1);
+      border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+      padding: 0.4rem 1.25rem;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--resort-cyan);
+    }
+
+    .tier-status-banner.t1 {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+    }
+
+    .tier-status-banner.t3 {
+      background: rgba(139, 92, 246, 0.1);
+      border-color: rgba(139, 92, 246, 0.2);
+      color: #c4b5fd;
+    }
+
+    /* ====================================================
+       SITE NAVIGATION HEADER
+       ==================================================== */
+    .site-nav {
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #06b6d4, #0d9488);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 16px var(--resort-cyan-glow);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-title {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 1.35rem;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .logo-title span {
+      color: var(--resort-cyan);
+    }
+
+    .logo-sub {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--resort-cyan);
+    }
+
+    .nav-cta {
+      background: linear-gradient(135deg, #06b6d4, #0284c7);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.55rem 1.15rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 14px var(--resort-cyan-glow);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .nav-cta:hover {
+      background: linear-gradient(135deg, #22d3ee, #06b6d4);
+      transform: translateY(-1px);
+    }
+
+    /* ====================================================
+       HERO SECTION
+       ==================================================== */
+    .hero {
+      position: relative;
+      padding: 5.5rem 0 4.5rem;
+      background: linear-gradient(180deg, rgba(6, 17, 24, 0.5) 0%, rgba(6, 17, 24, 0.96) 100%),
+                  url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    }
+
+    .hero-content {
+      max-width: 680px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(6, 182, 212, 0.15);
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--resort-cyan);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: 3.4rem;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.25rem;
+      color: #ffffff;
+    }
+
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, #22d3ee 20%, #fef08a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: #cbd5e1;
+      margin-bottom: 2rem;
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #06b6d4, #0284c7);
+      color: #ffffff;
+      padding: 0.85rem 1.6rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 6px 20px var(--resort-cyan-glow);
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #22d3ee, #06b6d4);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-color);
+      color: #ffffff;
+      padding: 0.85rem 1.4rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .hero-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      max-width: 540px;
+    }
+
+    .hero-stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-stat-val {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .hero-stat-lbl {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    /* ====================================================
+       SECTION COMMON STYLES
+       ==================================================== */
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .section-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      color: var(--resort-cyan);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 2.3rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+    }
+
+    /* ====================================================
+       VILLAS & ROOMS SHOWCASE
+       ==================================================== */
+    .villas-section {
+      padding: 4.5rem 0 3rem;
+    }
+
+    .villas-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.8rem;
+    }
+
+    .villa-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+    }
+
+    .villa-card:hover {
+      border-color: rgba(6, 182, 212, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+    }
+
+    .villa-img-box {
+      width: 100%;
+      height: 220px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .villa-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .villa-card:hover .villa-img {
+      transform: scale(1.06);
+    }
+
+    .villa-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(6, 17, 24, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--resort-cyan);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .villa-body {
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    .villa-title {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.3rem;
+    }
+
+    .villa-specs {
+      font-size: 0.78rem;
+      color: var(--resort-cyan);
+      margin-bottom: 0.8rem;
+    }
+
+    .villa-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .villa-price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.8rem;
+      border-top: 1px dashed rgba(255, 255, 255, 0.08);
+    }
+
+    .villa-price {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .villa-price small {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-weight: normal;
+    }
+
+    .btn-select-villa {
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: var(--resort-cyan);
+      padding: 0.45rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-select-villa:hover {
+      background: var(--resort-cyan);
+      color: #061118;
+    }
+
+    /* ====================================================
+       INTERACTIVE BOOKING CALENDAR & RATE ENGINE (TIER 2+ FEATURE)
+       ==================================================== */
+    .booking-section {
+      padding: 4rem 0;
+    }
+
+    .booking-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .booking-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .form-inputs-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+    }
+
+    .form-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+      display: block;
+      font-weight: 600;
+    }
+
+    .custom-input {
+      width: 100%;
+      background: rgba(6, 17, 24, 0.8);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .custom-input:focus {
+      border-color: var(--resort-cyan);
+    }
+
+    /* Booking Summary Card */
+    .summary-card-inner {
+      background: linear-gradient(145deg, #091724, #050d15);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      border-radius: 16px;
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .booking-calc-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-muted);
+    }
+
+    .booking-calc-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 1rem 0;
+      padding-top: 0.8rem;
+      border-top: 1px dashed rgba(255, 255, 255, 0.12);
+    }
+
+    /* Lock Overlay for Tier Limitations */
+    .tier-lock-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(6, 17, 24, 0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 20px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      z-index: 20;
+    }
+
+    .tier-lock-overlay.active {
+      display: flex;
+    }
+
+    .lock-icon-circle {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: rgba(6, 182, 212, 0.15);
+      border: 1px solid var(--resort-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--resort-cyan);
+      font-size: 1.7rem;
+      margin-bottom: 1rem;
+    }
+
+    .lock-title {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    .lock-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ====================================================
+       TIER 3 EXCLUSIVE: WEDDINGS & PRIVATE BUYOUTS
+       ==================================================== */
+    .tier3-section {
+      background: linear-gradient(180deg, rgba(139, 92, 246, 0.08) 0%, transparent 100%);
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin: 3.5rem 0;
+      position: relative;
+    }
+
+    .tier3-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    /* Location & Map */
+    .location-section {
+      padding: 4rem 0 2rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .loc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .map-box {
+      width: 100%;
+      height: 320px;
+      background: #091724;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80') center/cover;
+      opacity: 0.22;
+    }
+
+    .map-card-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--border-color);
+      padding: 2.5rem 0;
+      background: #04090e;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    /* ====================================================
+       MODAL: TIER COMPARISON MATRIX
+       ==================================================== */
+    .modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal-dialog {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem; right: 1.25rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: #ffffff;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      font-size: 0.88rem;
+    }
+
+    .matrix-table th, .matrix-table td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .matrix-table th {
+      background: rgba(255, 255, 255, 0.04);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .matrix-check { color: #10b981; font-weight: bold; }
+    .matrix-cross { color: #64748b; }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      background: #0b1c28;
+      border: 1px solid var(--resort-cyan);
+      color: #ffffff;
+      padding: 0.9rem 1.4rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+      transform: translateY(120%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 400;
+    }
+
+    .toast.show { transform: translateY(0); }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .hero-title { font-size: 2.6rem; }
+      .villas-grid { grid-template-columns: repeat(2, 1fr); }
+      .booking-grid { grid-template-columns: 1fr; }
+      .tier3-grid { grid-template-columns: 1fr; }
+      .loc-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-title { font-size: 2.1rem; }
+      .villas-grid { grid-template-columns: 1fr; }
+      .tier-bar { justify-content: center; }
+      .tier-controls { width: 100%; justify-content: center; }
+      .booking-card { padding: 1.4rem; }
+      .tier3-section { padding: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient background mesh -->
+  <div class="bg-mesh"></div>
+
+  <!-- ====================================================
+       INTERACTIVE TIER SWITCHER DOCK (FLOATING DEMO CONTROL)
+       ==================================================== -->
+  <aside class="tier-bar-wrapper" aria-label="Interactive Demo Controls">
+    <div class="container">
+      <div class="tier-bar">
+        <div class="tier-branding">
+          <span class="tier-brand-tag">🏝️ Live Demo Mode</span>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Preview Plan:</span>
+        </div>
+
+        <div class="tier-controls" role="tablist">
+          <button class="tier-btn" id="btn-tier-1" onclick="switchTier(1)">
+            <span>🟢 Starter</span>
+            <small style="opacity: 0.8;">₱899/mo</small>
+          </button>
+          <button class="tier-btn active" id="btn-tier-2" onclick="switchTier(2)">
+            <span>🟡 Interactive</span>
+            <small style="opacity: 0.8;">₱1,499/mo</small>
+          </button>
+          <button class="tier-btn" id="btn-tier-3" onclick="switchTier(3)">
+            <span>🔵 Full Platform</span>
+            <small style="opacity: 0.8;">₱2,499/mo</small>
+          </button>
+        </div>
+
+        <button class="tier-info-modal-trigger" onclick="openTierModal()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          Compare All 3 Tiers
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Dynamic Active Tier Status Banner -->
+  <div class="tier-status-banner" id="tier-status-bar">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+      <span id="tier-status-text">
+        <strong>Currently Viewing: Tier 2 (₱1,499/mo Interactive Plan)</strong> — Unlocks Live Villa Booking Calendar + Instant Rate Calculator & Senior/PWD Discount.
+      </span>
+      <span style="font-size: 0.75rem; text-decoration: underline; cursor: pointer;" onclick="openTierModal()">View Limitations & Features</span>
+    </div>
+  </div>
+
+  <!-- ====================================================
+       SITE NAVIGATION HEADER
+       ==================================================== -->
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="#" class="logo-wrapper">
+        <div class="logo-icon">🏝️</div>
+        <div class="logo-text">
+          <span class="logo-title">Isla Serena<span>Resort</span></span>
+          <span class="logo-sub">Private Beach & Villas • Luzon</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#villas">Villas & Suites</a></li>
+        <li><a href="#booking">Book Your Stay</a></li>
+        <li><a href="#weddings" id="nav-link-wedding">Weddings & Buyouts</a></li>
+        <li><a href="#location">Location & Contact</a></li>
+      </ul>
+
+      <a href="#booking" class="nav-cta">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        Check Availability
+      </a>
+    </div>
+  </header>
+
+  <!-- ====================================================
+       HERO SECTION
+       ==================================================== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span>🌴</span>
+          Exclusive Coastal Sanctuary • White Sand & Private Pools
+        </div>
+
+        <h1 class="hero-title">
+          Barefoot Luxury. <br>Pristine <span class="gradient-text">Coastal Escape.</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Tucked along a secluded oceanfront cove, Isla Serena features private pool villas, farm-to-table coastal dining, and breathtaking Philippine sunsets. Experience effortless relaxation.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#booking" class="btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            Reserve a Villa
+          </a>
+
+          <a href="#villas" class="btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            Explore Accommodations
+          </a>
+        </div>
+
+        <div class="hero-stats-row">
+          <div class="hero-stat-item">
+            <div class="hero-stat-val">4.95 ★</div>
+            <div class="hero-stat-lbl">TripAdvisor Rating</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-val">Direct Beach</div>
+            <div class="hero-stat-lbl">Cove Frontage</div>
+          </div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-val">Pet Friendly</div>
+            <div class="hero-stat-lbl">Garden Villas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       VILLAS & ROOMS CATALOG
+       ==================================================== -->
+  <section class="villas-section" id="villas">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pill">Accommodations</div>
+        <h2 class="section-title">Private Villas & Beach Suites</h2>
+        <p class="section-desc">
+          Designed with indigenous bamboo, teak wood, and floor-to-ceiling glass to immerse you in coastal serenity.
+        </p>
+      </div>
+
+      <div class="villas-grid">
+        <!-- Villa 1 -->
+        <div class="villa-card">
+          <div class="villa-img-box">
+            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" alt="Deluxe Ocean Suite" class="villa-img">
+            <span class="villa-tag">Ocean View</span>
+          </div>
+          <div class="villa-body">
+            <div>
+              <h3 class="villa-title">Deluxe Ocean View Suite</h3>
+              <div class="villa-specs">1 King Bed • 2 Guests • 45 sq.m • Private Veranda</div>
+              <p class="villa-desc">Panoramic morning sea views, rainfall outdoor shower, plush king bedding, and organic bath amenities.</p>
+            </div>
+            <div class="villa-price-row">
+              <div class="villa-price">₱4,800 <small>/ night</small></div>
+              <button class="btn-select-villa" onclick="selectVilla('Deluxe Ocean View Suite', 4800)">Select Villa</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Villa 2 -->
+        <div class="villa-card">
+          <div class="villa-img-box">
+            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80" alt="Private Pool Villa" class="villa-img">
+            <span class="villa-tag">Most Popular</span>
+          </div>
+          <div class="villa-body">
+            <div>
+              <h3 class="villa-title">Serena Private Pool Villa</h3>
+              <div class="villa-specs">1 King Bed • 2-4 Guests • 85 sq.m • Dedicated Plunge Pool</div>
+              <p class="villa-desc">Your private infinity plunge pool, sun lounger deck, floating breakfast service, and direct sand access.</p>
+            </div>
+            <div class="villa-price-row">
+              <div class="villa-price">₱8,500 <small>/ night</small></div>
+              <button class="btn-select-villa" onclick="selectVilla('Serena Private Pool Villa', 8500)">Select Villa</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Villa 3 -->
+        <div class="villa-card">
+          <div class="villa-img-box">
+            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80" alt="Family Garden Suite" class="villa-img">
+            <span class="villa-tag">Family & Group</span>
+          </div>
+          <div class="villa-body">
+            <div>
+              <h3 class="villa-title">Family Garden Loft Villa</h3>
+              <div class="villa-specs">2 Queen Beds + Loft • 4-6 Guests • 95 sq.m • Garden Patio</div>
+              <p class="villa-desc">Two-story tropical loft surrounded by lush foliage, outdoor dining pavilion, and pet-friendly lawn area.</p>
+            </div>
+            <div class="villa-price-row">
+              <div class="villa-price">₱6,800 <small>/ night</small></div>
+              <button class="btn-select-villa" onclick="selectVilla('Family Garden Loft Villa', 6800)">Select Villa</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       INTERACTIVE BOOKING CALENDAR & RATE ENGINE (TIER 2+ FEATURE)
+       ==================================================== -->
+  <section class="booking-section" id="booking">
+    <div class="container">
+      <div class="booking-card" id="booking-card-box">
+
+        <!-- TIER 1 LOCK OVERLAY -->
+        <div class="tier-lock-overlay" id="booking-tier-lock">
+          <div class="lock-icon-circle">🔒</div>
+          <h3 class="lock-title">Online Reservation & Date Picker is a Tier 2+ Feature</h3>
+          <p class="lock-desc">
+            You are currently previewing the <strong>Tier 1 Starter Plan (₱899/mo)</strong>, which directs guests to message via Messenger or call. 
+            Upgrade to <strong>Tier 2 Interactive (₱1,499/mo)</strong> to unlock automated live date pickers, instant rate calculations, and Senior/PWD discounts!
+          </p>
+          <button class="btn-primary" onclick="switchTier(2)">
+            🏝️ Switch to Tier 2 Preview to Test
+          </button>
+        </div>
+
+        <div class="booking-grid">
+          <!-- Inputs Column -->
+          <div class="form-inputs-group">
+            <div>
+              <div class="section-pill">Live Rate Engine</div>
+              <h2 style="font-family: var(--font-serif); font-size: 2rem; margin-bottom: 0.4rem;">
+                Reserve Your Villa Stay
+              </h2>
+              <p style="color: var(--text-muted); font-size: 0.9rem;">
+                Select your check-in dates and guests. Instant reservation confirmation with zero upfront platform commissions.
+              </p>
+            </div>
+
+            <div class="form-row">
+              <div>
+                <label class="form-label">Check-in Date</label>
+                <input type="date" class="custom-input" id="bk-checkin" value="2026-11-27" onchange="calculateBooking()">
+              </div>
+              <div>
+                <label class="form-label">Check-out Date</label>
+                <input type="date" class="custom-input" id="bk-checkout" value="2026-11-29" onchange="calculateBooking()">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div>
+                <label class="form-label">Villa / Room Selection</label>
+                <select class="custom-input" id="bk-room-type" onchange="calculateBooking()">
+                  <option value="4800">Deluxe Ocean Suite (₱4,800/night)</option>
+                  <option value="8500" selected>Serena Private Pool Villa (₱8,500/night)</option>
+                  <option value="6800">Family Garden Loft (₱6,800/night)</option>
+                  <option value="1500">Day Tour Pass w/ Cabana (₱1,500/pax)</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Number of Guests</label>
+                <select class="custom-input" id="bk-guests" onchange="calculateBooking()">
+                  <option>2 Adults (Standard)</option>
+                  <option>3 Adults (+₱800 extra pax)</option>
+                  <option>4 Adults (+₱1,600 extra pax)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Senior / PWD Discount Checkbox -->
+            <div style="background: rgba(6, 182, 212, 0.08); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 8px; padding: 0.85rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--resort-cyan); cursor: pointer; font-size: 0.88rem; font-weight: 700;">
+                <input type="checkbox" id="bk-senior-check" onchange="calculateBooking()">
+                <span>Apply 20% Senior Citizen / PWD Statutory Discount</span>
+              </label>
+            </div>
+
+            <div class="form-row">
+              <div>
+                <label class="form-label">Guest Full Name</label>
+                <input type="text" class="custom-input" placeholder="e.g. Christine Mendoza" id="bk-guest-name">
+              </div>
+              <div>
+                <label class="form-label">Mobile / Viber Number</label>
+                <input type="tel" class="custom-input" placeholder="e.g. 0917 888 1234" id="bk-guest-phone">
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary Column -->
+          <div class="summary-card-inner">
+            <div>
+              <span class="section-pill" style="margin-bottom: 0.5rem;">Stay Quotation</span>
+              <h3 style="font-family: var(--font-serif); font-size: 1.4rem; color: #ffffff; margin-bottom: 1.25rem;">
+                Booking Breakdown
+              </h3>
+
+              <div class="booking-calc-row">
+                <span>Selected Accommodation:</span>
+                <strong style="color: #ffffff;" id="sum-room-name">Serena Private Pool Villa</strong>
+              </div>
+              <div class="booking-calc-row">
+                <span>Duration of Stay:</span>
+                <strong style="color: #ffffff;" id="sum-nights">2 Nights (Nov 27 – Nov 29)</strong>
+              </div>
+              <div class="booking-calc-row">
+                <span>Standard Room Subtotal:</span>
+                <span id="sum-subtotal">₱17,000.00</span>
+              </div>
+              <div class="booking-calc-row" style="color: #34d399;">
+                <span>Senior / PWD 20% Discount:</span>
+                <span id="sum-discount">-₱0.00</span>
+              </div>
+              <div class="booking-calc-row">
+                <span>Complimentary Inclusions:</span>
+                <span style="color: var(--resort-cyan);">Free Breakfast for 2 + Kayak Use</span>
+              </div>
+
+              <div class="booking-calc-total">
+                <span>Total Net Rate:</span>
+                <span style="color: var(--resort-cyan);" id="sum-total">₱17,000.00</span>
+              </div>
+            </div>
+
+            <button class="btn-primary" style="justify-content: center;" onclick="dispatchResortBooking()">
+              Confirm Reservation via WhatsApp / Viber
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       TIER 3 EXCLUSIVE: WEDDINGS & PRIVATE BUYOUTS
+       ==================================================== -->
+  <section class="tier3-section-wrapper" id="weddings">
+    <div class="container">
+      <div class="tier3-section" id="tier3-box">
+
+        <!-- TIER 1 & 2 LOCK OVERLAY -->
+        <div class="tier-lock-overlay" id="tier3-lock">
+          <div class="lock-icon-circle" style="border-color: #8b5cf6; color: #c4b5fd;">💍</div>
+          <h3 class="lock-title">Weddings & Full Resort Buyouts is a Tier 3 Feature</h3>
+          <p class="lock-desc">
+            You are currently previewing <strong>Tier 1 or Tier 2</strong>. The <strong>Tier 3 Full Platform Plan (₱2,499/mo)</strong> unlocks the Destination Wedding Planner, Corporate Team Building Scoping Engine, and Channel Manager OTA integration.
+          </p>
+          <button class="btn-primary" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: #fff;" onclick="switchTier(3)">
+            🔵 Switch to Tier 3 Preview to Unlock
+          </button>
+        </div>
+
+        <div class="tier3-grid">
+          <div>
+            <div class="section-pill" style="background: rgba(139, 92, 246, 0.15); border-color: rgba(139, 92, 246, 0.3); color: #c4b5fd;">
+              Destination Events
+            </div>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; margin-bottom: 0.8rem;">
+              Beachfront Weddings & Corporate Retreats
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+              Say "I do" with your toes in the sand. Full exclusive resort buyouts accommodate up to 60 overnight guests across our 14 private villas with curated banquet catering.
+            </p>
+
+            <div style="background: rgba(6, 17, 24, 0.7); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem;">
+              <strong style="color: #ffffff; display: block; margin-bottom: 0.2rem;">Exclusive Sunset Wedding Package (₱280,000)</strong>
+              <p style="font-size: 0.8rem; color: var(--text-dim);">Includes 2-night buyout of all 14 villas, beachfront ceremony styling, 4-course reception dinner for 60 guests, and bridal suite styling.</p>
+            </div>
+          </div>
+
+          <!-- Wedding Inquiry Form -->
+          <div style="background: rgba(6, 17, 24, 0.7); border: 1px solid var(--border-color); border-radius: 14px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span style="font-weight: 700; color: #ffffff; font-size: 1.1rem; display: block; margin-bottom: 0.3rem;">Request Event Lookbook & Rates</span>
+              <p style="font-size: 0.78rem; color: var(--text-dim); margin-bottom: 1rem;">Direct consultation with our Senior Events Director.</p>
+
+              <div class="form-row" style="margin-bottom: 0.8rem;">
+                <div>
+                  <label class="form-label">Event Type</label>
+                  <select class="custom-input">
+                    <option>Destination Beach Wedding</option>
+                    <option>Corporate Strategy Retreat</option>
+                    <option>Milestone Birthday / Anniversary</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">Estimated Guests</label>
+                  <input type="number" class="custom-input" placeholder="e.g. 50 pax">
+                </div>
+              </div>
+
+              <div>
+                <label class="form-label">Target Month & Year</label>
+                <input type="text" class="custom-input" placeholder="e.g. December 2026 / January 2027">
+              </div>
+            </div>
+
+            <button class="btn-primary" style="margin-top: 1.25rem; background: #8b5cf6; justify-content: center;" onclick="alert('Wedding packet request submitted! Our event director will reach out.')">
+              Send Event Lookbook Request
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       LOCATION & GETTING HERE
+       ==================================================== -->
+  <section class="location-section" id="location">
+    <div class="container">
+      <div class="loc-grid">
+        <div>
+          <div class="section-pill">Getting Here</div>
+          <h2 style="font-family: var(--font-serif); font-size: 2.2rem; margin-bottom: 1rem;">
+            Location & Travel Directions
+          </h2>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+            A comfortable 3.5-hour scenic drive from Metro Manila via modern expressways.
+          </p>
+
+          <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+            <div style="display: flex; gap: 0.8rem;">
+              <span style="font-size: 1.3rem;">📍</span>
+              <div>
+                <strong style="color: #ffffff; display: block;">Resort Address</strong>
+                <span style="color: var(--text-muted); font-size: 0.88rem;">Isla Serena Cove, Coastal Road, San Juan, La Union / Pangasinan Coast</span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.8rem;">
+              <span style="font-size: 1.3rem;">⏰</span>
+              <div>
+                <strong style="color: #ffffff; display: block;">Resort Check-In & Check-Out</strong>
+                <span style="color: var(--text-muted); font-size: 0.88rem;">Check-in: 2:00 PM • Check-out: 12:00 NN (Front Desk 24/7)</span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.8rem;">
+              <span style="font-size: 1.3rem;">📞</span>
+              <div>
+                <strong style="color: #ffffff; display: block;">Front Desk & Concierge Hotline</strong>
+                <span style="color: var(--text-muted); font-size: 0.88rem;">+63 949 166 1887 • stay@islaserenaresort.ph</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+            <a href="https://maps.google.com" target="_blank" class="btn-secondary" style="font-size: 0.85rem;">
+              Open in Google Maps
+            </a>
+            <a href="https://waze.com" target="_blank" class="btn-secondary" style="font-size: 0.85rem;">
+              Open in Waze
+            </a>
+          </div>
+        </div>
+
+        <div class="map-box">
+          <div class="map-card-content">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏝️</div>
+            <h3 style="font-family: var(--font-serif); font-size: 1.35rem; color: #ffffff; margin-bottom: 0.2rem;">
+              Isla Serena Resort Cove
+            </h3>
+            <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 1rem;">
+              Coastal Beachfront Sanctuary
+            </p>
+            <span style="background: rgba(6, 182, 212, 0.2); border: 1px solid var(--resort-cyan); color: var(--resort-cyan); font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 999px;">
+              Helipad & Valet Parking
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       FOOTER
+       ==================================================== -->
+  <footer class="site-footer">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: gap: 1rem;">
+      <div>&copy; 2026 Isla Serena Beach Resort & Private Villas. All Rights Reserved.</div>
+      <div style="color: var(--resort-cyan);">Demo Designed & Powered by Micz Corner Web Solutions</div>
+    </div>
+  </footer>
+
+  <!-- ====================================================
+       MODAL: TIER COMPARISON MATRIX
+       ==================================================== -->
+  <div class="modal-backdrop" id="tier-modal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="closeTierModal()">&times;</button>
+      
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem;">
+        <span class="tier-brand-tag">Resort Matrix</span>
+        <h2 style="font-family: var(--font-serif); font-size: 1.5rem; color: #ffffff;">Compare All 3 Website Tiers</h2>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+        Choose the exact configuration that boosts direct direct commission-free guest bookings.
+      </p>
+
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>Resort Feature / Capability</th>
+            <th>🟢 Starter<br><small style="color: var(--text-dim);">₱899 / mo</small></th>
+            <th>🟡 Interactive<br><small style="color: var(--resort-cyan);">₱1,499 / mo</small></th>
+            <th>🔵 Full Platform<br><small style="color: #c4b5fd;">₱2,499 / mo</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>High-Res Villa Showcase, Rates & Resort Policies</strong></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+          </tr>
+          <tr>
+            <td><strong>Amenities, Al Fresco Dining & Google Maps Pin</strong></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+          </tr>
+          <tr>
+            <td><strong>One-Click Call & Messenger Direct Chat</strong></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+          </tr>
+          <tr>
+            <td><strong>Interactive Date Picker & Live Rate Calculator</strong><br><small style="color: var(--text-dim);">Select dates, calculate nights, automated quote</small></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Senior Citizen & PWD 20% Discount Deduction</strong><br><small style="color: var(--text-dim);">Statutory exemption calculated cleanly</small></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Direct Commission-Free WhatsApp/Viber Booking Dispatch</strong></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Weddings & Corporate Buyouts Event Planner Engine</strong></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Channel Manager / OTA Calendar Sync Simulation</strong></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top: 1.8rem; display: flex; justify-content: flex-end; gap: 0.8rem;">
+        <button class="btn-secondary" onclick="closeTierModal()">Close Preview</button>
+        <button class="btn-primary" onclick="switchTier(2); closeTierModal();">Select Tier 2 (₱1,499/mo)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast-notification">
+    <span id="toast-icon">🏝️</span>
+    <span id="toast-message">Plan switched successfully.</span>
+  </div>
+
+  <!-- ====================================================
+       INTERACTIVE JAVASCRIPT ENGINE
+       ==================================================== -->
+  <script>
+    let currentTier = 2; // Default to Tier 2 Interactive
+    let currentRoomRate = 8500;
+    let currentRoomName = "Serena Private Pool Villa";
+
+    window.addEventListener('DOMContentLoaded', () => {
+      calculateBooking();
+      switchTier(2);
+    });
+
+    // Tier Switcher Engine
+    function switchTier(tierNum) {
+      currentTier = tierNum;
+
+      document.querySelectorAll('.tier-btn').forEach(btn => btn.classList.remove('active', 'tier-1', 'tier-3'));
+      const activeBtn = document.getElementById(`btn-tier-${tierNum}`);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        if (tierNum === 1) activeBtn.classList.add('tier-1');
+        if (tierNum === 3) activeBtn.classList.add('tier-3');
+      }
+
+      const statusBar = document.getElementById('tier-status-bar');
+      const statusText = document.getElementById('tier-status-text');
+      statusBar.classList.remove('t1', 't3');
+
+      const bookingLock = document.getElementById('booking-tier-lock');
+      const tier3Lock = document.getElementById('tier3-lock');
+
+      if (tierNum === 1) {
+        // TIER 1: Starter (₱899/mo)
+        statusBar.classList.add('t1');
+        statusText.innerHTML = `<strong>Viewing: Tier 1 (₱899/mo Starter Plan)</strong> — Villa showcase & resort info. Date picker & instant booking calculator are locked.`;
+        bookingLock.classList.add('active');
+        tier3Lock.classList.add('active');
+        showToast("Switched to Tier 1 (₱899/mo). Booking calendar locked.");
+      } else if (tierNum === 2) {
+        // TIER 2: Interactive (₱1,499/mo)
+        statusText.innerHTML = `<strong>Viewing: Tier 2 (₱1,499/mo Interactive Plan)</strong> — Unlocks Live Villa Booking Calendar + Instant Rate Calculator & Senior/PWD Discount.`;
+        bookingLock.classList.remove('active');
+        tier3Lock.classList.add('active');
+        showToast("Switched to Tier 2 (₱1,499/mo). Booking calendar active!");
+      } else if (tierNum === 3) {
+        // TIER 3: Full Platform (₱2,499/mo)
+        statusBar.classList.add('t3');
+        statusText.innerHTML = `<strong>Viewing: Tier 3 (₱2,499/mo Full Platform Plan)</strong> — All features unlocked including Destination Weddings & Full Resort Buyouts.`;
+        bookingLock.classList.remove('active');
+        tier3Lock.classList.remove('active');
+        showToast("Switched to Tier 3 (₱2,499/mo). Full resort platform active!");
+      }
+    }
+
+    function selectVilla(name, rate) {
+      currentRoomName = name;
+      currentRoomRate = rate;
+      document.getElementById('bk-room-type').value = rate;
+      calculateBooking();
+      document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+      showToast(`Selected ${name}. Choose your dates to book.`);
+    }
+
+    function calculateBooking() {
+      const roomSelect = document.getElementById('bk-room-type');
+      currentRoomRate = parseFloat(roomSelect.value);
+      currentRoomName = roomSelect.options[roomSelect.selectedIndex].text.split('(')[0].trim();
+
+      const cin = new Date(document.getElementById('bk-checkin').value);
+      const cout = new Date(document.getElementById('bk-checkout').value);
+      
+      let nights = Math.max(1, Math.round((cout - cin) / (1000 * 60 * 60 * 24)));
+      if (isNaN(nights) || nights < 1) nights = 1;
+
+      const subtotal = currentRoomRate * nights;
+      const isSenior = document.getElementById('bk-senior-check').checked;
+      const discount = isSenior ? Math.round(subtotal * 0.20) : 0;
+      const total = subtotal - discount;
+
+      document.getElementById('sum-room-name').innerText = currentRoomName;
+      document.getElementById('sum-nights').innerText = `${nights} Night${nights > 1 ? 's' : ''}`;
+      document.getElementById('sum-subtotal').innerText = '₱' + subtotal.toLocaleString() + '.00';
+      document.getElementById('sum-discount').innerText = isSenior ? '-₱' + discount.toLocaleString() + '.00' : '-₱0.00';
+      document.getElementById('sum-total').innerText = '₱' + total.toLocaleString() + '.00';
+    }
+
+    function dispatchResortBooking() {
+      const name = document.getElementById('bk-guest-name').value.trim();
+      const phone = document.getElementById('bk-guest-phone').value.trim();
+      if (!name || !phone) {
+        alert("Please enter the Guest Full Name and Mobile/Viber Number.");
+        return;
+      }
+      const total = document.getElementById('sum-total').innerText;
+      showToast(`Reservation request dispatched for ${name} (${total})!`);
+      document.getElementById('bk-guest-name').value = '';
+      document.getElementById('bk-guest-phone').value = '';
+    }
+
+    // Modal controls
+    function openTierModal() {
+      document.getElementById('tier-modal').classList.add('open');
+    }
+
+    function closeTierModal() {
+      document.getElementById('tier-modal').classList.remove('open');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notification');
+      document.getElementById('toast-message').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
