@@ -1,0 +1,2316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SunVolt Energy Philippines | Tier-1 Solar Engineering & Installation</title>
+  <meta name="description" content="Turn high Meralco bills into zero shock. Calculate your solar savings, roof size, and payback ROI with SunVolt Energy Philippines.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #070d18;
+      --bg-card: #0e1726;
+      --bg-card-hover: #152238;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --solar-amber: #f59e0b;
+      --solar-amber-light: #fbbf24;
+      --solar-amber-glow: rgba(245, 158, 11, 0.25);
+      --solar-green: #10b981;
+      --solar-cyan: #06b6d4;
+      --solar-blue: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-heading: 'Space Grotesk', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    /* Ambient background gradients */
+    .bg-mesh {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      background: 
+        radial-gradient(circle at 15% 15%, rgba(245, 158, 11, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 50% 85%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
+        #070d18;
+      pointer-events: none;
+    }
+
+    /* Grid layout limits */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    /* ====================================================
+       DEMO TIER SWITCHER (STICKY FLOATING CONTROLLER)
+       ==================================================== */
+    .tier-bar-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 13, 24, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .tier-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.6rem 0;
+      flex-wrap: wrap;
+    }
+
+    .tier-branding {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tier-brand-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--solar-amber);
+      background: rgba(245, 158, 11, 0.12);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+
+    .tier-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.25rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+    }
+
+    .tier-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tier-btn:hover {
+      color: var(--text-main);
+    }
+
+    .tier-btn.active {
+      background: var(--solar-amber);
+      color: #070d18;
+      box-shadow: 0 2px 10px var(--solar-amber-glow);
+    }
+
+    .tier-btn.active.tier-1 {
+      background: #10b981;
+      color: #ffffff;
+      box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+    }
+
+    .tier-btn.active.tier-3 {
+      background: #0284c7;
+      color: #ffffff;
+      box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);
+    }
+
+    .tier-info-modal-trigger {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--solar-blue);
+      cursor: pointer;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .tier-info-modal-trigger:hover {
+      background: rgba(56, 189, 248, 0.16);
+    }
+
+    /* Top tier active banner indicator */
+    .tier-status-banner {
+      background: rgba(245, 158, 11, 0.1);
+      border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+      padding: 0.4rem 1.25rem;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--solar-amber-light);
+    }
+
+    .tier-status-banner.t1 {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+    }
+
+    .tier-status-banner.t3 {
+      background: rgba(2, 132, 199, 0.1);
+      border-color: rgba(2, 132, 199, 0.2);
+      color: #38bdf8;
+    }
+
+    /* ====================================================
+       NAVIGATION HEADER
+       ==================================================== */
+    .site-nav {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 14px var(--solar-amber-glow);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .logo-title span {
+      color: var(--solar-amber);
+    }
+
+    .logo-sub {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--solar-amber);
+    }
+
+    .nav-cta {
+      background: var(--solar-amber);
+      color: #070d18;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px var(--solar-amber-glow);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .nav-cta:hover {
+      background: var(--solar-amber-light);
+      transform: translateY(-1px);
+    }
+
+    /* ====================================================
+       HERO SECTION
+       ==================================================== */
+    .hero {
+      padding: 3.5rem 0 2.5rem;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.28);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--solar-amber-light);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-badge .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, #f59e0b 20%, #fef08a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 1.8rem;
+      max-width: 540px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #070d18;
+      padding: 0.85rem 1.6rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 6px 20px var(--solar-amber-glow);
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px var(--solar-amber-glow);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.85rem 1.4rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-val {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .stat-val span {
+      color: var(--solar-amber);
+    }
+
+    .stat-lbl {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    /* Hero Quick Card */
+    .hero-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 1.8rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #f59e0b, #10b981, #06b6d4);
+    }
+
+    .card-header-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--solar-amber);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+
+    .bill-preview-box {
+      background: rgba(7, 13, 24, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .comparison-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    .comparison-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .comparison-old {
+      color: #f87171;
+      font-weight: 700;
+      text-decoration: line-through;
+    }
+
+    .comparison-new {
+      color: #34d399;
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+
+    /* ====================================================
+       INTERACTIVE SOLAR CALCULATOR (CORE FEATURE)
+       ==================================================== */
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .section-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: var(--solar-amber);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+    }
+
+    .calc-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2.2rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .calc-input-group {
+      margin-bottom: 1.8rem;
+    }
+
+    .input-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.7rem;
+    }
+
+    .input-label {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #ffffff;
+    }
+
+    .slider-val-badge {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--solar-amber);
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      padding: 0.15rem 0.65rem;
+      border-radius: 8px;
+    }
+
+    /* Range input styling */
+    .range-slider {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: #1e293b;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    .range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--solar-amber);
+      cursor: pointer;
+      box-shadow: 0 0 12px var(--solar-amber);
+      border: 3px solid #070d18;
+      transition: transform 0.1s;
+    }
+
+    .range-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .slider-marks {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    /* System toggle pills */
+    .system-types-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+
+    .system-pill {
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.75rem 0.6rem;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .system-pill:hover {
+      border-color: rgba(245, 158, 11, 0.4);
+      background: rgba(245, 158, 11, 0.05);
+    }
+
+    .system-pill.active {
+      border-color: var(--solar-amber);
+      background: rgba(245, 158, 11, 0.12);
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
+    }
+
+    .system-pill-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.2rem;
+    }
+
+    .system-pill-desc {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+    }
+
+    /* Calculator Results Card */
+    .calc-results-card {
+      background: linear-gradient(145deg, #0f192b, #091220);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 16px;
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .res-highlight-box {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 12px;
+      padding: 1.2rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .res-highlight-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--solar-amber-light);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .res-highlight-val {
+      font-family: var(--font-heading);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .res-highlight-val span {
+      color: var(--solar-green);
+    }
+
+    .res-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .metric-cell {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 0.85rem;
+    }
+
+    .metric-cell-lbl {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.2rem;
+    }
+
+    .metric-cell-val {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .metric-cell-sub {
+      font-size: 0.7rem;
+      color: var(--solar-amber);
+      margin-top: 0.15rem;
+    }
+
+    /* Payback Progress Bar */
+    .roi-bar-container {
+      margin-bottom: 1.5rem;
+    }
+
+    .roi-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .roi-bar-track {
+      width: 100%;
+      height: 10px;
+      background: #1e293b;
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .roi-bar-fill {
+      height: 100%;
+      width: 32%;
+      background: linear-gradient(90deg, #10b981, #f59e0b);
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    /* Lock Overlay for Tier Limitations */
+    .tier-lock-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(7, 13, 24, 0.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 20px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      z-index: 20;
+    }
+
+    .tier-lock-overlay.active {
+      display: flex;
+    }
+
+    .lock-icon-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--solar-amber);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--solar-amber);
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .lock-title {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    .lock-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ====================================================
+       ROOF & ELECTRIC BILL UPLOAD (TIER 2+ FEATURE)
+       ==================================================== */
+    .upload-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2.2rem;
+      position: relative;
+      margin-top: 3rem;
+    }
+
+    .upload-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .dropzone-box {
+      border: 2px dashed rgba(245, 158, 11, 0.35);
+      background: rgba(245, 158, 11, 0.03);
+      border-radius: 14px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dropzone-box:hover {
+      border-color: var(--solar-amber);
+      background: rgba(245, 158, 11, 0.06);
+    }
+
+    .drop-icon {
+      font-size: 2.2rem;
+      color: var(--solar-amber);
+      margin-bottom: 0.6rem;
+    }
+
+    .drop-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.3rem;
+    }
+
+    .drop-sub {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .file-preview-pill {
+      display: none;
+      margin-top: 1rem;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: #34d399;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-inputs-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+
+    .custom-input {
+      width: 100%;
+      background: rgba(7, 13, 24, 0.7);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .custom-input:focus {
+      border-color: var(--solar-amber);
+    }
+
+    /* ====================================================
+       SOLAR PACKAGES CATALOG (RESIDENTIAL 3kW - 10kW)
+       ==================================================== */
+    .packages-section {
+      padding: 4rem 0;
+    }
+
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .pkg-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 1.8rem;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .pkg-card:hover {
+      border-color: rgba(245, 158, 11, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .pkg-card.popular {
+      border-color: var(--solar-amber);
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.08) 0%, var(--bg-card) 60%);
+    }
+
+    .popular-tag {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: var(--solar-amber);
+      color: #070d18;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+    }
+
+    .pkg-capacity {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.2rem;
+    }
+
+    .pkg-capacity span {
+      font-size: 1rem;
+      color: var(--solar-amber);
+      font-weight: 600;
+    }
+
+    .pkg-ideal-for {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .pkg-price-tag {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--solar-green);
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .pkg-price-tag small {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-weight: normal;
+    }
+
+    .pkg-features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-bottom: 1.8rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .pkg-features-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .pkg-features-list li svg {
+      color: var(--solar-green);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ====================================================
+       TIER 3 EXCLUSIVE SECTIONS: C&I AUDIT & FINANCING
+       ==================================================== */
+    .tier3-section {
+      background: linear-gradient(180deg, rgba(2, 132, 199, 0.08) 0%, transparent 100%);
+      border: 1px solid rgba(2, 132, 199, 0.2);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin: 3.5rem 0;
+      position: relative;
+    }
+
+    .tier3-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .ci-feature-box {
+      background: rgba(7, 13, 24, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 1.5rem;
+    }
+
+    .financing-slider-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      margin-bottom: 0.4rem;
+    }
+
+    /* ====================================================
+       EQUIPMENT & TIER-1 WARRANTIES
+       ==================================================== */
+    .equipment-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    .equip-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.4rem;
+      text-align: center;
+    }
+
+    .equip-logo {
+      font-size: 1.8rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .equip-name {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #ffffff;
+      margin-bottom: 0.25rem;
+    }
+
+    .equip-warranty {
+      font-size: 0.78rem;
+      color: var(--solar-amber);
+      font-weight: 600;
+    }
+
+    .equip-desc {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-top: 0.4rem;
+    }
+
+    /* ====================================================
+       FOOTER & FLOATING CTA
+       ==================================================== */
+    .site-footer {
+      border-top: 1px solid var(--border-color);
+      padding: 3rem 0 2rem;
+      margin-top: 4rem;
+      background: #050a12;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 2.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .footer-about p {
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      margin-top: 0.8rem;
+      max-width: 320px;
+    }
+
+    .footer-col-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--solar-amber);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border-color);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    /* ====================================================
+       MODAL: TIER SPECIFICATION & PRICING MATRIX
+       ==================================================== */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-dialog {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: #ffffff;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      font-size: 0.88rem;
+    }
+
+    .matrix-table th, .matrix-table td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .matrix-table th {
+      background: rgba(255, 255, 255, 0.04);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .matrix-check {
+      color: #10b981;
+      font-weight: bold;
+    }
+
+    .matrix-cross {
+      color: #64748b;
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #0f172a;
+      border: 1px solid var(--solar-amber);
+      color: #ffffff;
+      padding: 0.9rem 1.4rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      transform: translateY(120%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 300;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+    }
+
+    /* ====================================================
+       RESPONSIVE ADAPTATIONS (MOBILE & TABLETS)
+       ==================================================== */
+    @media (max-width: 992px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .calc-grid {
+        grid-template-columns: 1fr;
+      }
+      .upload-grid {
+        grid-template-columns: 1fr;
+      }
+      .packages-grid {
+        grid-template-columns: 1fr;
+      }
+      .equipment-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .tier3-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-title {
+        font-size: 2.1rem;
+      }
+      .tier-bar {
+        justify-content: center;
+      }
+      .tier-controls {
+        width: 100%;
+        justify-content: center;
+      }
+      .system-types-grid {
+        grid-template-columns: 1fr;
+      }
+      .res-metrics-grid {
+        grid-template-columns: 1fr;
+      }
+      .equipment-grid {
+        grid-template-columns: 1fr;
+      }
+      .calc-container {
+        padding: 1.4rem;
+      }
+      .upload-card {
+        padding: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient background glow mesh -->
+  <div class="bg-mesh"></div>
+
+  <!-- ====================================================
+       INTERACTIVE TIER SWITCHER DOCK (FLOATING DEMO CONTROL)
+       ==================================================== -->
+  <aside class="tier-bar-wrapper" aria-label="Interactive Demo Controls">
+    <div class="container">
+      <div class="tier-bar">
+        <div class="tier-branding">
+          <span class="tier-brand-tag">⚡ Live Demo Mode</span>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Preview Plan:</span>
+        </div>
+
+        <div class="tier-controls" role="tablist">
+          <button class="tier-btn" id="btn-tier-1" onclick="switchTier(1)">
+            <span>🟢 Starter</span>
+            <small style="opacity: 0.8;">₱899/mo</small>
+          </button>
+          <button class="tier-btn active" id="btn-tier-2" onclick="switchTier(2)">
+            <span>🟡 Interactive</span>
+            <small style="opacity: 0.8;">₱1,499/mo</small>
+          </button>
+          <button class="tier-btn" id="btn-tier-3" onclick="switchTier(3)">
+            <span>🔵 Full EPC</span>
+            <small style="opacity: 0.8;">₱2,499/mo</small>
+          </button>
+        </div>
+
+        <button class="tier-info-modal-trigger" onclick="openTierModal()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          Compare All 3 Tiers
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Dynamic Active Tier Status Banner -->
+  <div class="tier-status-banner" id="tier-status-bar">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+      <span id="tier-status-text">
+        <strong>Currently Viewing: Tier 2 (₱1,499/mo Interactive Plan)</strong> — Unlocks Solar Savings & ROI Calculator + Online Roof/Bill Upload.
+      </span>
+      <span style="font-size: 0.75rem; text-decoration: underline; cursor: pointer;" onclick="openTierModal()">View Limitations & Features</span>
+    </div>
+  </div>
+
+  <!-- ====================================================
+       SITE NAVIGATION HEADER
+       ==================================================== -->
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="#" class="logo-wrapper">
+        <div class="logo-icon">⚡</div>
+        <div class="logo-text">
+          <span class="logo-title">SunVolt<span>Energy</span></span>
+          <span class="logo-sub">Philippines • EPC Certified</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#calculator">Solar Calculator</a></li>
+        <li><a href="#packages">Residential Packages</a></li>
+        <li><a href="#equipment">Tier-1 Warranties</a></li>
+        <li><a href="#ci-audit" id="nav-link-ci">C&I Energy Audit</a></li>
+        <li><a href="#upload">Get Proposal</a></li>
+      </ul>
+
+      <a href="#calculator" class="nav-cta">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+        Calculate ROI
+      </a>
+    </div>
+  </header>
+
+  <!-- ====================================================
+       HERO SECTION
+       ==================================================== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="pulse-dot"></span>
+            Tier 1 Solar Panels • Zero Meralco Shock
+          </div>
+
+          <h1 class="hero-title">
+            Cut your electric bill by <span class="gradient-text">up to 85%</span> with engineered solar.
+          </h1>
+
+          <p class="hero-subtitle">
+            SunVolt Energy designs and installs high-efficiency on-grid and hybrid solar power systems for homes and businesses across Luzon. 25-year panel warranty, full Net-Metering assistance.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#calculator" class="btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
+              Estimate Your Savings
+            </a>
+
+            <a href="#upload" class="btn-secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              Upload Electric Bill
+            </a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat-item">
+              <div class="stat-val">1.85<span>MWp</span></div>
+              <div class="stat-lbl">Installed Capacity</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-val">480<span>+</span></div>
+              <div class="stat-lbl">Solar Roofs Energized</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-val">₱42<span>M+</span></div>
+              <div class="stat-lbl">Total Client Savings</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Quick Highlight Card -->
+        <div class="hero-card">
+          <div class="card-header-tag">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            Typical Residential Case Study
+          </div>
+          <h2 class="card-title">San Fernando, Pampanga (5.5 kWp On-Grid)</h2>
+
+          <div class="bill-preview-box">
+            <div class="comparison-row">
+              <span style="color: var(--text-muted);">Previous Monthly Bill:</span>
+              <span class="comparison-old">₱12,850 / mo</span>
+            </div>
+            <div class="comparison-row">
+              <span style="color: #ffffff; font-weight: 600;">Current Solar Bill:</span>
+              <span class="comparison-new">₱1,920 / mo</span>
+            </div>
+            <div class="comparison-row" style="margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px dashed rgba(255, 255, 255, 0.08);">
+              <span style="color: var(--solar-amber); font-weight: 600;">Net Monthly Savings:</span>
+              <span style="color: var(--solar-amber); font-weight: 800; font-size: 1.15rem;">+₱10,930 / mo</span>
+            </div>
+          </div>
+
+          <div style="font-size: 0.82rem; color: var(--text-dim); display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            System fully paid for itself in 3.4 years. Remaining 21.6 years generate 100% free electricity.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       INTERACTIVE SOLAR SAVINGS & ROI CALCULATOR (CORE FEATURE)
+       ==================================================== -->
+  <section class="calculator-section" id="calculator" style="padding: 4rem 0 2rem;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pill">Interactive Financial Model</div>
+        <h2 class="section-title">Solar Savings & Payback Calculator</h2>
+        <p class="section-desc">
+          Drag your average monthly electric bill to estimate recommended system size, monthly peso savings, and return on investment period.
+        </p>
+      </div>
+
+      <div class="calc-container" id="calc-container-box">
+
+        <!-- TIER 1 LOCK OVERLAY (Visible only when in Tier 1 mode) -->
+        <div class="tier-lock-overlay" id="calc-tier-lock">
+          <div class="lock-icon-circle">🔒</div>
+          <h3 class="lock-title">Solar ROI Calculator is a Tier 2+ Feature</h3>
+          <p class="lock-desc">
+            You are currently previewing the <strong>Tier 1 Starter Plan (₱899/mo)</strong>, which includes a clean company profile and static packages. 
+            Upgrade to <strong>Tier 2 Interactive (₱1,499/mo)</strong> to unlock this live dynamic calculator for your website visitors!
+          </p>
+          <button class="btn-primary" onclick="switchTier(2)">
+            ⚡ Switch to Tier 2 Preview to Test
+          </button>
+        </div>
+
+        <div class="calc-grid">
+          <!-- Inputs Column -->
+          <div class="calc-inputs-col">
+            <!-- Monthly Bill Slider -->
+            <div class="calc-input-group">
+              <div class="input-label-row">
+                <span class="input-label">Average Monthly Electric Bill</span>
+                <span class="slider-val-badge" id="bill-display">₱10,000</span>
+              </div>
+              <input type="range" min="3000" max="60000" step="500" value="10000" class="range-slider" id="bill-slider" oninput="updateCalculator()">
+              <div class="slider-marks">
+                <span>₱3,000/mo</span>
+                <span>₱20,000/mo</span>
+                <span>₱40,000/mo</span>
+                <span>₱60,000+/mo</span>
+              </div>
+            </div>
+
+            <!-- Daytime Usage Proportion -->
+            <div class="calc-input-group">
+              <div class="input-label-row">
+                <span class="input-label">Daytime Energy Consumption</span>
+                <span style="font-size: 0.9rem; font-weight: 700; color: var(--solar-amber);" id="daytime-display">70% Daytime</span>
+              </div>
+              <input type="range" min="30" max="95" step="5" value="70" class="range-slider" id="daytime-slider" oninput="updateCalculator()">
+              <div class="slider-marks">
+                <span>30% (Mostly Night)</span>
+                <span>65% (Balanced)</span>
+                <span>95% (Offices / Daytime)</span>
+              </div>
+            </div>
+
+            <!-- System Architecture Selector -->
+            <div class="calc-input-group" style="margin-bottom: 0;">
+              <span class="input-label">Select System Architecture</span>
+              <div class="system-types-grid">
+                <div class="system-pill active" id="sys-gridtie" onclick="setSystemType('gridtie')">
+                  <div class="system-pill-title">☀️ Grid-Tie (On-Grid)</div>
+                  <div class="system-pill-desc">Fastest ROI (3-4 yrs) • Zero battery cost</div>
+                </div>
+                <div class="system-pill" id="sys-hybrid" onclick="setSystemType('hybrid')">
+                  <div class="system-pill-title">🔋 Hybrid + Battery</div>
+                  <div class="system-pill-desc">Brownout Protection • 24/7 solar backup</div>
+                </div>
+                <div class="system-pill" id="sys-netmeter" onclick="setSystemType('netmeter')">
+                  <div class="system-pill-title">⚡ Net-Metering Ready</div>
+                  <div class="system-pill-desc">Sell excess solar credits to Meralco</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Calculated Output Column -->
+          <div class="calc-results-card">
+            <div>
+              <div class="res-highlight-box">
+                <div class="res-highlight-label">Estimated Monthly Savings</div>
+                <div class="res-highlight-val" id="res-monthly-savings">₱7,400 <span>/ mo</span></div>
+                <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 0.3rem;">
+                  Saves approximately <strong style="color: var(--solar-green);" id="res-pct-savings">74%</strong> of your monthly electricity bill.
+                </div>
+              </div>
+
+              <div class="res-metrics-grid">
+                <div class="metric-cell">
+                  <div class="metric-cell-lbl">Recommended System</div>
+                  <div class="metric-cell-val" id="res-system-size">5.5 kWp</div>
+                  <div class="metric-cell-sub" id="res-panel-count">10x 550W Tier-1 Panels</div>
+                </div>
+
+                <div class="metric-cell">
+                  <div class="metric-cell-lbl">Estimated Payback Period</div>
+                  <div class="metric-cell-val" id="res-payback">3.2 Years</div>
+                  <div class="metric-cell-sub">100% Free Power Thereafter</div>
+                </div>
+
+                <div class="metric-cell">
+                  <div class="metric-cell-lbl">Roof Space Required</div>
+                  <div class="metric-cell-val" id="res-roof-space">~28 sq.m</div>
+                  <div class="metric-cell-sub">South / East / West pitch</div>
+                </div>
+
+                <div class="metric-cell">
+                  <div class="metric-cell-lbl">25-Year Lifetime Savings</div>
+                  <div class="metric-cell-val" id="res-lifetime-savings">₱2.85M</div>
+                  <div class="metric-cell-sub">Compounded vs Meralco hikes</div>
+                </div>
+              </div>
+
+              <!-- ROI Progress Bar -->
+              <div class="roi-bar-container">
+                <div class="roi-bar-label">
+                  <span>Payback Progress: <strong>Year 1 to Year 25</strong></span>
+                  <span id="res-roi-text" style="color: var(--solar-amber); font-weight: 700;">ROI in ~3.2 yrs</span>
+                </div>
+                <div class="roi-bar-track">
+                  <div class="roi-bar-fill" id="roi-fill-bar" style="width: 20%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <a href="#upload" class="btn-primary" style="justify-content: center; width: 100%;">
+              Lock In This System Estimate
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       INSTANT ROOF & ELECTRIC BILL UPLOAD FORM (TIER 2+ FEATURE)
+       ==================================================== -->
+  <section class="upload-section" id="upload" style="padding: 2rem 0 4rem;">
+    <div class="container">
+      <div class="upload-card" id="upload-card-box">
+
+        <!-- TIER 1 LOCK OVERLAY FOR UPLOAD -->
+        <div class="tier-lock-overlay" id="upload-tier-lock">
+          <div class="lock-icon-circle">🔒</div>
+          <h3 class="lock-title">Online Proposal Generator is a Tier 2+ Feature</h3>
+          <p class="lock-desc">
+            Direct electric bill & rooftop image uploads are enabled on the <strong>Tier 2 Interactive Plan (₱1,499/mo)</strong> and <strong>Tier 3 (₱2,499/mo)</strong>. In Tier 1, clients contact you via WhatsApp / Phone.
+          </p>
+          <button class="btn-primary" onclick="switchTier(2)">
+            ⚡ Switch to Tier 2 Preview to Test
+          </button>
+        </div>
+
+        <div class="upload-grid">
+          <div>
+            <div class="section-pill">Fast Engineering Assessment</div>
+            <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 0.6rem;">
+              Get a Free 3D Roof Proposal & Solar Audit
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+              Upload a clear photo of your latest electric bill or your rooftop. Our licensed electrical engineers will generate a customized AutoCAD/HelioScope layout and 25-year financial projection within 24 hours.
+            </p>
+
+            <!-- Dropzone -->
+            <div class="dropzone-box" onclick="document.getElementById('file-upload-input').click()">
+              <input type="file" id="file-upload-input" style="display: none;" accept="image/*,.pdf" onchange="handleFileSelect(event)">
+              <div class="drop-icon">📤</div>
+              <div class="drop-title" id="dropzone-title">Click to upload Meralco / Electric Bill or Roof Photo</div>
+              <div class="drop-sub">Accepts JPG, PNG, or PDF (Max 15MB)</div>
+              <div class="file-preview-pill" id="file-preview-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span id="file-name-text">Sample_Meralco_Bill.pdf</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Details Form -->
+          <div class="form-inputs-group">
+            <div class="form-row">
+              <div>
+                <label style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.3rem; display: block;">Full Name</label>
+                <input type="text" class="custom-input" placeholder="e.g. Engr. Michael Tan" id="inp-name">
+              </div>
+              <div>
+                <label style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.3rem; display: block;">Mobile / Viber Number</label>
+                <input type="tel" class="custom-input" placeholder="e.g. 0917 123 4567" id="inp-phone">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div>
+                <label style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.3rem; display: block;">City & Province</label>
+                <input type="text" class="custom-input" placeholder="e.g. Angeles City, Pampanga" id="inp-location">
+              </div>
+              <div>
+                <label style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.3rem; display: block;">Roofing Type</label>
+                <select class="custom-input" id="inp-roof" style="background: #070d18;">
+                  <option value="gi">Rib-Type / Corrugated G.I. Sheet</option>
+                  <option value="slab">Concrete Deck / Slab</option>
+                  <option value="tiles">Clay / Concrete Asphalt Tiles</option>
+                  <option value="seam">Standing Seam (No-Drill Clamps)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.3rem; display: block;">Average Monthly Bill</label>
+              <input type="text" class="custom-input" id="inp-calc-sync" value="₱10,000 / month (Auto-synced from calculator)" readonly style="color: var(--solar-amber); font-weight: 700;">
+            </div>
+
+            <button class="btn-primary" style="margin-top: 0.5rem; justify-content: center;" onclick="submitSolarLead()">
+              Generate My Custom Solar Proposal
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       RESIDENTIAL PACKAGES CATALOG (3kW to 10kW)
+       ==================================================== -->
+  <section class="packages-section" id="packages">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pill">Standard Engineered Turnkey Packages</div>
+        <h2 class="section-title">Transparent Residential Pricing</h2>
+        <p class="section-desc">
+          Complete installation including Tier-1 N-Type solar panels, pure sine-wave inverters, mounting rails, and full engineering compliance.
+        </p>
+      </div>
+
+      <div class="packages-grid">
+        <!-- 3.3 kWp Starter -->
+        <div class="pkg-card">
+          <div>
+            <div class="pkg-capacity">3.3 <span>kWp Grid-Tie</span></div>
+            <div class="pkg-ideal-for">Best for ₱5,000 – ₱8,000/mo electric bills (1 Inverter Aircon)</div>
+            <div class="pkg-price-tag">₱165,000 <small>All-in Turnkey</small></div>
+
+            <ul class="pkg-features-list">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>6x 550W Tier-1 Bifacial N-Type Solar Panels</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>3kW Huawei / Deye Single-Phase Inverter</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Est. 380 - 420 kWh monthly power generation</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>WiFi Live App Monitoring on Smartphone</span>
+              </li>
+            </ul>
+          </div>
+          <button class="btn-secondary" style="width: 100%; justify-content: center;" onclick="selectPackage('3.3 kWp')">Request Ocular</button>
+        </div>
+
+        <!-- 5.5 kWp Most Popular -->
+        <div class="pkg-card popular">
+          <div class="popular-tag">Most Popular for Homes</div>
+          <div>
+            <div class="pkg-capacity">5.5 <span>kWp Grid-Tie</span></div>
+            <div class="pkg-ideal-for">Best for ₱10,000 – ₱16,000/mo bills (2-3 Inverter Aircons)</div>
+            <div class="pkg-price-tag">₱245,000 <small>All-in Turnkey</small></div>
+
+            <ul class="pkg-features-list">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>10x 550W Tier-1 N-Type Monocrystalline Panels</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>5kW Deye / Huawei Smart String Inverter</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Est. 650 - 720 kWh monthly power generation</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Full Net-Metering Processing Assistance</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>10-Year Inverter Warranty + 25-Year Panel Warranty</span>
+              </li>
+            </ul>
+          </div>
+          <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="selectPackage('5.5 kWp')">Choose This Package</button>
+        </div>
+
+        <!-- 10 kWp Heavy Residential -->
+        <div class="pkg-card">
+          <div>
+            <div class="pkg-capacity">10.4 <span>kWp 3-Phase</span></div>
+            <div class="pkg-ideal-for">Best for ₱20,000 – ₱35,000/mo bills (Large Villas / Multi-Floor)</div>
+            <div class="pkg-price-tag">₱435,000 <small>All-in Turnkey</small></div>
+
+            <ul class="pkg-features-list">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>19x 550W Tier-1 Ultra High Efficiency Panels</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>10kW 3-Phase Smart Grid Inverter</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Est. 1,250 - 1,400 kWh monthly generation</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Battery Ready (Seamless hybrid upgrade path)</span>
+              </li>
+            </ul>
+          </div>
+          <button class="btn-secondary" style="width: 100%; justify-content: center;" onclick="selectPackage('10.4 kWp')">Request Ocular</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       TIER 3 ENTERPRISE EXCLUSIVE: C&I AUDIT & FINANCING
+       ==================================================== -->
+  <section class="tier3-section-wrapper" id="ci-audit">
+    <div class="container">
+      <div class="tier3-section" id="tier3-box">
+
+        <!-- TIER 1 & 2 LOCK OVERLAY FOR ENTERPRISE C&I -->
+        <div class="tier-lock-overlay" id="tier3-lock">
+          <div class="lock-icon-circle" style="border-color: #0284c7; color: #38bdf8;">🏢</div>
+          <h3 class="lock-title">Commercial & Industrial (C&I) Audit is a Tier 3 Feature</h3>
+          <p class="lock-desc">
+            You are currently previewing <strong>Tier 1 or Tier 2</strong>. The <strong>Tier 3 Full EPC Enterprise Plan (₱2,499/mo)</strong> unlocks the Commercial Energy Audit Engine, 0% Bank Financing Calculator, and Interactive Installation Map.
+          </p>
+          <button class="btn-primary" style="background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff;" onclick="switchTier(3)">
+            🔵 Switch to Tier 3 Preview to Unlock
+          </button>
+        </div>
+
+        <div class="tier3-grid">
+          <div>
+            <div class="section-pill" style="background: rgba(2, 132, 199, 0.15); border-color: rgba(2, 132, 199, 0.3); color: #38bdf8;">
+              Enterprise EPC Solutions
+            </div>
+            <h2 style="font-family: var(--font-heading); font-size: 1.85rem; margin-bottom: 0.8rem;">
+              Commercial & Industrial (C&I) Solar Systems (25 kWp to 500 kWp+)
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+              For factories, cold storage, resorts, schools, and poultry farms with monthly electric bills from ₱100,000 to ₱1,000,000+. Accelerate corporate ESG and slash peak daytime operating expenses.
+            </p>
+
+            <div class="ci-feature-box">
+              <div style="font-weight: 700; color: #ffffff; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                Zero-CapEx PPA & Solar Leasing Options
+              </div>
+              <p style="font-size: 0.8rem; color: var(--text-dim);">
+                Qualifying commercial facilities can avail of Power Purchase Agreements (PPA)—pay ₱0 for equipment and installation, and simply purchase discounted solar kWh lower than grid rates.
+              </p>
+            </div>
+          </div>
+
+          <!-- Financing & 0% Installment Calculator -->
+          <div class="ci-feature-box" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <span style="font-weight: 700; font-size: 1.1rem; color: #ffffff;">0% Bank Installment Estimator</span>
+                <span style="font-size: 0.75rem; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 0.2rem 0.5rem; border-radius: 4px;">Partner Banks</span>
+              </div>
+
+              <div class="financing-slider-row">
+                <span style="color: var(--text-muted);">Selected System Investment:</span>
+                <span style="font-weight: 700; color: #ffffff;" id="fin-amount">₱245,000</span>
+              </div>
+
+              <div class="financing-slider-row" style="margin-top: 0.8rem;">
+                <span style="color: var(--text-muted);">Installment Term:</span>
+                <span style="font-weight: 700; color: var(--solar-amber);" id="fin-term">24 Months (0% Interest)</span>
+              </div>
+
+              <input type="range" min="12" max="36" step="12" value="24" class="range-slider" id="fin-slider" style="margin: 0.8rem 0;" oninput="updateFinancing()">
+              <div class="slider-marks">
+                <span>12 Mos (₱20,416/mo)</span>
+                <span>24 Mos (₱10,208/mo)</span>
+                <span>36 Mos (₱6,805/mo)</span>
+              </div>
+
+              <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 8px; padding: 0.8rem; margin-top: 1.25rem;">
+                <div style="font-size: 0.75rem; color: #34d399; font-weight: 700;">💡 Self-Liquidating Investment</div>
+                <div style="font-size: 0.8rem; color: #ffffff; margin-top: 0.2rem;">
+                  Your monthly solar savings (₱7,400+) covers most of the monthly bank installment!
+                </div>
+              </div>
+            </div>
+
+            <button class="btn-primary" style="margin-top: 1.5rem; justify-content: center; background: #0284c7; color: #ffffff;" onclick="bookCommercialAudit()">
+              Book C&I Energy Audit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       EQUIPMENT & TIER-1 WARRANTIES
+       ==================================================== -->
+  <section class="equipment-section" id="equipment" style="padding: 3rem 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pill">Only Bloomberg Tier-1 Rated Hardware</div>
+        <h2 class="section-title">Engineered for 25+ Years of Reliability</h2>
+        <p class="section-desc">
+          We refuse to cut corners with generic components. Every system features verified international hardware with factory warranties.
+        </p>
+      </div>
+
+      <div class="equipment-grid">
+        <div class="equip-card">
+          <div class="equip-logo">☀️</div>
+          <div class="equip-name">Jinko / Longi Solar</div>
+          <div class="equip-warranty">25-Year Performance Warranty</div>
+          <div class="equip-desc">N-Type TOPCon bifacial modules with anti-PID and 85%+ output at Year 25.</div>
+        </div>
+
+        <div class="equip-card">
+          <div class="equip-logo">⚡</div>
+          <div class="equip-name">Huawei FusionSolar</div>
+          <div class="equip-warranty">10-Year Inverter Warranty</div>
+          <div class="equip-desc">AI-powered active arcing protection (AFCI) and integrated smart cloud telemetry.</div>
+        </div>
+
+        <div class="equip-card">
+          <div class="equip-logo">🔋</div>
+          <div class="equip-name">Deye Hybrid Power</div>
+          <div class="equip-warranty">5-Year Manufacturer Warranty</div>
+          <div class="equip-desc">Seamless generator and LiFePO4 battery integration with 4ms UPS transfer time.</div>
+        </div>
+
+        <div class="equip-card">
+          <div class="equip-logo">🛡️</div>
+          <div class="equip-name">Schneider / Suntree DC</div>
+          <div class="equip-warranty">Heavy Surge Protection</div>
+          <div class="equip-desc">1000V DC surge protection devices (SPD) and DC breakers for complete lightning safety.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       FOOTER
+       ==================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <div class="logo-wrapper">
+            <div class="logo-icon">⚡</div>
+            <div class="logo-text">
+              <span class="logo-title">SunVolt<span>Energy</span></span>
+              <span class="logo-sub">Philippines</span>
+            </div>
+          </div>
+          <p>
+            Licensed renewable energy contractor providing turnkey solar design, Net-Metering processing, and engineering solutions for homes and enterprises.
+          </p>
+          <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--solar-amber); font-weight: 600;">
+            📞 0949 166 1887 • support@sunvolt.ph
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Residential Solar</div>
+          <ul class="footer-links">
+            <li><a href="#packages">3.3 kWp Grid-Tie System</a></li>
+            <li><a href="#packages">5.5 kWp Most Popular Package</a></li>
+            <li><a href="#packages">10.4 kWp 3-Phase Villa Setup</a></li>
+            <li><a href="#calculator">Solar ROI Calculator</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Commercial & Compliance</div>
+          <ul class="footer-links">
+            <li><a href="#ci-audit">Commercial Energy Audits</a></li>
+            <li><a href="#ci-audit">Net-Metering Meralco Roadmap</a></li>
+            <li><a href="#equipment">Tier-1 Hardware Specifications</a></li>
+            <li><a href="#upload">Upload Electric Bill</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 SunVolt Energy Philippines. All Rights Reserved.</div>
+        <div style="color: var(--solar-amber);">Demo Designed & Powered by Micz Corner Web Solutions</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====================================================
+       INTERACTIVE TIER COMPARISON MATRIX MODAL
+       ==================================================== -->
+  <div class="modal-backdrop" id="tier-modal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="closeTierModal()">&times;</button>
+      
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem;">
+        <span class="tier-brand-tag">Plan Matrix</span>
+        <h2 style="font-family: var(--font-heading); font-size: 1.5rem; color: #ffffff;">Compare All 3 Website Tiers</h2>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+        Choose the exact package that fits your solar business goals. Upgrade or downgrade anytime with zero migration fees.
+      </p>
+
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>Website Feature / Capability</th>
+            <th>🟢 Starter<br><small style="color: var(--text-dim);">₱899 / mo</small></th>
+            <th>🟡 Interactive<br><small style="color: var(--solar-amber);">₱1,499 / mo</small></th>
+            <th>🔵 Full EPC<br><small style="color: #38bdf8;">₱2,499 / mo</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Clean Company Profile & Tier-1 Equipment Catalog</strong></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+          </tr>
+          <tr>
+            <td><strong>Residential Packages (3kW, 5kW, 10kW) with Pricing</strong></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+          </tr>
+          <tr>
+            <td><strong>One-Click Viber / WhatsApp / Call Buttons</strong></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+            <td><span class="matrix-check">✓ Included</span></td>
+          </tr>
+          <tr>
+            <td><strong>Interactive Solar Savings & ROI Calculator</strong><br><small style="color: var(--text-dim);">Slide electric bill & calculate payback</small></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Online Roof & Electric Bill Upload Form</strong><br><small style="color: var(--text-dim);">Direct proposal lead generation</small></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Net-Metering Application Roadmap & Guide</strong></td>
+            <td><span class="matrix-cross">— Basic</span></td>
+            <td><span class="matrix-check">✓ Interactive</span></td>
+            <td><span class="matrix-check">✓ Interactive</span></td>
+          </tr>
+          <tr>
+            <td><strong>Commercial & Industrial (C&I) Audit Portal</strong><br><small style="color: var(--text-dim);">Factory/resort 25kW - 500kW+ project scoping</small></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>0% Bank Installment & Financing Estimator</strong></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-cross">— Locked</span></td>
+            <td><span class="matrix-check">✓ Fully Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Instant Lead Alerts to Telegram / Sales Email</strong></td>
+            <td><span class="matrix-cross">— Email Only</span></td>
+            <td><span class="matrix-check">✓ Real-time</span></td>
+            <td><span class="matrix-check">✓ Instant Telegram Bot</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top: 1.8rem; display: flex; justify-content: flex-end; gap: 0.8rem;">
+        <button class="btn-secondary" onclick="closeTierModal()">Close Preview</button>
+        <button class="btn-primary" onclick="switchTier(2); closeTierModal();">Select Tier 2 (₱1,499/mo)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Toast Notification -->
+  <div class="toast" id="toast-notification">
+    <span id="toast-icon">⚡</span>
+    <span id="toast-message">Plan switched successfully.</span>
+  </div>
+
+  <!-- ====================================================
+       INTERACTIVE LOGIC (CALCULATOR & TIER SWITCHER ENGINE)
+       ==================================================== -->
+  <script>
+    let currentTier = 2; // Default to Tier 2 (Interactive)
+    let systemType = 'gridtie';
+    const ratePerKwh = 12.50; // Average Meralco residential rate PHP/kWh
+
+    // Initialize Calculator on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      updateCalculator();
+      updateFinancing();
+      switchTier(2); // Set initial visual state to Tier 2
+    });
+
+    // Tier Switcher Functionality
+    function switchTier(tierNum) {
+      currentTier = tierNum;
+
+      // Update button visual state
+      document.querySelectorAll('.tier-btn').forEach(btn => btn.classList.remove('active', 'tier-1', 'tier-3'));
+      const activeBtn = document.getElementById(`btn-tier-${tierNum}`);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        if (tierNum === 1) activeBtn.classList.add('tier-1');
+        if (tierNum === 3) activeBtn.classList.add('tier-3');
+      }
+
+      // Update Status Banner
+      const statusBar = document.getElementById('tier-status-bar');
+      const statusText = document.getElementById('tier-status-text');
+      statusBar.classList.remove('t1', 't3');
+
+      const calcLock = document.getElementById('calc-tier-lock');
+      const uploadLock = document.getElementById('upload-tier-lock');
+      const tier3Lock = document.getElementById('tier3-lock');
+
+      if (tierNum === 1) {
+        // TIER 1: Starter (₱899/mo)
+        statusBar.classList.add('t1');
+        statusText.innerHTML = `<strong>Viewing: Tier 1 (₱899/mo Starter Plan)</strong> — Clean profile & packages. Calculator & Upload are locked.`;
+        calcLock.classList.add('active');
+        uploadLock.classList.add('active');
+        tier3Lock.classList.add('active');
+        showToast("Switched to Tier 1 (₱899/mo Starter). Interactive features locked.");
+      } else if (tierNum === 2) {
+        // TIER 2: Interactive (₱1,499/mo)
+        statusText.innerHTML = `<strong>Viewing: Tier 2 (₱1,499/mo Interactive Plan)</strong> — Unlocks Solar ROI Calculator + Online Roof/Bill Upload.`;
+        calcLock.classList.remove('active');
+        uploadLock.classList.remove('active');
+        tier3Lock.classList.add('active');
+        showToast("Switched to Tier 2 (₱1,499/mo Interactive). Calculator & Upload active!");
+      } else if (tierNum === 3) {
+        // TIER 3: Full EPC Enterprise (₱2,499/mo)
+        statusBar.classList.add('t3');
+        statusText.innerHTML = `<strong>Viewing: Tier 3 (₱2,499/mo Full EPC Plan)</strong> — All features unlocked including C&I Audit & 0% Bank Financing.`;
+        calcLock.classList.remove('active');
+        uploadLock.classList.remove('active');
+        tier3Lock.classList.remove('active');
+        showToast("Switched to Tier 3 (₱2,499/mo Full EPC). All features unlocked!");
+      }
+    }
+
+    // Solar Calculator Engine
+    function updateCalculator() {
+      const bill = parseFloat(document.getElementById('bill-slider').value);
+      const daytimePercent = parseFloat(document.getElementById('daytime-slider').value) / 100;
+
+      document.getElementById('bill-display').innerText = '₱' + bill.toLocaleString();
+      document.getElementById('daytime-display').innerText = Math.round(daytimePercent * 100) + '% Daytime';
+      document.getElementById('inp-calc-sync').value = '₱' + bill.toLocaleString() + ' / month (Auto-synced)';
+
+      // Monthly kWh consumed
+      const monthlyKwh = bill / ratePerKwh;
+
+      // Recommended Solar System Size (kWp)
+      // Philippines average peak sun hours: ~4.5 hours/day * 30 days = 135 kWh/kWp/month
+      let solarEfficiency = 135; 
+      let recommendedKwp = (monthlyKwh * daytimePercent) / solarEfficiency;
+      if (recommendedKwp < 3) recommendedKwp = 3.3;
+      if (systemType === 'hybrid') recommendedKwp *= 1.25; // Hybrid captures more nighttime load
+
+      recommendedKwp = Math.round(recommendedKwp * 10) / 10;
+
+      // Calculated Monthly Generation & Savings
+      const generatedKwh = recommendedKwp * solarEfficiency;
+      let monthlySavings = Math.min(bill * 0.88, generatedKwh * ratePerKwh);
+      if (systemType === 'gridtie') {
+        monthlySavings = bill * (0.45 + (daytimePercent * 0.40));
+      } else if (systemType === 'hybrid') {
+        monthlySavings = bill * 0.85; // Up to 85% with battery storage
+      }
+      monthlySavings = Math.round(monthlySavings);
+
+      const pctSavings = Math.min(88, Math.round((monthlySavings / bill) * 100));
+
+      // Estimated Cost & Payback Period
+      let costPerKwp = systemType === 'hybrid' ? 68000 : 45000;
+      const totalSystemCost = recommendedKwp * costPerKwp;
+      const annualSavings = monthlySavings * 12;
+      let paybackYears = (totalSystemCost / annualSavings).toFixed(1);
+      if (paybackYears < 2.8) paybackYears = 2.8;
+
+      // 25-Year Lifetime Savings (Assuming conservative 4% annual Meralco grid rate increase)
+      let lifetimeSavings = 0;
+      let curAnnualSavings = annualSavings;
+      for (let y = 1; y <= 25; y++) {
+        lifetimeSavings += curAnnualSavings;
+        curAnnualSavings *= 1.04;
+      }
+      const lifetimeSavingsMillions = (lifetimeSavings / 1000000).toFixed(2);
+
+      // Panel count (550W panels)
+      const panelCount = Math.ceil((recommendedKwp * 1000) / 550);
+      const roofSpaceSqM = Math.round(panelCount * 2.6);
+
+      // Update UI elements
+      document.getElementById('res-monthly-savings').innerHTML = '₱' + monthlySavings.toLocaleString() + ' <span>/ mo</span>';
+      document.getElementById('res-pct-savings').innerText = pctSavings + '%';
+      document.getElementById('res-system-size').innerText = recommendedKwp + ' kWp';
+      document.getElementById('res-panel-count').innerText = `${panelCount}x 550W Tier-1 Panels`;
+      document.getElementById('res-payback').innerText = `${paybackYears} Years`;
+      document.getElementById('res-roof-space').innerText = `~${roofSpaceSqM} sq.m`;
+      document.getElementById('res-lifetime-savings').innerText = `₱${lifetimeSavingsMillions}M`;
+
+      // ROI Progress bar
+      const roiFillPercent = Math.min(100, Math.round((parseFloat(paybackYears) / 25) * 100));
+      document.getElementById('roi-fill-bar').style.width = roiFillPercent + '%';
+      document.getElementById('res-roi-text').innerText = `ROI in ~${paybackYears} yrs (Free power for remaining ${(25 - paybackYears).toFixed(1)} yrs)`;
+
+      // Update Financing section in Tier 3
+      document.getElementById('fin-amount').innerText = '₱' + Math.round(totalSystemCost).toLocaleString();
+      updateFinancing(totalSystemCost);
+    }
+
+    function setSystemType(type) {
+      systemType = type;
+      document.querySelectorAll('.system-pill').forEach(pill => pill.classList.remove('active'));
+      document.getElementById(`sys-${type}`).classList.add('active');
+      updateCalculator();
+    }
+
+    // 0% Financing Calculator (Tier 3)
+    function updateFinancing(customCost) {
+      const months = parseInt(document.getElementById('fin-slider').value);
+      const costText = document.getElementById('fin-amount').innerText.replace(/[^\d]/g, '');
+      const cost = customCost || (parseInt(costText) || 245000);
+
+      const monthlyInstallment = Math.round(cost / months);
+      document.getElementById('fin-term').innerText = `${months} Months (0% Interest • ₱${monthlyInstallment.toLocaleString()}/mo)`;
+    }
+
+    // File Upload Handler Simulation
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (file) {
+        document.getElementById('dropzone-title').innerText = "File Selected:";
+        document.getElementById('file-preview-badge').style.display = 'inline-flex';
+        document.getElementById('file-name-text').innerText = `${file.name} (${(file.size / 1024).toFixed(0)} KB)`;
+        showToast("Image attached. Fill details to submit proposal.");
+      }
+    }
+
+    function submitSolarLead() {
+      const name = document.getElementById('inp-name').value.trim();
+      const phone = document.getElementById('inp-phone').value.trim();
+      if (!name || !phone) {
+        alert("Please enter your Name and Mobile/Viber Number so our engineers can send your proposal.");
+        return;
+      }
+      showToast(`Thank you, ${name}! Your proposal request has been logged.`);
+      document.getElementById('inp-name').value = '';
+      document.getElementById('inp-phone').value = '';
+    }
+
+    function selectPackage(pkgName) {
+      document.getElementById('upload').scrollIntoView({ behavior: 'smooth' });
+      showToast(`Selected ${pkgName} package. Upload your bill to proceed.`);
+    }
+
+    function bookCommercialAudit() {
+      alert("Commercial & Industrial Audit request received! Our Senior Project Manager will contact you for facility drawings.");
+    }
+
+    // Modal controls
+    function openTierModal() {
+      document.getElementById('tier-modal').classList.add('open');
+    }
+
+    function closeTierModal() {
+      document.getElementById('tier-modal').classList.remove('open');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notification');
+      document.getElementById('toast-message').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
