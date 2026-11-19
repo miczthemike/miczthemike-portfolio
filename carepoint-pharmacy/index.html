@@ -1126,6 +1126,162 @@
         padding: 1.4rem;
       }
     }
+  
+    /* ====================================================
+       LIGHT THEME & DUAL-THEME SYSTEM
+       ==================================================== */
+    :root {
+      --theme-transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    [data-theme="light"] {
+      --bg-dark: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --border-color: rgba(15, 23, 42, 0.09);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #64748b;
+    }
+
+    body, .tier-bar-wrapper, .modal-dialog, .site-nav, .custom-input, input, select, textarea {
+      transition: var(--theme-transition);
+    }
+
+    [data-theme="light"] .bg-mesh {
+      background: 
+        radial-gradient(circle at 15% 15%, rgba(13, 148, 136, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.05) 0%, transparent 45%),
+        #f8fafc !important;
+    }
+
+    [data-theme="light"] .tier-bar-wrapper {
+      background: rgba(255, 255, 255, 0.94) !important;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+    }
+
+    [data-theme="light"] .tier-controls {
+      background: rgba(15, 23, 42, 0.04) !important;
+      border-color: rgba(15, 23, 42, 0.08) !important;
+    }
+
+    [data-theme="light"] .tier-btn {
+      color: #475569 !important;
+    }
+
+    [data-theme="light"] .tier-btn:hover:not(.active) {
+      color: #0f172a !important;
+    }
+
+    /* Theme Toggle Button Style */
+    .theme-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .theme-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-1px);
+    }
+
+    [data-theme="light"] .theme-toggle-btn {
+      background: rgba(15, 23, 42, 0.05);
+      border-color: rgba(15, 23, 42, 0.12);
+      color: #0f172a;
+    }
+
+    [data-theme="light"] .theme-toggle-btn:hover {
+      background: rgba(15, 23, 42, 0.1);
+    }
+
+    [data-theme="light"] .medicine-card,
+    [data-theme="light"] .rx-card,
+    [data-theme="light"] .rx-upload-box,
+    [data-theme="light"] .calc-container,
+    [data-theme="light"] .stat-card,
+    [data-theme="light"] .feature-card,
+    [data-theme="light"] .modal-dialog,
+    [data-theme="light"] .po-card,
+    [data-theme="light"] .category-pill,
+    [data-theme="light"] .faq-item,
+    [data-theme="light"] .review-card {
+      background: #ffffff !important;
+      border-color: rgba(15, 23, 42, 0.08) !important;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06) !important;
+    }
+
+    [data-theme="light"] input:not([type="range"]):not([type="checkbox"]):not([type="radio"]),
+    [data-theme="light"] select,
+    [data-theme="light"] textarea,
+    [data-theme="light"] .custom-input {
+      background: #ffffff !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+
+    [data-theme="light"] input::placeholder,
+    [data-theme="light"] textarea::placeholder {
+      color: #94a3b8 !important;
+    }
+
+    [data-theme="light"] .modal-dialog {
+      background: #ffffff !important;
+      color: #0f172a !important;
+      border-color: rgba(15, 23, 42, 0.1) !important;
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.18) !important;
+    }
+
+    [data-theme="light"] .modal-close-btn {
+      color: #475569 !important;
+      background: rgba(15, 23, 42, 0.05) !important;
+    }
+
+    [data-theme="light"] .modal-close-btn:hover {
+      background: rgba(15, 23, 42, 0.1) !important;
+      color: #0f172a !important;
+    }
+
+    [data-theme="light"] .comparison-table th {
+      background: #f1f5f9 !important;
+      color: #0f172a !important;
+      border-color: #e2e8f0 !important;
+    }
+
+    [data-theme="light"] .comparison-table td {
+      border-color: #e2e8f0 !important;
+      color: #334155 !important;
+    }
+
+    [data-theme="light"] .tier-locked-overlay,
+    [data-theme="light"] .lock-overlay {
+      background: rgba(248, 250, 252, 0.88) !important;
+      backdrop-filter: blur(8px) !important;
+      border-color: rgba(15, 23, 42, 0.12) !important;
+    }
+
+    [data-theme="light"] .site-nav {
+      background: rgba(248, 250, 252, 0.85);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    }
+
+    [data-theme="light"] .site-footer {
+      background: #f1f5f9 !important;
+      border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+    }
+
   </style>
 </head>
 <body>
@@ -1159,10 +1315,16 @@
           </button>
         </div>
 
-        <button class="tier-info-modal-trigger" onclick="openTierModal()">
+        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+          <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle Light/Dark Theme" title="Toggle Light / Dark Mode">
+            <span id="themeToggleIcon">☀️</span>
+            <span id="themeToggleText">Light Mode</span>
+          </button>
+          <button class="tier-info-modal-trigger" onclick="openTierModal()">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
           Compare All 3 Tiers
         </button>
+        </div>
       </div>
     </div>
   </aside>
@@ -1957,6 +2119,44 @@
         toast.classList.remove('show');
       }, 3500);
     }
+  
+    /* ====================================================
+       THEME TOGGLE SYSTEM (DARK / LIGHT MODE)
+       ==================================================== */
+    function initTheme() {
+      const savedTheme = localStorage.getItem('demo_theme') || 'dark';
+      applyTheme(savedTheme);
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      applyTheme(newTheme);
+      try {
+        localStorage.setItem('demo_theme', newTheme);
+      } catch (e) {}
+    }
+
+    function applyTheme(theme) {
+      const root = document.documentElement;
+      const icon = document.getElementById('themeToggleIcon');
+      const text = document.getElementById('themeToggleText');
+      if (theme === 'light') {
+        root.setAttribute('data-theme', 'light');
+        document.body.classList.add('light-theme');
+        if (icon) icon.textContent = '🌙';
+        if (text) text.textContent = 'Dark Mode';
+      } else {
+        root.removeAttribute('data-theme');
+        document.body.classList.remove('light-theme');
+        if (icon) icon.textContent = '☀️';
+        if (text) text.textContent = 'Light Mode';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initTheme);
+    initTheme();
+
   </script>
 </body>
 </html>
