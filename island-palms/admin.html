@@ -334,6 +334,8 @@
       max-width: 1440px;
       margin: 0 auto;
       width: 100%;
+      box-sizing: border-box;
+      overflow-x: hidden;
     }
 
     /* Glass Cards */
@@ -346,6 +348,10 @@
       padding: 24px;
       box-shadow: var(--shadow-glass);
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+      min-width: 0;
     }
 
     .glass-card:hover {
@@ -542,8 +548,10 @@
     /* Calendar Grid */
     .calendar-grid-container {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(7, minmax(0, 1fr));
       gap: 8px;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .cal-day-name {
@@ -554,6 +562,9 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--text-dim);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .cal-day-cell {
@@ -567,6 +578,10 @@
       gap: 6px;
       transition: all 0.2s;
       position: relative;
+      min-width: 0;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
     }
 
     .cal-day-cell:hover {
@@ -638,6 +653,9 @@
       flex: 1;
       overflow-y: auto;
       max-height: 85px;
+      min-width: 0;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .booking-pill {
@@ -653,6 +671,9 @@
       align-items: center;
       gap: 5px;
       transition: all 0.15s;
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     .booking-pill:hover {
@@ -1406,40 +1427,76 @@
 
       /* Calendar Grid Responsive Scale */
       .calendar-grid-container {
-        gap: 4px;
+        grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+        gap: 3px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
       }
 
       .cal-day-name {
-        padding: 6px 2px;
-        font-size: 0.68rem;
+        padding: 6px 1px;
+        font-size: 0.65rem;
+        letter-spacing: 0;
       }
 
       .cal-day-cell {
-        min-height: 74px;
-        padding: 4px;
+        min-height: 66px;
+        padding: 4px 2px;
         border-radius: 6px;
         gap: 3px;
+        min-width: 0 !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
       }
 
-      .cal-day-number {
+      .day-num-row {
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 2px !important;
+        width: 100% !important;
+        min-width: 0 !important;
+      }
+
+      .day-num {
         font-size: 0.72rem;
+        font-weight: 800;
+        line-height: 1;
       }
 
-      .cal-badge {
-        font-size: 0.6rem;
-        padding: 2px 4px;
-        letter-spacing: -0.02em;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+      .occupancy-badge {
+        font-size: 0.52rem !important;
+        padding: 1px 3px !important;
+        letter-spacing: 0 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 100% !important;
+        text-align: center !important;
+        display: block !important;
       }
 
-      .cal-res-item {
-        font-size: 0.58rem;
-        padding: 2px 4px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+      .badge-text-short {
+        display: none;
+      }
+
+      .day-bookings-list {
+        max-height: 48px;
+        gap: 2px;
+        min-width: 0 !important;
+        overflow: hidden !important;
+        width: 100% !important;
+      }
+
+      .booking-pill {
+        font-size: 0.54rem !important;
+        padding: 2px 3px !important;
+        gap: 2px !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
       }
 
       /* Table Controls & Search */
@@ -1527,6 +1584,16 @@
       }
     }
 
+    @media (max-width: 600px) {
+      .badge-text-full {
+        display: none !important;
+      }
+
+      .badge-text-short {
+        display: inline !important;
+      }
+    }
+
     @media (max-width: 480px) {
       .kpi-grid {
         grid-template-columns: 1fr;
@@ -1537,18 +1604,38 @@
         display: none;
       }
 
+      .calendar-current-month {
+        font-size: 1.1rem;
+      }
+
       .cal-day-cell {
-        min-height: 58px;
-        padding: 3px;
+        min-height: 52px;
+        padding: 2px 1px;
+        gap: 2px;
       }
 
-      .cal-badge {
-        font-size: 0.55rem;
-        padding: 1px 3px;
+      .cal-day-name {
+        font-size: 0.58rem;
+        padding: 4px 0;
       }
 
-      .cal-res-item {
-        display: none; /* Badge handles count on ultra-small screens */
+      .day-num {
+        font-size: 0.68rem;
+      }
+
+      .occupancy-badge {
+        font-size: 0.46rem !important;
+        padding: 1px 2px !important;
+      }
+
+      .booking-pill {
+        font-size: 0.5rem !important;
+        padding: 1px 2px !important;
+        line-height: 1;
+      }
+
+      .booking-pill i {
+        display: none; /* Hide icon on narrowest screens to save space for guest name */
       }
     }
   </style>
@@ -2285,7 +2372,7 @@
             cell.classList.add('full-occupancy');
             occupancyBadge = `<span class="occupancy-badge badge-full">FULL</span>`;
           } else if (count > 0) {
-            occupancyBadge = `<span class="occupancy-badge badge-partial">${count} Reserved</span>`;
+            occupancyBadge = `<span class="occupancy-badge badge-partial"><span class="badge-text-full">${count} Reserved</span><span class="badge-text-short">${count} Res</span></span>`;
           } else {
             occupancyBadge = `<span class="occupancy-badge badge-available">Open</span>`;
           }
@@ -2305,7 +2392,7 @@
             const pill = document.createElement('div');
             const isConfirmed = booking.status === 'Confirmed';
             pill.className = `booking-pill ${isConfirmed ? 'pill-confirmed' : 'pill-pending'}`;
-            pill.innerHTML = `<i class="fa-solid fa-${isConfirmed ? 'circle-check' : 'hourglass-half'}"></i> ${booking.room.split(' ')[0]} - ${booking.fullName.split(' ')[0]}`;
+            pill.innerHTML = `<i class="fa-solid fa-${isConfirmed ? 'circle-check' : 'hourglass-half'}"></i> <span>${booking.room.split(' ')[0]} - ${booking.fullName.split(' ')[0]}</span>`;
             pill.title = `${booking.bookingRef} | ${booking.fullName} (${booking.room})`;
             pill.onclick = (e) => {
               e.stopPropagation();
@@ -2313,6 +2400,22 @@
             };
             listWrap.appendChild(pill);
           });
+        }
+
+        // Cell tap opens booking details or logs quick walk-in reservation
+        if (!isOtherMonth) {
+          cell.style.cursor = 'pointer';
+          cell.onclick = () => {
+            if (dayBookings && dayBookings.length > 0) {
+              openBookingModal(dayBookings[0]);
+            } else if (dateStr) {
+              document.getElementById('manualCheckIn').value = dateStr;
+              const nextD = new Date(dateStr);
+              nextD.setDate(nextD.getDate() + 1);
+              document.getElementById('manualCheckOut').value = nextD.toISOString().split('T')[0];
+              document.getElementById('modalManualBooking').classList.add('active');
+            }
+          };
         }
 
         return cell;
