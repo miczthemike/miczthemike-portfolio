@@ -1239,6 +1239,318 @@
       transform: translateY(0);
       opacity: 1;
     }
+
+    /* -------------------------------------------------------------
+       RESPONSIVE ADAPTATIONS: TABLETS & MOBILE SCREENS
+       ------------------------------------------------------------- */
+    @media (max-width: 1024px) {
+      .portal-header {
+        padding: 12px 18px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .header-brand {
+        order: 1;
+      }
+
+      .header-actions {
+        order: 2;
+        margin-left: auto;
+      }
+
+      .header-center-nav {
+        order: 3;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 4px;
+        justify-content: flex-start;
+      }
+
+      .header-center-nav::-webkit-scrollbar {
+        display: none;
+      }
+
+      .nav-tab-btn {
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+
+      .main-container {
+        padding: 18px;
+      }
+
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+
+      .analytics-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .portal-header {
+        padding: 10px 14px;
+      }
+
+      .brand-logo-img {
+        height: 36px;
+      }
+
+      .brand-title {
+        font-size: 1.05rem;
+      }
+
+      .brand-subtitle {
+        font-size: 0.65rem;
+      }
+
+      .user-details {
+        display: none; /* Keep avatar & role icon only on mobile for clean header */
+      }
+
+      .user-profile-badge {
+        padding: 4px 6px;
+        gap: 6px;
+      }
+
+      .sync-btn span {
+        display: none; /* Icon-only on mobile */
+      }
+
+      .sync-btn {
+        padding: 8px 10px;
+      }
+
+      .nav-tab-btn {
+        padding: 7px 12px;
+        font-size: 0.8rem;
+        gap: 6px;
+      }
+
+      .main-container {
+        padding: 14px 10px;
+      }
+
+      .glass-card {
+        padding: 16px 14px;
+        border-radius: var(--radius-md);
+      }
+
+      /* KPI Cards on Mobile */
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .kpi-card {
+        padding: 14px 12px;
+      }
+
+      .kpi-number {
+        font-size: 1.35rem;
+      }
+
+      .kpi-label {
+        font-size: 0.68rem;
+      }
+
+      .kpi-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 0.85rem;
+      }
+
+      .kpi-subtext {
+        font-size: 0.65rem;
+      }
+
+      /* Calendar Section Controls */
+      .calendar-section-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .calendar-title-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .calendar-current-month {
+        font-size: 1.2rem;
+      }
+
+      .calendar-filters {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        gap: 8px;
+      }
+
+      .room-filter-select,
+      .btn-manual-booking {
+        width: 100%;
+        justify-content: center;
+      }
+
+      /* Calendar Grid Responsive Scale */
+      .calendar-grid-container {
+        gap: 4px;
+      }
+
+      .cal-day-name {
+        padding: 6px 2px;
+        font-size: 0.68rem;
+      }
+
+      .cal-day-cell {
+        min-height: 74px;
+        padding: 4px;
+        border-radius: 6px;
+        gap: 3px;
+      }
+
+      .cal-day-number {
+        font-size: 0.72rem;
+      }
+
+      .cal-badge {
+        font-size: 0.6rem;
+        padding: 2px 4px;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .cal-res-item {
+        font-size: 0.58rem;
+        padding: 2px 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* Table Controls & Search */
+      .table-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+
+      .search-input-wrap {
+        min-width: 100%;
+        max-width: 100%;
+      }
+
+      .filter-pills-group {
+        overflow-x: auto;
+        width: 100%;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+
+      .filter-pills-group::-webkit-scrollbar {
+        display: none;
+      }
+
+      .filter-pill {
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+
+      .data-table-container {
+        border-radius: var(--radius-md);
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .admin-table {
+        min-width: 720px; /* Preserve columns with smooth horizontal touch scrolling */
+      }
+
+      /* Modals on Mobile */
+      .modal-backdrop {
+        padding: 10px;
+        align-items: flex-end; /* Bottom drawer on mobile */
+      }
+
+      .modal-box {
+        padding: 20px 16px;
+        max-height: 94vh;
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .modal-footer {
+        flex-direction: column-reverse;
+        gap: 8px;
+      }
+
+      .modal-footer button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .user-mgmt-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+
+      .btn-add-user {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .toast-pill {
+        bottom: 16px;
+        left: 16px;
+        right: 16px;
+        justify-content: center;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .kpi-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .brand-subtitle {
+        display: none;
+      }
+
+      .cal-day-cell {
+        min-height: 58px;
+        padding: 3px;
+      }
+
+      .cal-badge {
+        font-size: 0.55rem;
+        padding: 1px 3px;
+      }
+
+      .cal-res-item {
+        display: none; /* Badge handles count on ultra-small screens */
+      }
+    }
   </style>
 </head>
 <body>
