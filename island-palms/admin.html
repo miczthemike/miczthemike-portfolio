@@ -38,10 +38,10 @@
       --sand-400: #fbbf24;
       --sand-100: #fef3c7;
 
-      --bg-dark: #05100a;
-      --card-bg: rgba(10, 31, 20, 0.72);
-      --card-border: rgba(52, 211, 153, 0.18);
-      --card-hover-border: rgba(52, 211, 153, 0.42);
+      --bg-dark: #061929;
+      --card-bg: rgba(8, 28, 46, 0.78);
+      --card-border: rgba(48, 148, 219, 0.22);
+      --card-hover-border: rgba(56, 189, 248, 0.48);
       
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
@@ -52,8 +52,8 @@
       --radius-lg: 16px;
       --radius-xl: 22px;
       
-      --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-      --shadow-glow: 0 0 25px rgba(40, 160, 103, 0.25);
+      --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+      --shadow-glow: 0 0 25px rgba(2, 132, 199, 0.28);
     }
 
     * {
@@ -72,73 +72,28 @@
     }
 
     /* -------------------------------------------------------------
-       SHADCN RESPONSIVE DOT-PATTERN BACKGROUND
-       Source reference: https://www.shadcn.io/background/dot-pattern
-       Matching Island Palms Emerald & Coastal Ocean Glow
+       VANTA.NET 3D INTERACTIVE ANIMATED BACKGROUND
+       Powered by Three.js (r121) & Vanta.NET
+       Logo-matching theme: Signature Island Palms Coastal Blue
        ------------------------------------------------------------- */
-    .dot-pattern-wrapper {
+    .vanta-background-container {
       position: fixed;
       inset: 0;
       width: 100vw;
       height: 100vh;
-      pointer-events: none;
       z-index: 0;
+      pointer-events: none;
       overflow: hidden;
+      background-color: var(--bg-dark);
     }
 
-    .dot-pattern-canvas {
+    .vanta-overlay-mask {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      background-image: radial-gradient(rgba(52, 211, 153, 0.28) 1.25px, transparent 1.25px);
-      background-size: 24px 24px;
-      background-position: 0 0;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 30%, #000 35%, transparent 80%);
-      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 30%, #000 35%, transparent 80%);
-      opacity: 0.85;
-    }
-
-    /* Responsive Ambient Glow Orbs */
-    .ambient-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(110px);
+      background: radial-gradient(ellipse 90% 90% at 50% 30%, transparent 40%, rgba(6, 25, 41, 0.6) 100%);
       pointer-events: none;
-      opacity: 0.45;
-      animation: ambientFloat 18s ease-in-out infinite alternate;
-    }
-
-    .orb-palm {
-      top: -10%;
-      left: 15%;
-      width: 520px;
-      height: 520px;
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.45) 0%, rgba(5, 150, 105, 0) 70%);
-    }
-
-    .orb-ocean {
-      top: 40%;
-      right: -5%;
-      width: 580px;
-      height: 580px;
-      background: radial-gradient(circle, rgba(14, 165, 233, 0.35) 0%, rgba(2, 132, 199, 0) 70%);
-      animation-delay: -7s;
-    }
-
-    .orb-sand {
-      bottom: -15%;
-      left: 30%;
-      width: 480px;
-      height: 480px;
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0) 70%);
-      animation-delay: -12s;
-    }
-
-    @keyframes ambientFloat {
-      0% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(30px, 40px) scale(1.08); }
-      100% { transform: translate(-25px, 20px) scale(0.95); }
     }
 
     /* Main App Container */
@@ -1288,12 +1243,9 @@
 </head>
 <body>
 
-  <!-- Responsive Shadcn-style Dot Pattern Background with Radial Mask & Glows -->
-  <div class="dot-pattern-wrapper">
-    <div class="dot-pattern-canvas"></div>
-    <div class="ambient-orb orb-palm"></div>
-    <div class="ambient-orb orb-ocean"></div>
-    <div class="ambient-orb orb-sand"></div>
+  <!-- Vanta.NET 3D Interactive Animated Background -->
+  <div id="vanta-bg" class="vanta-background-container">
+    <div class="vanta-overlay-mask"></div>
   </div>
 
   <div class="app-root">
@@ -2518,6 +2470,52 @@
       initAuth();
       syncBookings();
 
+    })();
+  </script>
+
+  <!-- Three.js (r121) & Vanta.NET 3D Animated Background Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+  <script>
+    (function() {
+      let vantaEffect = null;
+      function initVanta() {
+        if (window.VANTA && window.VANTA.NET) {
+          try {
+            if (vantaEffect) vantaEffect.destroy();
+            vantaEffect = window.VANTA.NET({
+              el: "#vanta-bg",
+              mouseControls: true,
+              touchControls: true,
+              gyroControls: false,
+              minHeight: 200.00,
+              minWidth: 200.00,
+              scale: 1.00,
+              scaleMobile: 1.00,
+              color: 0x38bdf8,            // Signature Island Palms coastal logo blue
+              backgroundColor: 0x061929,  // Deep coastal ocean night
+              points: 12.00,
+              maxDistance: 22.00,
+              spacing: 16.00,
+              showDots: true
+            });
+          } catch (e) {
+            console.warn("Vanta.NET initialization notice:", e);
+          }
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initVanta);
+      } else {
+        initVanta();
+      }
+      window.addEventListener('load', initVanta);
+      window.addEventListener('resize', function() {
+        if (vantaEffect && typeof vantaEffect.resize === 'function') {
+          vantaEffect.resize();
+        }
+      });
     })();
   </script>
 </body>
