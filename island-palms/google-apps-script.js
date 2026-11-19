@@ -25,6 +25,41 @@ function doGet(e) {
     var action = e && e.parameter ? e.parameter.action : "getBookedDates";
     var requestedRoom = e && e.parameter ? e.parameter.room : "";
 
+    if (action === "getAllBookings") {
+      var rows = sheet.getDataRange().getValues();
+      var allBookings = [];
+
+      for (var i = 1; i < rows.length; i++) {
+        var row = rows[i];
+        if (!row[1]) continue; // Skip empty rows
+        allBookings.push({
+          timestamp: row[0] ? String(row[0]) : "",
+          bookingRef: String(row[1] || ""),
+          fullName: String(row[2] || ""),
+          phone: String(row[3] || ""),
+          email: String(row[4] || ""),
+          room: String(row[5] || ""),
+          checkIn: formatDateISO(row[6]),
+          checkOut: formatDateISO(row[7]),
+          nights: parseInt(row[8] || 1, 10),
+          guests: parseInt(row[9] || 2, 10),
+          tourAddons: String(row[10] || "None"),
+          grandTotal: String(row[11] || "0"),
+          depositAmt: String(row[12] || "0"),
+          paymentMethod: String(row[13] || "GCASH"),
+          paymentType: String(row[14] || "deposit"),
+          notes: String(row[15] || ""),
+          status: String(row[16] || "Pending Deposit")
+        });
+      }
+
+      return createJsonResponse({
+        success: true,
+        count: allBookings.length,
+        bookings: allBookings
+      });
+    }
+
     if (action === "getBookedDates") {
       var rows = sheet.getDataRange().getValues();
       var bookedRanges = [];
@@ -101,6 +136,34 @@ function doPost(e) {
       }
     } else {
       payload = e.parameter || {};
+    }
+
+    // Admin Action: Update Booking Status (e.g. Pending Deposit -> Confirmed / Verified)
+    if (payload.action === "updateBookingStatus") {
+      var targetRef = String(payload.bookingRef || "").trim();
+      var targetStatus = String(payload.newStatus || "Confirmed").trim();
+      if (!targetRef) {
+        return createJsonResponse({ success: false, error: "Missing required bookingRef" });
+      }
+
+      var sheet = getOrCreateBookingsSheet();
+      var rows = sheet.getDataRange().getValues();
+      var updated = false;
+
+      for (var r = 1; r < rows.length; r++) {
+        if (String(rows[r][1]).trim() === targetRef) {
+          sheet.getRange(r + 1, 17).setValue(targetStatus);
+          updated = true;
+          break;
+        }
+      }
+
+      return createJsonResponse({
+        success: updated,
+        message: updated ? "Booking " + targetRef + " successfully updated to: " + targetStatus : "Booking reference not found in sheet",
+        bookingRef: targetRef,
+        newStatus: targetStatus
+      });
     }
 
     var fullName      = String(payload.fullName || payload.guestFullName || "Valued Guest").trim();
