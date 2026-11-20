@@ -1447,3 +1447,163 @@ Looking forward to our stay at The Island Palms Homestay in Lucap!`;
   });
 
 })();
+
+
+/* ====================================================
+   DEMO TIER SWITCHER & BUYOUT LOGIC
+   ==================================================== */
+let currentDemoTier = 2; // Default to Tier 2 Interactive
+
+function switchTier(tierNum) {
+  currentDemoTier = tierNum;
+
+  // 1. Update button states
+  document.querySelectorAll('.tier-btn').forEach(btn => btn.classList.remove('active', 'tier-1', 'tier-3'));
+  const activeBtn = document.getElementById(`btn-tier-${tierNum}`);
+  if (activeBtn) {
+    activeBtn.classList.add('active');
+    if (tierNum === 1) activeBtn.classList.add('tier-1');
+    if (tierNum === 3) activeBtn.classList.add('tier-3');
+  }
+
+  // 2. Update status banner
+  const statusBar = document.getElementById('tier-status-bar');
+  const statusText = document.getElementById('tier-status-text');
+  if (statusBar && statusText) {
+    statusBar.classList.remove('t1', 't3');
+
+    const tourLock = document.getElementById('tour-tier-lock');
+    const buyoutLock = document.getElementById('tier3-buyout-lock');
+
+    if (tierNum === 1) {
+      statusBar.classList.add('t1');
+      statusText.innerHTML = `<strong>Viewing: Tier 1 (₱899/mo Starter Plan)</strong> — Guesthouse rooms gallery & wharf route. Booking calculator & tour planner are locked.`;
+      if (tourLock) tourLock.style.display = 'flex';
+      if (buyoutLock) buyoutLock.style.display = 'flex';
+      showDemoToast("Switched to Tier 1 (₱899/mo Starter). Direct contact mode active.");
+    } else if (tierNum === 2) {
+      statusText.innerHTML = `<strong>Viewing: Tier 2 (₱1,499/mo Interactive Plan)</strong> — Unlocks Live Direct Booking Engine + Senior/PWD 20% Calculator + Tour Package Planner.`;
+      if (tourLock) tourLock.style.display = 'none';
+      if (buyoutLock) buyoutLock.style.display = 'flex';
+      showDemoToast("Switched to Tier 2 (₱1,499/mo Interactive). Booking engine & tour planner unlocked!");
+    } else if (tierNum === 3) {
+      statusBar.classList.add('t3');
+      statusText.innerHTML = `<strong>Viewing: Tier 3 (₱2,499/mo Full Platform)</strong> — Unlocks Full Homestay Private Buyout Configurator + Cloud Housekeeping Admin Dashboard.`;
+      if (tourLock) tourLock.style.display = 'none';
+      if (buyoutLock) buyoutLock.style.display = 'none';
+      showDemoToast("Switched to Tier 3 (₱2,499/mo Platform). Full buyout & admin unlocked!");
+    }
+  }
+}
+
+function openTierModal() {
+  const modal = document.getElementById('tierComparisonModal');
+  if (modal) modal.style.display = 'flex';
+}
+
+function closeTierModal() {
+  const modal = document.getElementById('tierComparisonModal');
+  if (modal) modal.style.display = 'none';
+}
+
+function showDemoToast(msg) {
+  let toast = document.getElementById('demoToastBox');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'demoToastBox';
+    toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0c2b45;color:#fff;padding:12px 24px;border-radius:999px;font-weight:700;font-size:0.88rem;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,0.4);border:1px solid #28a067;transition:all 0.3s ease;pointer-events:none;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  toast.style.transform = 'translateX(-50%) translateY(0)';
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(-50%) translateY(20px)';
+  }, 3000);
+}
+
+// Theme Switcher Logic
+function initTheme() {
+  const savedTheme = localStorage.getItem('island_palms_theme') || 'light';
+  applyTheme(savedTheme);
+}
+
+function toggleTheme() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const newTheme = isDark ? 'light' : 'dark';
+  applyTheme(newTheme);
+  try {
+    localStorage.setItem('island_palms_theme', newTheme);
+  } catch(e) {}
+}
+
+function applyTheme(theme) {
+  const root = document.documentElement;
+  const icon = document.getElementById('themeToggleIcon');
+  const text = document.getElementById('themeToggleText');
+  if (theme === 'dark') {
+    root.setAttribute('data-theme', 'dark');
+    if (icon) icon.textContent = '☀️';
+    if (text) text.textContent = 'Light Mode';
+  } else {
+    root.removeAttribute('data-theme');
+    if (icon) icon.textContent = '🌙';
+    if (text) text.textContent = 'Dark Mode';
+  }
+}
+
+// Whole-House Buyout Calculator Logic
+function calculateBuyout() {
+  const nightsSelect = document.getElementById('buyoutNights');
+  const guestsRange = document.getElementById('buyoutGuestsRange');
+  const guestsText = document.getElementById('buyoutGuestsText');
+  const perPersonText = document.getElementById('buyoutPerPerson');
+  const otaCompareText = document.getElementById('buyoutOtaCompare');
+  const savingsText = document.getElementById('buyoutSavings');
+
+  if (!nightsSelect || !guestsRange) return;
+
+  const nights = parseInt(nightsSelect.value) || 1;
+  const guests = parseInt(guestsRange.value) || 18;
+  guestsText.textContent = `${guests} Guests`;
+
+  const baseRate = 16500;
+  let totalCost = baseRate * nights;
+  if (nights === 3) totalCost = totalCost * 0.95; // 5% discount
+  if (nights >= 5) totalCost = totalCost * 0.90; // 10% discount
+
+  const perPersonPerNight = Math.round(totalCost / nights / guests);
+  const otaEst = Math.round(totalCost * 1.35); // 35% Agoda markup + fees
+  const savedPeso = otaEst - Math.round(totalCost);
+
+  perPersonText.textContent = `₱${perPersonPerNight.toLocaleString()} / night`;
+  otaCompareText.textContent = `₱${otaEst.toLocaleString()}`;
+  savingsText.textContent = `Save ₱${savedPeso.toLocaleString()} (Direct)`;
+}
+
+function sendBuyoutInquiry() {
+  const nights = document.getElementById('buyoutNights').value;
+  const guests = document.getElementById('buyoutGuestsRange').value;
+  const msg = encodeURIComponent(`Hi Island Palms! Inquiring about a Whole Homestay Private Buyout for ${guests} guests for ${nights} night(s). Is our date open?`);
+  window.open(`https://wa.me/639491661887?text=${msg}`, '_blank');
+}
+
+// Intercept booking buttons if in Tier 1
+document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  switchTier(2); // Start in Tier 2 Interactive
+  calculateBuyout();
+
+  // Intercept booking trigger clicks when in Tier 1
+  document.querySelectorAll('.btn-trigger-booking').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      if (currentDemoTier === 1) {
+        e.preventDefault();
+        e.stopPropagation();
+        showDemoToast("🔒 Direct Booking Engine is a Tier 2 feature. Switch to Tier 2 to preview!");
+        openTierModal();
+      }
+    }, true);
+  });
+});

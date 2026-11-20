@@ -32,6 +32,59 @@
 </head>
 <body>
 
+  <!-- ====================================================
+       INTERACTIVE TIER SWITCHER DOCK (FLOATING DEMO CONTROL)
+       ==================================================== -->
+  <aside class="tier-bar-wrapper" id="tierBarWrapper" aria-label="Interactive Demo Controls">
+    <div class="container">
+      <div class="tier-bar">
+        <div class="tier-branding">
+          <span class="tier-brand-tag">⚡ Live Demo Mode</span>
+          <span style="font-size: 0.82rem; color: var(--text-secondary); font-weight: 500;">Preview Plan:</span>
+        </div>
+
+        <div class="tier-controls" role="tablist">
+          <button class="tier-btn" id="btn-tier-1" onclick="switchTier(1)">
+            <span>🟢 Starter</span>
+            <small style="opacity: 0.85;">₱899/mo</small>
+          </button>
+          <button class="tier-btn active" id="btn-tier-2" onclick="switchTier(2)">
+            <span>🟡 Interactive</span>
+            <small style="opacity: 0.85;">₱1,499/mo</small>
+          </button>
+          <button class="tier-btn" id="btn-tier-3" onclick="switchTier(3)">
+            <span>🔵 Full Platform</span>
+            <small style="opacity: 0.85;">₱2,499/mo</small>
+          </button>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+          <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle Light/Dark Theme" title="Toggle Light / Dark Mode">
+            <span id="themeToggleIcon">🌙</span>
+            <span id="themeToggleText">Dark Mode</span>
+          </button>
+          <button class="tier-info-modal-trigger" onclick="openTierModal()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            Compare All 3 Tiers
+          </button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Live Tier Status & Limitations Banner -->
+  <div class="tier-status-banner" id="tier-status-bar">
+    <div class="container" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+      <span id="tier-status-text">
+        <strong>Viewing: Tier 2 (₱1,499/mo Interactive Plan)</strong> — Unlocks Live Direct Booking Engine + Senior/PWD 20% Calculator + Tour Package Planner.
+      </span>
+      <a href="javascript:void(0)" onclick="openTierModal()" style="color: inherit; text-decoration: underline; font-weight: 700; font-size: 0.78rem;">
+        View Limitations & Features &rarr;
+      </a>
+    </div>
+  </div>
+
+
   <!-- Top Announcement & Status Bar -->
   <aside class="top-announcement" aria-label="Wharf Status and Quick Info">
     <div class="container top-bar-inner">
@@ -397,6 +450,109 @@
       </div>
     </section>
 
+    
+    <!-- ====================================================
+         SECTION: PRIVATE HOMESTAY GROUP BUYOUT (TIER 3 EXCLUSIVE)
+         ==================================================== -->
+    <section class="section section-palm-tint" id="buyout" style="position: relative;">
+      <div class="container">
+        <!-- Tier 3 Lock Overlay -->
+        <div class="tier-locked-overlay" id="tier3-buyout-lock" style="display: none;">
+          <div class="lock-card">
+            <div class="lock-icon-badge">🏢</div>
+            <h4 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--text-primary);">Full Homestay Buyout & Housekeeping Admin is a Tier 3 Feature</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); max-width: 520px; margin-bottom: 1.1rem;">
+              You are currently previewing Tier 1 or Tier 2. The <strong>Tier 3 Full Platform (₱2,499/mo)</strong> unlocks whole-property group buyout reservations (up to 24 guests), automated kitchen & BBQ access management, and the Cloud Housekeeping Admin Dashboard.
+            </p>
+            <button class="btn btn-primary btn-sm" onclick="switchTier(3)">
+              🔵 Switch to Tier 3 Preview to Unlock Enterprise Tools
+            </button>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <div class="eyebrow-pill">
+            <i class="fa-solid fa-hotel"></i> Exclusive Whole-House Buyout
+          </div>
+          <h2 class="section-title">Rent The Entire Homestay for Your Clan or Team</h2>
+          <p class="section-subtitle">
+            Need complete privacy for your family reunion, company retreat, or barkada getaway? Book all 6 suites and lofts with 100% exclusive access to the communal dining hall, guest kitchen, and wharf transfer concierge.
+          </p>
+        </div>
+
+        <div class="buyout-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; align-items: start;">
+          <!-- Buyout Package Specs -->
+          <div class="buyout-card" style="background: var(--surface-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-md);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <span class="badge" style="background: rgba(24, 99, 63, 0.12); color: var(--palm-700); font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 999px;">24 Guests Max Capacity</span>
+              <span style="font-size: 1.4rem; font-weight: 900; color: var(--palm-800);">₱16,500 <small style="font-size: 0.8rem; font-weight: 500; color: var(--text-secondary);">/ night</small></span>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.75rem; color: var(--text-primary);">Complete 6-Room Private Sanctuary</h3>
+            <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+              <li><i class="fa-solid fa-check" style="color: var(--palm-600); margin-right: 0.5rem;"></i> Includes all 2 Loft Suites, 2 Deluxe Family, and 2 Couple Sanctuaries</li>
+              <li><i class="fa-solid fa-check" style="color: var(--palm-600); margin-right: 0.5rem;"></i> Free unmetered use of commercial induction cookers and BBQ grillers</li>
+              <li><i class="fa-solid fa-check" style="color: var(--palm-600); margin-right: 0.5rem;"></i> Direct coordination with registered Lucap boatmen for sunrise island departure</li>
+              <li><i class="fa-solid fa-check" style="color: var(--palm-600); margin-right: 0.5rem;"></i> High-speed WiFi mesh coverage across all rooms and outdoor balconies</li>
+              <li><i class="fa-solid fa-check" style="color: var(--palm-600); margin-right: 0.5rem;"></i> Dedicated on-site guesthouse supervisor on duty 24/7</li>
+            </ul>
+            <div style="display: flex; gap: 0.75rem;">
+              <a href="https://wa.me/639491661887?text=Hi!%20Inquiring%20about%20Whole%20Homestay%20Buyout%20at%20The%20Island%20Palms." target="_blank" rel="noopener" class="btn btn-primary btn-block">
+                <i class="fa-brands fa-whatsapp"></i> Reserve Whole Homestay
+              </a>
+              <a href="admin.html" class="btn btn-outline" style="white-space: nowrap;" title="Access Cloud Housekeeping Admin (Tier 3 Feature)">
+                <i class="fa-solid fa-gauge-high"></i> Admin Portal
+              </a>
+            </div>
+          </div>
+
+          <!-- Buyout Date Estimator Box -->
+          <div class="buyout-calc-box" style="background: var(--surface-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-md);">
+            <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fa-solid fa-calculator" style="color: var(--palm-600);"></i> Whole-House Cost & Savings
+            </h3>
+            <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.25rem;">
+              <div>
+                <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Duration of Stay</label>
+                <select id="buyoutNights" onchange="calculateBuyout()" class="form-control" style="width: 100%; padding: 0.65rem; border-radius: 8px; border: 1px solid var(--border-light); font-size: 0.9rem; margin-top: 0.35rem; background: var(--surface-white); color: var(--text-primary);">
+                  <option value="1">1 Night (Weekend Escape) - ₱16,500</option>
+                  <option value="2" selected>2 Nights (Recommended Weekend) - ₱33,000</option>
+                  <option value="3">3 Nights (Long Weekend Holiday) - ₱47,025 (5% Off)</option>
+                  <option value="5">5 Nights (Full Week Retreat) - ₱74,250 (10% Off)</option>
+                </select>
+              </div>
+
+              <div>
+                <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Estimated Group Size</label>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.35rem; font-weight: 700; color: var(--text-primary);">
+                  <span id="buyoutGuestsText">18 Guests</span>
+                  <input type="range" id="buyoutGuestsRange" min="10" max="24" value="18" oninput="calculateBuyout()" style="width: 65%;">
+                </div>
+              </div>
+            </div>
+
+            <div style="background: var(--palm-50); border: 1px dashed var(--palm-400); border-radius: 12px; padding: 1rem; margin-bottom: 1.25rem;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.86rem; color: var(--text-secondary); margin-bottom: 0.35rem;">
+                <span>Per Person Cost:</span>
+                <strong id="buyoutPerPerson" style="color: var(--palm-800); font-size: 1rem;">₱916 / night</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.86rem; color: var(--text-secondary); margin-bottom: 0.35rem;">
+                <span>vs. Separate Hotel Rooms (Agoda):</span>
+                <span style="text-decoration: line-through; color: #dc2626;" id="buyoutOtaCompare">₱24,200</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.95rem; font-weight: 800; color: var(--palm-700); padding-top: 0.4rem; border-top: 1px solid rgba(24, 99, 63, 0.15);">
+                <span>Direct Booking Savings:</span>
+                <span id="buyoutSavings">Save ₱7,700 (32%)</span>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" onclick="sendBuyoutInquiry()">
+              <i class="fa-solid fa-paper-plane"></i> Inquire Whole Homestay Availability
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Section 4: Hundred Islands Tour Add-on Planner -->
     <section class="section tour-planner-section" id="tours">
       <div class="container">
@@ -410,7 +566,22 @@
           </p>
         </div>
 
-        <div class="planner-layout">
+        
+        <!-- Tier 1 Tour Planner Lock Overlay -->
+        <div class="tier-locked-overlay" id="tour-tier-lock" style="display: none;">
+          <div class="lock-card">
+            <div class="lock-icon-badge">🔒</div>
+            <h4 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--text-primary);">Island Hopping Add-On Planner is a Tier 2 Feature</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); max-width: 480px; margin-bottom: 1rem;">
+              You are currently previewing <strong>Tier 1 (₱899/mo Starter)</strong>. The <strong>Tier 2 Interactive Plan (₱1,499/mo)</strong> unlocks the customizable boat dispatcher, marine gear rental, and live trip cost estimator.
+            </p>
+            <button class="btn btn-primary btn-sm" onclick="switchTier(2)">
+              🟡 Switch to Tier 2 Preview to Unlock Planner
+            </button>
+          </div>
+        </div>
+
+        <div class="planner-layout" id="plannerLayoutBox" style="position: relative;">
           <!-- Left Column: Add-ons Categories -->
           <div class="planner-options-col">
             <!-- Boats -->
@@ -1546,5 +1717,114 @@
 
   <!-- Scripts -->
   <script src="script.js?v=2.0.2"></script>
+
+  <!-- ====================================================
+       COMPARE ALL 3 TIERS MODAL (SIDE-BY-SIDE FEATURE MATRIX)
+       ==================================================== -->
+  <div class="tier-modal-backdrop" id="tierComparisonModal" role="dialog" aria-modal="true" style="display: none;">
+    <div class="tier-modal-dialog">
+      <button class="tier-modal-close" onclick="closeTierModal()" aria-label="Close Comparison">&times;</button>
+      
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <span class="eyebrow-pill" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-layer-group"></i> Website as a Service (WaaS)</span>
+        <h3 style="font-size: 1.5rem; font-weight: 900; color: var(--text-primary);">Compare Website Packages for The Island Palms</h3>
+        <p style="font-size: 0.88rem; color: var(--text-secondary);">Transparent monthly subscription tiers with zero large upfront development costs.</p>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th style="min-width: 180px;">Capabilities & Inclusions</th>
+              <th style="min-width: 140px; text-align: center;">🟢 Tier 1 Starter<br><span style="font-size: 1.15rem; font-weight: 800; color: var(--palm-700);">₱899</span><small>/mo</small></th>
+              <th style="min-width: 150px; text-align: center; background: rgba(24, 99, 63, 0.08);">🟡 Tier 2 Interactive<br><span style="font-size: 1.15rem; font-weight: 800; color: var(--palm-800);">₱1,499</span><small>/mo</small><br><span style="font-size: 0.7rem; background: var(--palm-600); color: #fff; padding: 0.15rem 0.4rem; border-radius: 4px;">RECOMMENDED</span></th>
+              <th style="min-width: 140px; text-align: center;">🔵 Tier 3 Platform<br><span style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">₱2,499</span><small>/mo</small></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Direct WhatsApp / Call Contact</strong></td>
+              <td style="text-align: center;">✓</td>
+              <td style="text-align: center; background: rgba(24, 99, 63, 0.04);">✓</td>
+              <td style="text-align: center;">✓</td>
+            </tr>
+            <tr>
+              <td><strong>Rooms & Suites Showcase Gallery</strong></td>
+              <td style="text-align: center;">✓</td>
+              <td style="text-align: center; background: rgba(24, 99, 63, 0.04);">✓</td>
+              <td style="text-align: center;">✓</td>
+            </tr>
+            <tr>
+              <td><strong>Lucap Wharf Walking Route & Map</strong></td>
+              <td style="text-align: center;">✓</td>
+              <td style="text-align: center; background: rgba(24, 99, 63, 0.04);">✓</td>
+              <td style="text-align: center;">✓</td>
+            </tr>
+            <tr>
+              <td><strong>Google 5.0 Star Reviews Showcase</strong></td>
+              <td style="text-align: center;">✓</td>
+              <td style="text-align: center; background: rgba(24, 99, 63, 0.04);">✓</td>
+              <td style="text-align: center;">✓</td>
+            </tr>
+            <tr>
+              <td><strong>Interactive Room Rate & Nightly Calculator</strong></td>
+              <td style="text-align: center; color: #94a3b8;">—</td>
+              <td style="text-align: center; background: rgba(24, 99, 63, 0.04);">✓</td>
+              <td style="text-align: center;">✓</td>
+            </tr>
+            <tr>
+              <td><strong>Senior Citizen / PWD 20% Discount Engine</strong></td>
+              <td style="text-align: center; color: #94a3b8;">—</td>
+              <td style="text-align: center; background: rgba(24, 99, 63, 0.04);">✓</td>
+              <td style="text-align: center;">✓</td>
+            </tr>
+            <tr>
+              <td><strong>Direct Booking Engine (0% Agoda Fees)</strong></td>
+              <td style="text-align: center; color: #94a3b8;">—</td>
+              <td style="text-align: center; background: rgba(24, 99, 63, 0.04);">✓</td>
+              <td style="text-align: center;">✓</td>
+            </tr>
+            <tr>
+              <td><strong>Hundred Islands Boat Tour Add-On Configurator</strong></td>
+              <td style="text-align: center; color: #94a3b8;">—</td>
+              <td style="text-align: center; background: rgba(24, 99, 63, 0.04);">✓</td>
+              <td style="text-align: center;">✓</td>
+            </tr>
+            <tr>
+              <td><strong>Full Homestay Private Group Buyout (24 Guests)</strong></td>
+              <td style="text-align: center; color: #94a3b8;">—</td>
+              <td style="text-align: center; background: rgba(24, 99, 63, 0.04); color: #94a3b8;">—</td>
+              <td style="text-align: center;">✓</td>
+            </tr>
+            <tr>
+              <td><strong>Cloud Housekeeping & Admin Dashboard</strong></td>
+              <td style="text-align: center; color: #94a3b8;">—</td>
+              <td style="text-align: center; background: rgba(24, 99, 63, 0.04); color: #94a3b8;">—</td>
+              <td style="text-align: center;">✓</td>
+            </tr>
+            <tr>
+              <td><strong>Enterprise Cloud Hosting & SSL Included</strong></td>
+              <td style="text-align: center;">✓</td>
+              <td style="text-align: center; background: rgba(24, 99, 63, 0.04);">✓</td>
+              <td style="text-align: center;">✓</td>
+            </tr>
+            <tr>
+              <td><strong>Monthly Content & Price Updates Handled</strong></td>
+              <td style="text-align: center;">1 hr/mo</td>
+              <td style="text-align: center; background: rgba(24, 99, 63, 0.04);">3 hrs/mo</td>
+              <td style="text-align: center;">Unlimited</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;">
+        <button class="btn btn-outline btn-sm" onclick="switchTier(1); closeTierModal();">Select Tier 1 (₱899/mo)</button>
+        <button class="btn btn-primary btn-sm" onclick="switchTier(2); closeTierModal();">Select Tier 2 (₱1,499/mo)</button>
+        <button class="btn btn-primary btn-sm" style="background: #1e40af; border-color: #1e40af;" onclick="switchTier(3); closeTierModal();">Select Tier 3 (₱2,499/mo)</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
