@@ -4,720 +4,1368 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#061309">
-  <meta name="description" content="Explore website concepts made for Alaminos City businesses by Micz Corner IT Solutions. Discover hospitality, restaurant, and clinic demos inspired by the Hundred Islands.">
+  <meta name="description" content="Micz Corner Client Website Demos — Handcrafted, high-conversion commercial websites engineered for modern businesses, healthcare, education, clean energy, and luxury hospitality by Michael Joseph (MiczTheMike).">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Micz Corner — Local business, beautifully online">
-  <meta property="og:description" content="Explore website concepts for Alaminos City businesses, inspired by the Hundred Islands.">
-  <title>Micz Corner | Alaminos Business Website Showcase</title>
+  <meta property="og:title" content="Micz Corner | Live Client Website Demos">
+  <meta property="og:description" content="Explore live, responsive commercial website demos for clean energy, dining, pharmacy, corporate, education, and luxury resorts.">
+  <title>Micz Corner | Client Website Demos &amp; Commercial Showcase</title>
+  
+  <link rel="icon" type="image/x-icon" href="assets/miczthemike.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
     :root {
-      color-scheme: light;
-      --ink: #102114;
-      --muted: #647468;
-      --sea: #176f19;
-      --sea-deep: #061309;
-      --coral: #e43c2e;
-      --sand: #f0f3ed;
-      --paper: #fbfcf9;
-      --line: rgba(16, 43, 21, .13);
-      --shadow: 0 24px 70px rgba(9, 41, 12, .13);
-      --radius: 22px;
+      --bg-dark: #060c08;
+      --bg-surface: #0b150e;
+      --bg-surface-elevated: #112015;
+      --bg-card: rgba(14, 26, 18, 0.78);
+      --bg-card-hover: rgba(19, 36, 24, 0.95);
+      
+      --accent-green: #38e54d;
+      --accent-green-glow: rgba(56, 229, 77, 0.3);
+      --accent-cyan: #00e5ff;
+      --accent-cyan-glow: rgba(0, 229, 255, 0.25);
+      --accent-amber: #ffb300;
+      --accent-coral: #ff5252;
+      --accent-indigo: #7c4dff;
+      --accent-blue: #2979ff;
+      
+      --text-main: #f2f7f4;
+      --text-muted: #9bb0a2;
+      --text-sub: #6f8776;
+      
+      --border-light: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(56, 229, 77, 0.35);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      
+      --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.45);
+      --shadow-glow: 0 20px 50px rgba(56, 229, 77, 0.15);
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
     body {
-      margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: "DM Sans", sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 10% 12%, rgba(56, 229, 77, 0.09) 0%, transparent 45%),
+        radial-gradient(circle at 88% 28%, rgba(0, 229, 255, 0.07) 0%, transparent 45%),
+        radial-gradient(circle at 50% 85%, rgba(124, 77, 255, 0.06) 0%, transparent 50%),
+        linear-gradient(180deg, #050a06 0%, #07100a 45%, #050b07 100%);
+      background-attachment: fixed;
     }
-    a { color: inherit; }
-    button, input { font: inherit; }
-    button, a { -webkit-tap-highlight-color: transparent; }
-    .skip-link {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      z-index: 20;
-      transform: translateY(-160%);
-      border-radius: 8px;
-      background: white;
-      padding: 12px 16px;
-      color: var(--ink);
-    }
-    .skip-link:focus { transform: translateY(0); }
-    .wrap { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
 
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .wrap {
+      width: min(1240px, calc(100% - 48px));
+      margin-inline: auto;
+    }
+
+    /* --- Header & Navigation --- */
     .site-header {
       position: sticky;
       top: 0;
-      z-index: 10;
-      border-bottom: 1px solid rgba(255,255,255,.1);
-      background: rgba(6, 19, 9, .97);
-      color: white;
-      backdrop-filter: blur(14px);
+      z-index: 100;
+      background: rgba(6, 12, 8, 0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border-light);
+      transition: border-color 0.25s ease;
     }
-    .nav-row { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; }
+    .nav-row {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+    }
     .brand-mark {
-      display: block;
-      width: 58px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       object-fit: contain;
+      filter: drop-shadow(0 0 10px rgba(56, 229, 77, 0.35));
     }
-    .brand-name { display: grid; gap: 1px; font-family: "Manrope", sans-serif; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-    .brand-name small { color: #83d978; font-family: "DM Sans", sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
-    .nav-links { display: flex; align-items: center; gap: 30px; }
-    .nav-links a { color: #e0e9e5; font-size: 13px; font-weight: 600; text-decoration: none; transition: color .2s ease; }
-    .nav-links a:hover { color: #6cf442; }
-    .nav-links .nav-cta { padding: 11px 16px; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; }
-    .menu-toggle { display: none; border: 1px solid rgba(255,255,255,.27); border-radius: 10px; background: transparent; color: white; padding: 9px 12px; cursor: pointer; }
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-title {
+      font-family: "Manrope", sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .brand-subtitle {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-green);
+    }
+    
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+    .nav-link {
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover { color: #fff; }
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 20px;
+      border: 1px solid rgba(56, 229, 77, 0.45);
+      background: rgba(56, 229, 77, 0.09);
+      color: var(--accent-green);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      transition: all 0.24s ease;
+    }
+    .nav-cta:hover {
+      background: var(--accent-green);
+      color: #050a06;
+      box-shadow: 0 0 18px rgba(56, 229, 77, 0.45);
+      transform: translateY(-2px);
+    }
 
+    /* --- Hero Section --- */
     .hero {
       position: relative;
+      padding: 75px 0 50px;
       overflow: hidden;
-      background:
-        radial-gradient(ellipse at 71% 21%, rgba(56, 230, 42, .17), transparent 34%),
-        linear-gradient(118deg, #061309 2%, #0b2110 55%, #12361a 100%);
-      color: white;
     }
-    .hero::before, .hero::after { position: absolute; pointer-events: none; content: ""; }
     .hero::before {
-      inset: auto -6% -182px 32%;
-      height: 340px;
-      border: 1px solid rgba(115, 244, 83, .14);
-      border-radius: 50%;
-      box-shadow: 0 -18px 0 rgba(115,244,83,.025), 0 -38px 0 rgba(115,244,83,.025), 0 -60px 0 rgba(115,244,83,.022);
-      transform: rotate(-7deg);
+      content: "";
+      position: absolute;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 440px;
+      background: radial-gradient(ellipse, rgba(56, 229, 77, 0.14) 0%, transparent 68%);
+      pointer-events: none;
     }
-    .hero::after {
-      top: 48px;
-      right: 12%;
-      width: 170px;
-      height: 170px;
-      border: 1px solid rgba(108, 244, 66, .16);
-      border-radius: 50%;
-      box-shadow: 0 0 0 18px rgba(108, 244, 66, .025), 0 0 0 37px rgba(108, 244, 66, .018);
-    }
-    .hero-grid { position: relative; z-index: 1; display: grid; min-height: 560px; grid-template-columns: 1.08fr .92fr; align-items: center; gap: 54px; padding-block: 74px 82px; }
-    .eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 20px; color: #7bf05a; font-size: 11px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
-    .eyebrow::before { width: 25px; height: 1px; background: currentColor; content: ""; }
-    h1, h2, h3, p { margin-top: 0; }
-    h1, h2, h3 { font-family: "Manrope", sans-serif; }
-    h1 { max-width: 650px; margin-bottom: 20px; font-size: clamp(42px, 5.4vw, 70px); font-weight: 600; letter-spacing: -.065em; line-height: 1.04; }
-    h1 em { color: #69e94a; font-style: normal; }
-    .hero-copy > p:not(.eyebrow) { max-width: 505px; margin-bottom: 28px; color: #d1e0dc; font-size: 16px; line-height: 1.8; }
-    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 13px; }
-    .button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 10px; border: 1px solid transparent; border-radius: 999px; padding: 0 21px; font-size: 13px; font-weight: 700; text-decoration: none; transition: transform .2s ease, background .2s ease, border-color .2s ease; }
-    .button:hover { transform: translateY(-2px); }
-    .button-primary { background: #64e443; color: #071509; }
-    .button-primary:hover { background: #82f064; }
-    .button-quiet { border-color: rgba(255,255,255,.31); color: white; }
-    .button-quiet:hover { border-color: rgba(255,255,255,.68); background: rgba(255,255,255,.08); }
-    .hero-note { display: flex; align-items: center; gap: 10px; margin-top: 30px; color: #b6c8b7; font-size: 12px; }
-    .hero-note strong { color: white; }
-    .hero-note .dot { width: 6px; height: 6px; border-radius: 50%; background: #64e443; box-shadow: 0 0 12px rgba(100,228,67,.7); }
-
-    .island-scene {
+    .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
       position: relative;
-      min-height: 350px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,.2);
-      border-radius: 48% 48% 24px 24px;
-      background: #87c6bd;
-      box-shadow: 0 32px 80px rgba(4, 12, 4, .38), 0 0 34px rgba(61,223,45,.1);
+      z-index: 2;
     }
-    .island-scene img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
-    .island-scene::after { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,44,47,.02) 25%, rgba(10,44,47,.7) 100%); content: ""; }
-    .island-label { position: absolute; z-index: 1; right: 22px; bottom: 23px; left: 24px; display: flex; align-items: end; justify-content: space-between; gap: 14px; color: white; }
-    .island-label span { display: block; color: #d6e8df; font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
-    .island-label strong { display: block; margin-top: 4px; font-family: "Manrope", sans-serif; font-size: 23px; letter-spacing: -.04em; }
-    .island-stamp { display: grid; width: 62px; height: 62px; flex: 0 0 62px; place-items: center; border: 1px solid rgba(255,255,255,.7); border-radius: 50%; color: white; font-size: 9px; font-weight: 700; line-height: 1.25; text-align: center; transform: rotate(9deg); }
-    .hero-photo-credit { position: absolute; z-index: 2; right: 10px; bottom: 6px; color: rgba(255,255,255,.76); font-size: 8px; text-decoration: none; }
-
-    .trust-strip { border-bottom: 1px solid var(--line); background: var(--sand); }
-    .trust-row { display: flex; min-height: 80px; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; }
-    .trust-intro { color: var(--muted); font-size: 12px; }
-    .trust-items { display: flex; flex-wrap: wrap; gap: 10px; }
-    .trust-items span { display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(16,43,21,.1); border-radius: 999px; background: rgba(255,255,255,.68); padding: 8px 12px; color: #29452d; font-size: 11px; font-weight: 600; }
-    .trust-items b { color: var(--sea); font-size: 12px; }
-
-    .section { padding-block: 92px; }
-    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 31px; }
-    .section-heading-copy { max-width: 620px; }
-    .section-kicker { margin-bottom: 10px; color: var(--sea); font-size: 10px; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
-    h2 { margin-bottom: 10px; font-size: clamp(30px, 4vw, 44px); font-weight: 600; letter-spacing: -.055em; line-height: 1.13; }
-    .section-heading p:last-child { max-width: 590px; margin-bottom: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
-    .demo-count { flex: 0 0 auto; padding-bottom: 4px; color: var(--muted); font-size: 12px; }
-    .demo-count strong { color: var(--ink); font-family: "Manrope", sans-serif; font-size: 30px; letter-spacing: -.05em; }
-    .demo-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin: 28px 0 24px; }
-    .filters { display: flex; flex-wrap: wrap; gap: 8px; }
-    .filter-button { border: 1px solid var(--line); border-radius: 999px; background: transparent; padding: 9px 14px; color: #5d7071; cursor: pointer; font-size: 11px; font-weight: 700; transition: all .2s ease; }
-    .filter-button:hover, .filter-button[aria-pressed="true"] { border-color: var(--sea-deep); background: var(--sea-deep); color: white; }
-    .search-wrap { position: relative; width: min(100%, 250px); }
-    .search-wrap::before { position: absolute; top: 50%; left: 13px; color: #6f8584; content: "⌕"; font-size: 20px; transform: translateY(-54%); }
-    .search-input { width: 100%; min-height: 39px; border: 1px solid var(--line); border-radius: 999px; outline: 0; background: white; padding: 0 14px 0 36px; color: var(--ink); font-size: 12px; }
-    .search-input:focus { border-color: var(--sea); box-shadow: 0 0 0 3px rgba(54,201,43,.16); }
-    .demo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 19px; }
-    .demo-card {
-      --card-accent: #25871f;
-      position: relative;
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 16px;
+      background: rgba(56, 229, 77, 0.1);
+      border: 1px solid rgba(56, 229, 77, 0.35);
+      border-radius: 999px;
+      color: var(--accent-green);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 16px rgba(56, 229, 77, 0.12);
+    }
+    .hero-badge .pulse {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 10px var(--accent-green);
+      animation: pulseAnim 2s infinite;
+    }
+    @keyframes pulseAnim {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(1.35); }
+    }
+    .hero-title {
+      font-family: "Manrope", sans-serif;
+      font-size: clamp(36px, 5.2vw, 62px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.12;
+      margin-bottom: 22px;
+      color: #fff;
+    }
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, #ffffff 25%, #38e54d 85%, #00e5ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 720px;
+      margin: 0 auto 38px;
+      line-height: 1.75;
+    }
+    .hero-stats {
       display: flex;
-      min-height: 257px;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 36px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border-light);
+    }
+    .hero-stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .hero-stat-val {
+      font-family: "Manrope", sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .hero-stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+    }
+
+    /* --- Section Controls (Filters & Search) --- */
+    .section-controls {
+      margin: 45px 0 32px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+    .filter-btn {
+      padding: 9px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border-light);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .filter-btn:hover {
+      border-color: rgba(255, 255, 255, 0.22);
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .filter-btn.active {
+      border-color: var(--accent-green);
+      background: rgba(56, 229, 77, 0.14);
+      color: var(--accent-green);
+      box-shadow: 0 0 16px rgba(56, 229, 77, 0.22);
+    }
+
+    .search-box {
+      position: relative;
+      width: min(100%, 340px);
+    }
+    .search-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 16px 0 42px;
+      border-radius: 999px;
+      background: rgba(17, 32, 21, 0.65);
+      border: 1px solid var(--border-light);
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .search-input:focus {
+      border-color: var(--accent-green);
+      background: rgba(17, 32, 21, 0.95);
+      box-shadow: 0 0 18px rgba(56, 229, 77, 0.25);
+    }
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-sub);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+    }
+
+    /* --- Demos Grid --- */
+    .demos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
+      gap: 28px;
+      margin-bottom: 85px;
+    }
+
+    .demo-card {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      display: flex;
       flex-direction: column;
       overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: 17px;
-      background: white;
-      padding: 23px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .demo-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--card-glow, var(--accent-green)), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .demo-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--card-glow, var(--border-accent));
+      background: var(--bg-card-hover);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55), 0 0 30px var(--card-glow-bg, rgba(56, 229, 77, 0.1));
+    }
+    .demo-card:hover::before { opacity: 1; }
+
+    /* Browser Mockup Header in Card */
+    .browser-frame {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-sm);
+      padding: 7px 12px;
+      margin-bottom: 20px;
+    }
+    .browser-dots {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    .browser-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .browser-dot:nth-child(1) { background: #ff5f56; }
+    .browser-dot:nth-child(2) { background: #ffbd2e; }
+    .browser-dot:nth-child(3) { background: #27c93f; }
+    .browser-url {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      color: var(--text-sub);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-left: 4px;
+      flex-grow: 1;
+    }
+
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .card-icon-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-light);
+      display: grid;
+      place-items: center;
+      color: var(--card-accent, var(--accent-green));
+      flex-shrink: 0;
+      box-shadow: inset 0 0 14px rgba(255, 255, 255, 0.03);
+    }
+    .card-status {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(56, 229, 77, 0.08);
+      border: 1px solid rgba(56, 229, 77, 0.3);
+      color: var(--accent-green);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .card-status::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 8px var(--accent-green);
+    }
+
+    .card-category-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--card-accent, var(--accent-green));
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-family: "Manrope", sans-serif;
+      font-size: 21px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .card-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    /* Highlights list */
+    .card-highlights {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 22px;
+      padding-top: 14px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.07);
+    }
+    .card-highlights li {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-highlights li svg {
+      color: var(--card-accent, var(--accent-green));
+      flex-shrink: 0;
+    }
+
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 22px;
+    }
+    .tech-tag {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-sub);
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border-light);
+      margin-top: auto;
+    }
+    .preview-modal-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-light);
+      padding: 7px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .preview-modal-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .launch-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #060c08;
+      background: var(--card-accent, var(--accent-green));
+      padding: 8px 18px;
+      border-radius: 999px;
+      transition: all 0.22s ease;
+      box-shadow: 0 4px 14px var(--card-glow-bg, rgba(56, 229, 77, 0.3));
+    }
+    .launch-btn:hover {
+      filter: brightness(1.15);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px var(--card-glow-bg, rgba(56, 229, 77, 0.45));
+    }
+
+    /* --- Empty State --- */
+    .empty-state {
+      display: none;
+      grid-column: 1 / -1;
+      padding: 60px 20px;
+      text-align: center;
+      background: var(--bg-card);
+      border: 1px dashed var(--border-light);
+      border-radius: var(--radius-xl);
+    }
+    .empty-state.show { display: block; }
+    .empty-icon { font-size: 38px; margin-bottom: 12px; color: var(--text-sub); }
+
+    /* --- Interactive Project Modal / Live Iframe Preview --- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 7, 4, 0.86);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.26s ease;
+      padding: 24px;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-window {
+      background: #0d1a10;
+      border: 1px solid rgba(56, 229, 77, 0.3);
+      border-radius: var(--radius-xl);
+      width: min(1080px, 100%);
+      height: min(780px, 90vh);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.85), 0 0 35px rgba(56, 229, 77, 0.15);
+      overflow: hidden;
+      transform: scale(0.95);
+      transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-overlay.open .modal-window {
+      transform: scale(1);
+    }
+    .modal-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: rgba(8, 16, 10, 0.95);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .modal-toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .modal-title {
+      font-family: "Manrope", sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .modal-url-badge {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      color: var(--accent-green);
+      background: rgba(56, 229, 77, 0.08);
+      border: 1px solid rgba(56, 229, 77, 0.25);
+      padding: 4px 10px;
+      border-radius: 999px;
+      display: none;
+    }
+    @media (min-width: 640px) {
+      .modal-url-badge { display: inline-block; }
+    }
+    .modal-toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .modal-ext-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--accent-green);
+      color: #050a06;
+      font-size: 11px;
+      font-weight: 700;
       text-decoration: none;
-      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+      transition: filter 0.2s;
     }
-    .demo-card::before { position: absolute; top: 0; right: 0; left: 0; height: 3px; background: var(--card-accent); content: ""; transform: scaleX(0); transform-origin: left; transition: transform .24s ease; }
-    .demo-card:hover { border-color: rgba(16,43,21,.18); box-shadow: var(--shadow); transform: translateY(-5px); }
-    .demo-card:hover::before, .demo-card:focus-visible::before { transform: scaleX(1); }
-    .demo-card[hidden] { display: none; }
-    .card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 27px; }
-    .card-icon { display: grid; width: 43px; height: 43px; place-items: center; border-radius: 14px; background: color-mix(in srgb, var(--card-accent) 11%, white); color: var(--card-accent); font-size: 19px; }
-    .card-category { border: 1px solid var(--line); border-radius: 999px; padding: 6px 9px; color: #71817e; font-size: 9px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-    .demo-card h3 { margin: 0 0 8px; font-size: 18px; font-weight: 700; letter-spacing: -.035em; line-height: 1.3; }
-    .demo-card p { margin: 0 0 18px; color: var(--muted); font-size: 12px; line-height: 1.65; }
-    .card-link { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; color: var(--card-accent); font-size: 11px; font-weight: 800; }
-    .card-link span:last-child { font-size: 17px; transition: transform .2s ease; }
-    .demo-card:hover .card-link span:last-child { transform: translateX(4px); }
-    .empty-state { display: none; grid-column: 1 / -1; border: 1px dashed var(--line); border-radius: 15px; padding: 34px; color: var(--muted); text-align: center; }
-    .empty-state.is-visible { display: block; }
-
-    .story { overflow: hidden; background: var(--sand); }
-    .story-grid { display: grid; grid-template-columns: 1fr .95fr; align-items: center; gap: 74px; }
-    .story-art { position: relative; min-height: 350px; overflow: hidden; border-radius: 26px; background: #176f79; }
-    .story-art::before { position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg, transparent 48%, rgba(6,19,9,.48)); content: ""; pointer-events: none; }
-    .story-art img { position: absolute; object-fit: cover; }
-    .story-art .island-photo-primary { inset: 0; width: 100%; height: 100%; }
-    .story-art .island-photo-detail { z-index: 2; top: 18px; right: 18px; width: 42%; height: 43%; border: 4px solid rgba(255,255,255,.94); border-radius: 18px; box-shadow: 0 12px 32px rgba(0,0,0,.24); }
-    .story-art figcaption { position: absolute; z-index: 2; bottom: 18px; left: 20px; border: 1px solid rgba(255,255,255,.65); border-radius: 999px; background: rgba(255,255,255,.82); padding: 8px 12px; color: #365650; font-size: 10px; font-weight: 700; backdrop-filter: blur(5px); }
-    .story-art figcaption a { color: inherit; text-decoration: none; }
-    .story-art figcaption a:hover { text-decoration: underline; }
-    .story-copy h2 { max-width: 490px; }
-    .story-copy > p:not(.section-kicker) { max-width: 490px; color: var(--muted); font-size: 14px; line-height: 1.8; }
-    .story-list { display: grid; gap: 15px; margin: 25px 0 0; padding: 0; list-style: none; }
-    .story-list li { display: flex; align-items: flex-start; gap: 12px; color: #3c5556; font-size: 12px; line-height: 1.6; }
-    .check { display: grid; width: 21px; height: 21px; flex: 0 0 21px; place-items: center; border-radius: 50%; background: #dbe9df; color: var(--sea); font-size: 11px; font-weight: 800; }
-
-    .closing { padding-block: 72px; }
-    .closing-panel { position: relative; overflow: hidden; border-radius: 25px; background: var(--sea-deep); padding: 45px 52px; color: white; }
-    .closing-panel::after { position: absolute; top: -90px; right: 90px; width: 300px; height: 300px; border: 1px solid rgba(255,255,255,.12); border-radius: 50%; box-shadow: 0 0 0 25px rgba(255,255,255,.035), 0 0 0 55px rgba(255,255,255,.025); content: ""; }
-    .closing-content { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 30px; }
-    .closing-panel .section-kicker { color: #7bf05a; }
-    .closing-panel h2 { max-width: 600px; margin-bottom: 9px; }
-    .closing-panel p:last-child { max-width: 560px; margin-bottom: 0; color: #c3d5d0; font-size: 13px; line-height: 1.7; }
-    .closing-content .button { flex: 0 0 auto; }
-    .site-footer { border-top: 1px solid var(--line); background: #fbfaf6; }
-    .footer-row { display: flex; min-height: 76px; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; color: #758583; font-size: 10px; }
-    .footer-brand { color: var(--ink); font-family: "Manrope", sans-serif; font-size: 12px; font-weight: 800; }
-    .footer-links { display: flex; gap: 18px; }
-    .footer-links a { color: #647468; text-decoration: none; }
-    .footer-links a:hover { color: var(--sea); }
-
-    .reveal { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s ease; }
-    .reveal.is-visible { opacity: 1; transform: translateY(0); }
-    :focus-visible { outline: 3px solid #e43c2e; outline-offset: 3px; }
-
-    @media (max-width: 860px) {
-      .hero-grid { min-height: 0; grid-template-columns: 1fr .8fr; gap: 28px; padding-block: 66px; }
-      .island-scene { min-height: 315px; }
-      .demo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .story-grid { gap: 40px; }
-      .story-art { min-height: 320px; }
+    .modal-ext-btn:hover { filter: brightness(1.15); }
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-light);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      transition: all 0.2s ease;
     }
-    @media (max-width: 640px) {
-      .wrap { width: min(100% - 34px, 500px); }
-      .nav-row { min-height: 66px; }
-      .menu-toggle { display: inline-flex; align-items: center; gap: 8px; }
-      .menu-toggle .menu-icon { font-size: 17px; }
-      .nav-links { position: absolute; top: calc(100% - 1px); right: 0; left: 0; display: none; align-items: stretch; gap: 0; border-top: 1px solid rgba(255,255,255,.12); background: var(--sea-deep); padding: 7px 17px 14px; }
-      .nav-links.is-open { display: flex; flex-direction: column; }
-      .nav-links a { padding: 13px 8px; }
-      .nav-links .nav-cta { margin-top: 5px; text-align: center; }
-      .hero-grid { grid-template-columns: 1fr; gap: 34px; padding-block: 58px 52px; }
-      h1 { max-width: 520px; font-size: clamp(42px, 12vw, 60px); }
-      .hero-copy > p:not(.eyebrow) { font-size: 14px; }
-      .island-scene { min-height: 290px; border-radius: 46% 46% 20px 20px; }
-      .hero::after { top: auto; right: 3%; bottom: 8%; width: 110px; height: 110px; }
-      .trust-row { justify-content: center; padding-block: 17px; }
-      .trust-intro { flex-basis: 100%; text-align: center; }
-      .trust-items { justify-content: center; gap: 7px; }
-      .trust-items span { padding: 7px 9px; font-size: 10px; }
-      .section { padding-block: 68px; }
-      .section-heading { align-items: flex-start; flex-direction: column; gap: 12px; }
-      .demo-count { display: flex; align-items: baseline; gap: 8px; }
-      .demo-tools { align-items: stretch; flex-direction: column-reverse; }
-      .search-wrap { width: 100%; }
-      .filters { gap: 7px; }
-      .filter-button { padding: 9px 11px; }
-      .demo-grid { grid-template-columns: 1fr; gap: 12px; }
-      .demo-card { min-height: 0; padding: 19px; }
-      .card-top { margin-bottom: 17px; }
-      .story-grid { grid-template-columns: 1fr; gap: 33px; }
-      .story-art { min-height: 275px; }
-      .closing { padding-block: 50px; }
-      .closing-panel { padding: 30px 24px; }
-      .closing-content { align-items: flex-start; flex-direction: column; }
-      .closing-content .button { align-self: flex-start; }
-      .footer-row { justify-content: center; padding-block: 19px; text-align: center; }
-      .footer-links { flex-basis: 100%; justify-content: center; }
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
     }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
-      .reveal { opacity: 1; transform: none; }
+    .modal-iframe-wrap {
+      flex-grow: 1;
+      width: 100%;
+      background: #000;
+      position: relative;
+    }
+    .modal-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #fff;
     }
 
-    /* Floating Contact Widget (Messenger & Telegram) */
-    .floating-chat-widget {
+    /* --- Floating Quick Contact Widget --- */
+    .floating-chat {
       position: fixed;
       bottom: 24px;
       right: 24px;
-      z-index: 1000;
+      z-index: 90;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       gap: 12px;
-      font-family: "DM Sans", sans-serif;
     }
-    .chat-options {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 10px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(12px) scale(0.95);
-      transition: opacity .25s ease, transform .25s cubic-bezier(.16, 1, .3, 1), visibility .25s;
-      pointer-events: none;
-    }
-    .floating-chat-widget.is-open .chat-options {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
-    }
-    .chat-option {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      transition: transform .2s ease;
-    }
-    .chat-option:hover {
-      transform: scale(1.05);
-    }
-    .chat-option-label {
-      background: rgba(6, 19, 9, 0.92);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 6px 12px;
-      border-radius: 8px;
-      box-shadow: 0 4px 14px rgba(0,0,0,.18);
-      white-space: nowrap;
-      border: 1px solid rgba(255,255,255,.1);
-    }
-    .chat-option-icon {
-      width: 48px;
-      height: 48px;
+    .chat-trigger {
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
-      display: grid;
-      place-items: center;
-      box-shadow: 0 6px 20px rgba(0,0,0,.22);
-      color: white;
-    }
-    .messenger-btn .chat-option-icon {
-      background: linear-gradient(135deg, #00B2FF, #006AFF);
-    }
-    .telegram-btn .chat-option-icon {
-      background: linear-gradient(135deg, #2AABEE, #229ED9);
-    }
-    .chat-trigger-btn {
-      position: relative;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: linear-gradient(145deg, #1fa824, #0a4613);
-      border: 2px solid rgba(255,255,255,.2);
-      color: white;
+      background: linear-gradient(135deg, #38e54d, #1ea32e);
+      color: #050a06;
+      border: none;
       cursor: pointer;
       display: grid;
       place-items: center;
-      box-shadow: 0 8px 28px rgba(10, 70, 19, 0.45);
-      transition: transform .25s cubic-bezier(.34, 1.56, .64, 1), box-shadow .25s ease;
+      box-shadow: 0 8px 24px rgba(56, 229, 77, 0.4);
+      transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .chat-trigger-btn:hover {
-      transform: scale(1.08);
-      box-shadow: 0 12px 36px rgba(10, 70, 19, 0.6);
+    .chat-trigger:hover {
+      transform: scale(1.08) rotate(4deg);
+      box-shadow: 0 12px 30px rgba(56, 229, 77, 0.6);
     }
-    .chat-trigger-btn .icon-open,
-    .chat-trigger-btn .icon-close {
-      transition: transform .25s ease, opacity .25s ease;
-      position: absolute;
-    }
-    .chat-trigger-btn .icon-open {
-      opacity: 1;
-      transform: scale(1) rotate(0deg);
-    }
-    .chat-trigger-btn .icon-close {
-      opacity: 0;
-      transform: scale(0.5) rotate(-90deg);
-    }
-    .floating-chat-widget.is-open .chat-trigger-btn .icon-open {
-      opacity: 0;
-      transform: scale(0.5) rotate(90deg);
-    }
-    .floating-chat-widget.is-open .chat-trigger-btn .icon-close {
-      opacity: 1;
-      transform: scale(1) rotate(0deg);
-    }
-    .chat-badge {
-      position: absolute;
-      top: -3px;
-      right: -3px;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: #e43c2e;
-      color: white;
-      font-size: 11px;
-      font-weight: 800;
-      display: grid;
-      place-items: center;
-      border: 2px solid white;
-      animation: chatPulse 2.5s infinite;
-    }
-    .floating-chat-widget.is-open .chat-badge {
+    .chat-popup {
       display: none;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(13, 24, 16, 0.96);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      box-shadow: var(--shadow-soft);
+      animation: popIn 0.2s ease forwards;
     }
-    @keyframes chatPulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(228, 60, 46, 0.7); }
-      50% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(228, 60, 46, 0); }
+    .floating-chat.open .chat-popup { display: flex; }
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
-    .chat-tooltip {
-      position: absolute;
-      right: 72px;
-      bottom: 12px;
-      background: rgba(6, 19, 9, 0.95);
-      color: white;
-      padding: 7px 14px;
-      border-radius: 10px;
-      font-size: 12px;
+    .chat-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.035);
+      color: #fff;
+      font-size: 13px;
       font-weight: 600;
-      white-space: nowrap;
-      pointer-events: none;
-      opacity: 0;
-      transform: translateX(8px);
-      transition: opacity .25s ease, transform .25s ease;
-      border: 1px solid rgba(255,255,255,.1);
-      box-shadow: 0 6px 20px rgba(0,0,0,.2);
+      transition: all 0.2s ease;
     }
-    .floating-chat-widget:not(.is-open):hover .chat-tooltip {
-      opacity: 1;
-      transform: translateX(0);
-    }
-    @media (max-width: 600px) {
-      .floating-chat-widget { bottom: 18px; right: 18px; }
-      .chat-trigger-btn { width: 54px; height: 54px; }
-      .chat-option-icon { width: 44px; height: 44px; }
-      .chat-tooltip { display: none !important; }
+    .chat-item:hover {
+      background: rgba(56, 229, 77, 0.16);
+      color: var(--accent-green);
     }
 
+    /* --- Footer --- */
+    .site-footer {
+      border-top: 1px solid var(--border-light);
+      padding: 45px 0;
+      background: rgba(4, 9, 5, 0.94);
+      color: var(--text-sub);
+      font-size: 12px;
+      text-align: center;
+    }
+    .site-footer a {
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .site-footer a:hover { color: var(--accent-green); }
+
+    /* Responsive */
+    @media (max-width: 820px) {
+      .nav-links { display: none; }
+      .demos-grid { grid-template-columns: 1fr; }
+      .hero { padding: 50px 0 30px; }
+      .section-controls { flex-direction: column; align-items: stretch; }
+      .search-box { width: 100%; }
+      .modal-window { height: 95vh; }
+    }
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Site Navigation -->
   <header class="site-header">
     <div class="wrap nav-row">
-      <a class="brand" href="#home" aria-label="Micz Corner home">
-        <img class="brand-mark" src="assets/micz-corner-logo.png" alt="Micz Corner logo">
-        <span class="brand-name">IT Solutions<small>Alaminos City</small></span>
+      <a href="../index.html" class="brand" aria-label="Micz Corner Home">
+        <img src="assets/micz-corner-logo.png" alt="Micz Corner Logo" class="brand-mark" onerror="this.src='assets/miczthemike.ico'">
+        <div class="brand-text">
+          <span class="brand-title">Micz Corner</span>
+          <span class="brand-subtitle">Commercial Website Demos</span>
+        </div>
       </a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-        <span class="menu-icon" aria-hidden="true">☰</span><span>Menu</span>
-      </button>
-      <nav class="nav-links" id="site-nav" aria-label="Main navigation">
-        <a href="#demos">Website demos</a>
-        <a href="#about">Our approach</a>
-        <a class="nav-cta" href="#demos">Explore demos <span aria-hidden="true">↗</span></a>
+      <nav class="nav-links">
+        <a href="#overview" class="nav-link">Overview</a>
+        <a href="#demos" class="nav-link">Live Demos</a>
+        <a href="https://github.com/miczthemike" target="_blank" rel="noopener noreferrer" class="nav-link">GitHub</a>
+        <a href="../index.html" class="nav-cta">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Portfolio Hub
+        </a>
       </nav>
     </div>
   </header>
 
-  <main id="main">
-    <section class="hero" id="home">
-      <div class="wrap hero-grid">
-        <div class="hero-copy">
-          <p class="eyebrow">Inspired by the islands</p>
-          <h1>Local business, <em>beautifully</em> online.</h1>
-          <p>Thoughtful website concepts for the people who make our corner of Pangasinan worth visiting, tasting, and calling home.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#demos">Explore the websites <span aria-hidden="true">↓</span></a>
-            <a class="button button-quiet" href="#about">Meet the approach</a>
-          </div>
-          <div class="hero-note"><span class="dot" aria-hidden="true"></span><strong>10 local business concepts</strong><span>·</span><span>3 industries</span></div>
-        </div>
-        <div class="island-scene" aria-label="Hundred Islands-inspired coastal scene">
-          <img src="https://seepangasinan.com/wp-content/uploads/2021/03/pilgrimisland2-1024x576.jpg" alt="Pilgrim Island surrounded by the blue waters of Hundred Islands" fetchpriority="high">
-          <div class="island-label">
-            <div><span>From Alaminos, with pride</span><strong>Room for your business to shine.</strong></div>
-            <span class="island-stamp" aria-label="Inspired by the Hundred Islands">100<br>ISLANDS<br>SPIRIT</span>
-          </div>
-          <a class="hero-photo-credit" href="https://seepangasinan.com/wp-content/uploads/2021/03/pilgrimisland2-1024x576.jpg" target="_blank" rel="noopener noreferrer" aria-label="Photo from See Pangasinan">Photo: See Pangasinan</a>
-        </div>
+  <!-- Hero Section -->
+  <section class="hero" id="overview">
+    <div class="wrap hero-content">
+      <div class="hero-badge">
+        <span class="pulse"></span>
+        Handcrafted Commercial Showcase
       </div>
-    </section>
-
-    <div class="trust-strip" aria-label="Website categories">
-      <div class="wrap trust-row">
-        <span class="trust-intro">A little local flavor for every kind of business</span>
-        <div class="trust-items">
-          <span><b aria-hidden="true">⌂</b> Stays &amp; getaways</span>
-          <span><b aria-hidden="true">✳</b> Restaurants</span>
-          <span><b aria-hidden="true">+</b> Health &amp; clinics</span>
+      <h1 class="hero-title">
+        Enterprise-Grade Web Experiences.<br>
+        <span class="gradient-text">Engineered for Real Businesses.</span>
+      </h1>
+      <p class="hero-desc">
+        Explore production-ready client website demos engineered by Micz Corner — spanning Clean Energy &amp; Solar, Gastronomy &amp; Dining, Pharmacy &amp; Wellness, Corporate Advisory, Private Education, and Luxury Beachfront Hospitality.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat-item">
+          <span class="hero-stat-val" id="total-count">6</span>
+          <span class="hero-stat-label">Live Demos</span>
+        </div>
+        <div class="hero-stat-item">
+          <span class="hero-stat-val">100%</span>
+          <span class="hero-stat-label">Mobile Responsive</span>
+        </div>
+        <div class="hero-stat-item">
+          <span class="hero-stat-val">&lt; 1.0s</span>
+          <span class="hero-stat-label">Lightning Fast Load</span>
+        </div>
+        <div class="hero-stat-item">
+          <span class="hero-stat-val">SEO+</span>
+          <span class="hero-stat-label">Conversion Ready</span>
         </div>
       </div>
     </div>
+  </section>
 
-    <section class="section" id="demos">
-      <div class="wrap">
-        <div class="section-heading reveal">
-          <div class="section-heading-copy">
-            <p class="section-kicker">The local collection</p>
-            <h2>Find a website that feels like your business.</h2>
-            <p>Browse the concepts, pick a neighborhood favorite, and open each live preview. These demos are a starting point for a site tailored to the real business.</p>
+  <!-- Main Demos Showcase Section -->
+  <section class="wrap" id="demos">
+    
+    <!-- Controls: Filter Pills & Search -->
+    <div class="section-controls">
+      <div class="filters" role="group" aria-label="Filter demos by sector">
+        <button class="filter-btn active" data-filter="all">All Demos (6)</button>
+        <button class="filter-btn" data-filter="healthcare">Healthcare &amp; Pharmacy</button>
+        <button class="filter-btn" data-filter="education">Private Education</button>
+        <button class="filter-btn" data-filter="hospitality">Resort &amp; Hospitality</button>
+        <button class="filter-btn" data-filter="solar">Solar Energy</button>
+        <button class="filter-btn" data-filter="dining">Restaurant &amp; Dining</button>
+        <button class="filter-btn" data-filter="corporate">Corporate Business</button>
+      </div>
+      <div class="search-box">
+        <span class="search-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+        <input type="search" id="demo-search" class="search-input" placeholder="Search by name, sector, or keyword..." autocomplete="off">
+      </div>
+    </div>
+
+    <!-- Demos Grid -->
+    <div class="demos-grid" id="demos-grid">
+
+      <!-- 1. CarePoint Pharmacy & Wellness -->
+      <article class="demo-card" data-category="healthcare" data-name="CarePoint Pharmacy Wellness Prescription Medicine Healthcare Health Consultation Telehealth" style="--card-accent:#00e5ff; --card-glow:rgba(0,229,255,0.45); --card-glow-bg:rgba(0,229,255,0.12);">
+        <div class="browser-frame">
+          <div class="browser-dots">
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
           </div>
-          <div class="demo-count"><strong id="visible-count">10</strong><span>website concepts</span></div>
+          <span class="browser-url">https://miczthemike.online/carepoint-pharmacy/</span>
         </div>
-        <div class="demo-tools">
-          <div class="filters" role="group" aria-label="Filter demos by business type">
-            <button class="filter-button" type="button" data-filter="all" aria-pressed="true">All demos</button>
-            <button class="filter-button" type="button" data-filter="stay" aria-pressed="false">Stays &amp; resorts</button>
-            <button class="filter-button" type="button" data-filter="food" aria-pressed="false">Restaurants</button>
-            <button class="filter-button" type="button" data-filter="health" aria-pressed="false">Clinics</button>
+        <div class="card-head">
+          <div class="card-icon-wrap" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              <line x1="12" y1="11" x2="12" y2="17"></line>
+              <line x1="9" y1="14" x2="15" y2="14"></line>
+            </svg>
           </div>
-          <label class="search-wrap"><span class="skip-link">Search the business websites</span><input class="search-input" type="search" id="demo-search" placeholder="Search business names" autocomplete="off"></label>
+          <span class="card-status">Live Demo</span>
         </div>
-        <div class="demo-grid" id="demo-grid">
-          <a class="demo-card reveal" style="--card-accent:#25871f" href="01-hotels-resorts/maries-sleep-house/index.html" data-category="stay" data-name="Marie's Sleep House">
-            <div class="card-top"><span class="card-icon" aria-hidden="true">⌂</span><span class="card-category">Stay &amp; unwind</span></div>
-            <h3>Marie's Sleep House</h3><p>A welcoming home base for a comfortable Alaminos stay.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
+        <span class="card-category-tag">Healthcare &amp; Wellness</span>
+        <h3 class="card-title">CarePoint Pharmacy &amp; Wellness</h3>
+        <p class="card-desc">
+          Modern community pharmacy and clinical wellness portal. Designed for prescription refills, OTC medicine browsing, telehealth inquiries, and wellness consultation scheduling.
+        </p>
+        <ul class="card-highlights">
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Prescription Refill Intake &amp; Order Guidance
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Licensed Pharmacist Consultation Forms
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Clean, Trust-Inspiring Medical Grade Aesthetic
+          </li>
+        </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">HTML5 / Modern CSS</span>
+          <span class="tech-tag">Medical UX</span>
+          <span class="tech-tag">Refill System</span>
+          <span class="tech-tag">Mobile Responsive</span>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="preview-modal-btn" onclick="openLiveModal('CarePoint Pharmacy & Wellness', 'https://miczthemike.online/carepoint-pharmacy/')">
+            Quick Preview
+          </button>
+          <a href="https://miczthemike.online/carepoint-pharmacy/" target="_blank" rel="noopener noreferrer" class="launch-btn">
+            Launch Site <span>&rarr;</span>
           </a>
-          <a class="demo-card reveal" style="--card-accent:#176f19" href="01-hotels-resorts/bolo-hills-beach-club/index.html" data-category="stay" data-name="Bolo Hills Beach Club">
-            <div class="card-top"><span class="card-icon" aria-hidden="true">☼</span><span class="card-category">Beach &amp; getaway</span></div>
-            <h3>Bolo Hills Beach Club</h3><p>A coastal escape concept with day-trip and group-stay inspiration.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
+        </div>
+      </article>
+
+      <!-- 2. St. Augustine Academy -->
+      <article class="demo-card" data-category="education" data-name="St Augustine Academy Private School Education K-12 Prep High School Academic Admissions Campus" style="--card-accent:#7c4dff; --card-glow:rgba(124,77,255,0.45); --card-glow-bg:rgba(124,77,255,0.12);">
+        <div class="browser-frame">
+          <div class="browser-dots">
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+          </div>
+          <span class="browser-url">https://miczthemike.online/st-augustine-academy/</span>
+        </div>
+        <div class="card-head">
+          <div class="card-icon-wrap" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            </svg>
+          </div>
+          <span class="card-status">Live Demo</span>
+        </div>
+        <span class="card-category-tag">Private Education</span>
+        <h3 class="card-title">St. Augustine Academy</h3>
+        <p class="card-desc">
+          Premier private K-12 preparatory school portal. Built to attract prospective parents with comprehensive curriculum highlights, admissions pipelines, faculty bios, and campus life showcases.
+        </p>
+        <ul class="card-highlights">
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Admissions &amp; Enrollment Inquiry Workflow
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Academic Programs (STEM, Arts &amp; Athletics)
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Parent-Teacher Community &amp; Event Calendar
+          </li>
+        </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">K-12 Education</span>
+          <span class="tech-tag">Admissions Engine</span>
+          <span class="tech-tag">Interactive Calendar</span>
+          <span class="tech-tag">Accessible Design</span>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="preview-modal-btn" onclick="openLiveModal('St. Augustine Academy', 'https://miczthemike.online/st-augustine-academy/')">
+            Quick Preview
+          </button>
+          <a href="https://miczthemike.online/st-augustine-academy/" target="_blank" rel="noopener noreferrer" class="launch-btn">
+            Launch Site <span>&rarr;</span>
           </a>
-          <a class="demo-card reveal" style="--card-accent:#327c2b" href="01-hotels-resorts/carribean-transient-house/index.html" data-category="stay" data-name="Carribean Transient House">
-            <div class="card-top"><span class="card-icon" aria-hidden="true">⌂</span><span class="card-category">Group stays</span></div>
-            <h3>Carribean Transient House</h3><p>A bright, group-friendly stay concept for island-hopping plans.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
+        </div>
+      </article>
+
+      <!-- 3. Isla Serena Resort -->
+      <article class="demo-card" data-category="hospitality" data-name="Isla Serena Resort Hotel Luxury Beachfront Spa Vacation Booking Ocean Hospitality" style="--card-accent:#38e54d; --card-glow:rgba(56,229,77,0.45); --card-glow-bg:rgba(56,229,77,0.12);">
+        <div class="browser-frame">
+          <div class="browser-dots">
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+          </div>
+          <span class="browser-url">https://miczthemike.online/isla-serena-resort/</span>
+        </div>
+        <div class="card-head">
+          <div class="card-icon-wrap" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+              <path d="M2 17l10 5 10-5"></path>
+              <path d="M2 12l10 5 10-5"></path>
+            </svg>
+          </div>
+          <span class="card-status">Live Demo</span>
+        </div>
+        <span class="card-category-tag">Hotel &amp; Resort</span>
+        <h3 class="card-title">Isla Serena Resort</h3>
+        <p class="card-desc">
+          Luxury beachfront tropical resort and holistic wellness sanctuary. Showcases private oceanfront villas, gourmet island dining, world-class spa retreats, and seamless stay reservation intake.
+        </p>
+        <ul class="card-highlights">
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Interactive Room &amp; Villa Booking Selector
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            High-Resolution Visual Amenity Galleries
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Spa &amp; Island Tour Concierge Experience
+          </li>
+        </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">Hospitality Luxury</span>
+          <span class="tech-tag">Reservation Engine</span>
+          <span class="tech-tag">Parallax Glass UI</span>
+          <span class="tech-tag">Fluid Gallery</span>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="preview-modal-btn" onclick="openLiveModal('Isla Serena Resort', 'https://miczthemike.online/isla-serena-resort/')">
+            Quick Preview
+          </button>
+          <a href="https://miczthemike.online/isla-serena-resort/" target="_blank" rel="noopener noreferrer" class="launch-btn">
+            Launch Site <span>&rarr;</span>
           </a>
-          <a class="demo-card reveal" style="--card-accent:#bb3026" href="02-restaurants-eateries/along-d-rod-bulaluhan/index.html" data-category="food" data-name="Along D' Rod Bulaluhan at Kambingan">
-            <div class="card-top"><span class="card-icon" aria-hidden="true">✳</span><span class="card-category">Local dining</span></div>
-            <h3>Along D' Rod Bulaluhan at Kambingan</h3><p>A hearty, homegrown restaurant concept made to welcome hungry guests.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
+        </div>
+      </article>
+
+      <!-- 4. SunVolt Solar Systems -->
+      <article class="demo-card" data-category="solar" data-name="SunVolt Solar Installer Clean Energy Photovoltaic Inverter Commercial Residential Net Metering" style="--card-accent:#ffb300; --card-glow:rgba(255,179,0,0.45); --card-glow-bg:rgba(255,179,0,0.12);">
+        <div class="browser-frame">
+          <div class="browser-dots">
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+          </div>
+          <span class="browser-url">https://miczthemike.online/sunvolt-solar/</span>
+        </div>
+        <div class="card-head">
+          <div class="card-icon-wrap" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </div>
+          <span class="card-status">Live Demo</span>
+        </div>
+        <span class="card-category-tag">Solar Energy &amp; Engineering</span>
+        <h3 class="card-title">SunVolt Solar</h3>
+        <p class="card-desc">
+          Turnkey commercial and residential solar installation contractor portal. Highlighting solar ROI calculators, grid-tied battery backups, net metering benefits, and quote estimation forms.
+        </p>
+        <ul class="card-highlights">
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Interactive Solar Savings Estimator
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Residential &amp; Industrial Energy Packages
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Certified Engineering Trust Accreditations
+          </li>
+        </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">Clean Energy</span>
+          <span class="tech-tag">ROI Estimator</span>
+          <span class="tech-tag">Quote Generator</span>
+          <span class="tech-tag">High-Conversion UX</span>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="preview-modal-btn" onclick="openLiveModal('SunVolt Solar', 'https://miczthemike.online/sunvolt-solar/')">
+            Quick Preview
+          </button>
+          <a href="https://miczthemike.online/sunvolt-solar/" target="_blank" rel="noopener noreferrer" class="launch-btn">
+            Launch Site <span>&rarr;</span>
           </a>
-          <a class="demo-card reveal" style="--card-accent:#d13b2e" href="02-restaurants-eateries/azons-crispy-ulo-sutukil/index.html" data-category="food" data-name="Azon's Crispy Ulo and Sutukil">
-            <div class="card-top"><span class="card-icon" aria-hidden="true">✳</span><span class="card-category">Filipino flavors</span></div>
-            <h3>Azon's Crispy Ulo and Sutukil</h3><p>A lively showcase concept for local specialties and seafood favorites.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
+        </div>
+      </article>
+
+      <!-- 5. Kusina Fuego -->
+      <article class="demo-card" data-category="dining" data-name="Kusina Fuego Restaurant Bar Dining Food Drink Grills Cocktails Menu Reservations" style="--card-accent:#ff5252; --card-glow:rgba(255,82,82,0.45); --card-glow-bg:rgba(255,82,82,0.12);">
+        <div class="browser-frame">
+          <div class="browser-dots">
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+          </div>
+          <span class="browser-url">https://miczthemike.online/kusina-fuego/</span>
+        </div>
+        <div class="card-head">
+          <div class="card-icon-wrap" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+              <line x1="6" y1="1" x2="6" y2="4"></line>
+              <line x1="10" y1="1" x2="10" y2="4"></line>
+              <line x1="14" y1="1" x2="14" y2="4"></line>
+            </svg>
+          </div>
+          <span class="card-status">Live Demo</span>
+        </div>
+        <span class="card-category-tag">Restaurant &amp; Bar</span>
+        <h3 class="card-title">Kusina Fuego</h3>
+        <p class="card-desc">
+          Artisan wood-fired dining room and craft cocktail lounge. Features an appetizing visual digital menu, table reservation engine, chef's seasonal tasting menu, and private event packages.
+        </p>
+        <ul class="card-highlights">
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Interactive Multi-Category Menu with Dietary Filters
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Real-Time Table Booking &amp; Party Intake
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Cocktail Bar Spotlight &amp; Happy Hour Specials
+          </li>
+        </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">Gastronomy</span>
+          <span class="tech-tag">Digital Menu</span>
+          <span class="tech-tag">Table Booking</span>
+          <span class="tech-tag">Dark Gourmet UI</span>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="preview-modal-btn" onclick="openLiveModal('Kusina Fuego', 'https://miczthemike.online/kusina-fuego/')">
+            Quick Preview
+          </button>
+          <a href="https://miczthemike.online/kusina-fuego/" target="_blank" rel="noopener noreferrer" class="launch-btn">
+            Launch Site <span>&rarr;</span>
           </a>
-          <a class="demo-card reveal" style="--card-accent:#168bb2" href="02-restaurants-eateries/bonzky-eatery/index.html" data-category="food" data-name="Bonzky Eatery Bulalohan Kambingan">
-            <div class="card-top"><span class="card-icon" aria-hidden="true">✳</span><span class="card-category">Bulalohan &amp; kambingan</span></div>
-            <h3>Bonzky Eatery</h3><p>A welcoming Alaminos stop for Filipino comfort food, directions, and local details.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
+        </div>
+      </article>
+
+      <!-- 6. Vanguard Corporate -->
+      <article class="demo-card" data-category="corporate" data-name="Vanguard Corporate Business Consulting Enterprise Advisory Finance Management Strategy" style="--card-accent:#2979ff; --card-glow:rgba(41,121,255,0.45); --card-glow-bg:rgba(41,121,255,0.12);">
+        <div class="browser-frame">
+          <div class="browser-dots">
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+          </div>
+          <span class="browser-url">https://miczthemike.online/vanguard-corporate/</span>
+        </div>
+        <div class="card-head">
+          <div class="card-icon-wrap" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 21h18"></path>
+              <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path>
+              <path d="M9 9h1"></path>
+              <path d="M9 13h1"></path>
+              <path d="M9 17h1"></path>
+              <path d="M14 9h1"></path>
+              <path d="M14 13h1"></path>
+              <path d="M14 17h1"></path>
+            </svg>
+          </div>
+          <span class="card-status">Live Demo</span>
+        </div>
+        <span class="card-category-tag">Corporate Business</span>
+        <h3 class="card-title">Vanguard Corporate</h3>
+        <p class="card-desc">
+          Executive enterprise strategy, mergers &amp; acquisitions, and financial management consultancy firm. Tailored with case study matrices, leadership directories, and executive consultation booking.
+        </p>
+        <ul class="card-highlights">
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Strategic Advisory Services &amp; Case Studies
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Executive Leadership &amp; Board Directory
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            B2B Consultation Request &amp; NDA Intake
+          </li>
+        </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">Corporate Strategy</span>
+          <span class="tech-tag">B2B Lead Funnel</span>
+          <span class="tech-tag">Consulting UX</span>
+          <span class="tech-tag">Executive Aesthetic</span>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="preview-modal-btn" onclick="openLiveModal('Vanguard Corporate', 'https://miczthemike.online/vanguard-corporate/')">
+            Quick Preview
+          </button>
+          <a href="https://miczthemike.online/vanguard-corporate/" target="_blank" rel="noopener noreferrer" class="launch-btn">
+            Launch Site <span>&rarr;</span>
           </a>
-          <a class="demo-card reveal" style="--card-accent:#a52b23" href="02-restaurants-eateries/golden-cress-restaurant-events/index.html" data-category="food" data-name="Golden Cress Restaurant and Events">
-            <div class="card-top"><span class="card-icon" aria-hidden="true">✧</span><span class="card-category">Dining &amp; events</span></div>
-            <h3>Golden Cress Restaurant &amp; Events</h3><p>An elegant dining and celebration concept for meals worth gathering over.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Empty Search State -->
+    <div class="empty-state" id="empty-state">
+      <div class="empty-icon">🔍</div>
+      <h3 style="font-size: 18px; margin-bottom: 6px;">No website demos match your search</h3>
+      <p style="font-size: 13px; color: var(--text-muted);">Try searching for terms like "Pharmacy", "School", "Resort", "Solar", "Restaurant", or "Corporate".</p>
+    </div>
+
+  </section>
+
+  <!-- Interactive Project Modal Dialog (Live Iframe Sandbox) -->
+  <div class="modal-overlay" id="projectModal" onclick="closeModalOnOverlay(event)">
+    <div class="modal-window">
+      <div class="modal-toolbar">
+        <div class="modal-toolbar-left">
+          <span class="modal-title" id="modalTitle">Demo Preview</span>
+          <span class="modal-url-badge" id="modalUrlBadge">https://miczthemike.online</span>
+        </div>
+        <div class="modal-toolbar-right">
+          <a href="#" target="_blank" rel="noopener noreferrer" class="modal-ext-btn" id="modalExtLink">
+            Open in New Tab ↗
           </a>
-          <a class="demo-card reveal" style="--card-accent:#25871f" href="03-medical-clinics/tanaytay-medical-clinic/index.html" data-category="health" data-name="Tanaytay Medical Clinic">
-            <div class="card-top"><span class="card-icon" aria-hidden="true">+</span><span class="card-category">Health &amp; care</span></div>
-            <h3>Tanaytay Medical Clinic</h3><p>A clear, reassuring clinic website concept that puts patients first.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
-          </a>
-          <a class="demo-card reveal" style="--card-accent:#176f19" href="03-medical-clinics/tnf-medical-clinic/index.html" data-category="health" data-name="TNF Medical Clinic">
-            <div class="card-top"><span class="card-icon" aria-hidden="true">+</span><span class="card-category">Health &amp; care</span></div>
-            <h3>TNF Medical Clinic</h3><p>A straightforward digital front door for clinic information and inquiries.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
-          </a>
-          <a class="demo-card reveal" style="--card-accent:#327c2b" href="03-medical-clinics/cliniqua-alaminos-diagnostic/index.html" data-category="health" data-name="Cliniqua Alaminos Medical and Diagnostic Center">
-            <div class="card-top"><span class="card-icon" aria-hidden="true">+</span><span class="card-category">Medical &amp; diagnostic</span></div>
-            <h3>Cliniqua Alaminos Medical and Diagnostic Center</h3><p>A polished information hub concept for patients exploring clinic services.</p><span class="card-link"><span>Open website preview</span><span aria-hidden="true">↗</span></span>
-          </a>
-          <p class="empty-state" id="empty-state" role="status">No demos match that search. Try another name or category.</p>
+          <button type="button" class="modal-close" onclick="closeModal()" aria-label="Close dialog">&times;</button>
         </div>
       </div>
-    </section>
-
-    <section class="story section" id="about">
-      <div class="wrap story-grid">
-        <figure class="story-art reveal" aria-label="Photographs of the Hundred Islands National Park">
-          <img class="island-photo-primary" src="https://thehundredislands.ph/res/images/carousel/carousel1.jpg" alt="Islands scattered across the water at Hundred Islands National Park" loading="lazy">
-          <img class="island-photo-detail" src="https://thehundredislands.ph/res/images/carousel/carousel8.jpg" alt="Aerial view of green islands and turquoise water" loading="lazy">
-          <figcaption><a href="https://thehundredislands.ph/" target="_blank" rel="noopener noreferrer">Photos: Hundred Islands National Park ↗</a></figcaption>
-        </figure>
-        <div class="story-copy reveal">
-          <p class="section-kicker">Rooted here. Ready for anywhere.</p>
-          <h2>A little island inspiration goes a long way.</h2>
-          <p>Alaminos has a character all its own: welcoming, resourceful, and connected to the sea. These concepts bring a hint of that local spirit to the screen, while keeping each business at the heart of its own story.</p>
-          <ul class="story-list">
-            <li><span class="check" aria-hidden="true">✓</span><span>Designed to feel right at home in Alaminos City and Pangasinan.</span></li>
-            <li><span class="check" aria-hidden="true">✓</span><span>Mobile-friendly previews, because good browsing should work wherever you are.</span></li>
-            <li><span class="check" aria-hidden="true">✓</span><span>Each demo is a starting point—not a claim that sample details are verified or ready to publish.</span></li>
-          </ul>
-        </div>
+      <div class="modal-iframe-wrap">
+        <iframe src="" class="modal-iframe" id="modalIframe" title="Live Website Preview" loading="lazy"></iframe>
       </div>
-    </section>
+    </div>
+  </div>
 
-    <section class="closing" id="next-steps">
-      <div class="wrap closing-panel reveal">
-        <div class="closing-content">
-          <div>
-            <p class="section-kicker">Your business could be next</p>
-            <h2>Have a good business? Let's give it a great website.</h2>
-            <p>Explore a preview above to see what's possible. When you're ready, let's shape something around your business, your people, and your corner of Alaminos.</p>
-          </div>
-          <a class="button button-primary" href="#demos">Find your inspiration <span aria-hidden="true">↑</span></a>
-        </div>
-      </div>
-    </section>
-  </main>
+  <!-- Floating Contact Widget -->
+  <aside class="floating-chat" id="floatingChat">
+    <div class="chat-popup" id="chatPopup">
+      <a href="https://t.me/miczthemike" target="_blank" rel="noopener noreferrer" class="chat-item">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+        </svg>
+        Telegram (@miczthemike)
+      </a>
+      <a href="https://m.me/111267844957044" target="_blank" rel="noopener noreferrer" class="chat-item">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+          <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.915 1.453 5.518 3.734 7.207v3.535l3.39-1.862c.905.251 1.867.387 2.876.387 5.523 0 10-4.145 10-9.258C22 6.145 17.523 2 12 2zm1.066 12.443l-2.613-2.787-5.097 2.787 5.607-5.952 2.68 2.787 5.03-2.787-5.607 5.952z"/>
+        </svg>
+        Facebook Messenger
+      </a>
+    </div>
+    <button type="button" class="chat-trigger" onclick="toggleChat(event)" aria-label="Quick Connect with Micz Corner">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </svg>
+    </button>
+  </aside>
 
+  <!-- Footer -->
   <footer class="site-footer">
-    <div class="wrap footer-row">
-      <span class="footer-brand">Micz Corner IT Solutions</span>
-      <span>Made with local pride in Alaminos City, Pangasinan.</span>
-      <div class="footer-links"><a href="#demos">Website demos</a><a href="#home">Back to top ↑</a></div>
+    <div class="wrap">
+      <p style="margin-bottom: 8px;">
+        &copy; 2026 <strong>Micz Corner IT Solutions</strong> &bull; Developed by <a href="../index.html">Michael Joseph (MiczTheMike)</a>
+      </p>
+      <p style="color: var(--text-sub); font-size: 11px;">
+        Handcrafted Web Engineering, Modern Frontend Architecture, and Enterprise Digital Solutions.
+      </p>
     </div>
   </footer>
 
-  <!-- Floating Contact Widget (Messenger & Telegram) -->
-  <div class="floating-chat-widget" id="floatingChatWidget">
-    <div class="chat-options" id="chatOptions" aria-hidden="true">
-      <a href="https://m.me/111267844957044" target="_blank" rel="noopener noreferrer" class="chat-option messenger-btn" aria-label="Message Micz Corner on Facebook Messenger">
-        <span class="chat-option-label">Messenger</span>
-        <span class="chat-option-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-            <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.915 1.453 5.518 3.734 7.207v3.535l3.39-1.862c.905.251 1.867.387 2.876.387 5.523 0 10-4.145 10-9.258C22 6.145 17.523 2 12 2zm1.066 12.443l-2.613-2.787-5.097 2.787 5.607-5.952 2.68 2.787 5.03-2.787-5.607 5.952z"/>
-          </svg>
-        </span>
-      </a>
-      <a href="https://t.me/miczthemike" target="_blank" rel="noopener noreferrer" class="chat-option telegram-btn" aria-label="Message Micz Corner on Telegram">
-        <span class="chat-option-label">Telegram</span>
-        <span class="chat-option-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-          </svg>
-        </span>
-      </a>
-    </div>
-    <button type="button" class="chat-trigger-btn" id="chatTriggerBtn" onclick="toggleChatWidget(event)" aria-expanded="false" aria-label="Toggle contact options">
-      <span class="chat-badge" aria-hidden="true">1</span>
-      <span class="icon-open" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-        </svg>
-      </span>
-      <span class="icon-close" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </span>
-    </button>
-    <div class="chat-tooltip" id="chatTooltip">Chat with Micz Corner!</div>
-  </div>
-
   <script>
-    const filterButtons = [...document.querySelectorAll(".filter-button")];
-    const demoCards = [...document.querySelectorAll(".demo-card")];
-    const searchInput = document.querySelector("#demo-search");
-    const visibleCount = document.querySelector("#visible-count");
-    const emptyState = document.querySelector("#empty-state");
-    let activeCategory = "all";
+    // Filtering & Real-time Search
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const demoCards = document.querySelectorAll(".demo-card");
+    const searchInput = document.getElementById("demo-search");
+    const emptyState = document.getElementById("empty-state");
+    const totalCount = document.getElementById("total-count");
 
-    function updateDemos() {
-      const query = searchInput.value.trim().toLocaleLowerCase();
+    let activeFilter = "all";
+
+    function filterDemos() {
+      const query = searchInput.value.trim().toLowerCase();
       let count = 0;
-      for (const card of demoCards) {
-        const matchesCategory = activeCategory === "all" || card.dataset.category === activeCategory;
-        const matchesSearch = card.dataset.name.toLocaleLowerCase().includes(query);
-        const visible = matchesCategory && matchesSearch;
-        card.hidden = !visible;
-        if (visible) count += 1;
-      }
-      visibleCount.textContent = String(count);
-      emptyState.classList.toggle("is-visible", count === 0);
-    }
 
-    for (const button of filterButtons) {
-      button.addEventListener("click", () => {
-        activeCategory = button.dataset.filter;
-        for (const item of filterButtons) item.setAttribute("aria-pressed", String(item === button));
-        updateDemos();
-      });
-    }
-    searchInput.addEventListener("input", updateDemos);
+      demoCards.forEach(card => {
+        const category = card.dataset.category;
+        const searchTarget = card.dataset.name.toLowerCase();
+        
+        const matchesCategory = (activeFilter === "all") || (category === activeFilter);
+        const matchesQuery = query === "" || searchTarget.includes(query);
 
-    const menuToggle = document.querySelector(".menu-toggle");
-    const siteNav = document.querySelector("#site-nav");
-    menuToggle.addEventListener("click", () => {
-      const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
-      menuToggle.setAttribute("aria-expanded", String(!isOpen));
-      siteNav.classList.toggle("is-open", !isOpen);
-    });
-    siteNav.addEventListener("click", event => {
-      if (event.target.closest("a")) {
-        menuToggle.setAttribute("aria-expanded", "false");
-        siteNav.classList.remove("is-open");
-      }
-    });
-
-    if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      const observer = new IntersectionObserver(entries => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
+        if (matchesCategory && matchesQuery) {
+          card.style.display = "flex";
+          count++;
+        } else {
+          card.style.display = "none";
         }
-      }, { threshold: 0.12 });
-      document.querySelectorAll(".reveal").forEach(element => observer.observe(element));
-    } else {
-      document.querySelectorAll(".reveal").forEach(element => element.classList.add("is-visible"));
+      });
+
+      if (totalCount) totalCount.textContent = count;
+      if (emptyState) {
+        if (count === 0) emptyState.classList.add("show");
+        else emptyState.classList.remove("show");
+      }
     }
 
-    // Floating Chat Widget Toggle
-    window.toggleChatWidget = function(event) {
-      if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-      const widget = document.getElementById("floatingChatWidget");
-      const trigger = document.getElementById("chatTriggerBtn");
-      const options = document.getElementById("chatOptions");
-      if (!widget) return;
+    filterButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        filterButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeFilter = btn.dataset.filter;
+        filterDemos();
+      });
+    });
 
-      const isOpen = widget.classList.toggle("is-open");
-      if (trigger) trigger.setAttribute("aria-expanded", String(isOpen));
-      if (options) options.setAttribute("aria-hidden", String(!isOpen));
+    searchInput.addEventListener("input", filterDemos);
+
+    // Live Modal Preview
+    window.openLiveModal = function(title, url) {
+      const modal = document.getElementById("projectModal");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalUrlBadge = document.getElementById("modalUrlBadge");
+      const modalIframe = document.getElementById("modalIframe");
+      const modalExtLink = document.getElementById("modalExtLink");
+
+      modalTitle.textContent = title;
+      modalUrlBadge.textContent = url;
+      modalExtLink.href = url;
+      modalIframe.src = url;
+
+      modal.classList.add("open");
+      document.body.style.overflow = "hidden";
     };
 
-    // Close when tapping / clicking outside
-    document.addEventListener("click", function(event) {
-      const widget = document.getElementById("floatingChatWidget");
-      if (widget && widget.classList.contains("is-open") && !widget.contains(event.target)) {
-        widget.classList.remove("is-open");
-        const trigger = document.getElementById("chatTriggerBtn");
-        const options = document.getElementById("chatOptions");
-        if (trigger) trigger.setAttribute("aria-expanded", "false");
-        if (options) options.setAttribute("aria-hidden", "true");
+    window.closeModal = function() {
+      const modal = document.getElementById("projectModal");
+      const modalIframe = document.getElementById("modalIframe");
+      modal.classList.remove("open");
+      modalIframe.src = "";
+      document.body.style.overflow = "";
+    };
+
+    window.closeModalOnOverlay = function(e) {
+      if (e.target.id === "projectModal") closeModal();
+    };
+
+    // Chat Widget
+    window.toggleChat = function(e) {
+      e.stopPropagation();
+      document.getElementById("floatingChat").classList.toggle("open");
+    };
+
+    document.addEventListener("click", function(e) {
+      const chat = document.getElementById("floatingChat");
+      if (chat && !chat.contains(e.target)) {
+        chat.classList.remove("open");
       }
+    });
+
+    // Keyboard ESC to close modal
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") closeModal();
     });
   </script>
 </body>
